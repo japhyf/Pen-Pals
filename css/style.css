@@ -77,11 +77,11 @@ p {
  .login-custom-text{
 	vertical-align: middle;
  }
+
  
- #login-background{
-	 height: 1000px !important; 
-	 width: 100% !important;
-	 background-color: #f44336;
+ 
+ .login-background{
+	 background-color:  #2396d6;
  }
  
  #copyright-text{
