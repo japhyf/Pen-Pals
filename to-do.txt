@@ -1,0 +1,5 @@
+As of 10/14/18:
+
+Create new branch for cosmetic changes and other updates to login/register html pages and CSS
+
+Scrape good reads
