@@ -102,7 +102,7 @@ p {
 	 visibility: hidden;
  }
 .parallax-container {
-    height: 600px !important;
+    height: 400px !important;
     z-index: -1;
 }
 
@@ -150,6 +150,10 @@ p {
 
 footer.page-footer {
   margin: 0;
+}
+
+#copyright{
+	color: black;
 }
 
 
