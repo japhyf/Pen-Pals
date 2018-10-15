@@ -69,12 +69,16 @@ def load_logged_in_user():
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
 
-
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('auth.start_page'))
 	
 @bp.route('/index')
 def index():
     return render_template('main-site/index.html')
+	
+@bp.route('/start_page')
+def start_page():
+    return render_template('auth/start_page.html')
+

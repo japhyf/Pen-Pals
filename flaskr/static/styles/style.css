@@ -41,6 +41,17 @@ p {
 	font-weight: bold;
 	font-size: 100px;
 }
+#bio-red{
+	height: 2000px !important;
+	background-color: #f44336;
+}
+
+#bio-container{
+	background-color: white;
+	height: 1000px;
+	border-radius: 25px;
+}
+
 .sidenav-trigger {
   color: #26a69a;
 }
@@ -78,8 +89,6 @@ p {
 	vertical-align: middle;
  }
 
- 
- 
  .login-background{
 	 background-color:  #2396d6;
  }
@@ -96,6 +105,7 @@ p {
  #red-back{
 	 width: 100%;
  }
+ 
  
  .typed-cursor{
 	 opacity: 100;
