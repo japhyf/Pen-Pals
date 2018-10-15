@@ -73,10 +73,22 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return redirect(url_for('auth.start_page'))
+    
 	
 @bp.route('/index')
 def index():
-    return render_template('main-site/index.html')
+    user_id = session.get('user_id')
+    db = get_db()
+    if user_id is None:
+        return redirect(url_for('auth.start_page'))
+    user = db.execute(
+        'SELECT * FROM user WHERE id = ?', (user_id,)
+    ).fetchone()
+    user_details = {      
+		'email': user['username'],
+    }
+
+    return render_template('main-site/index.html', user=user_details)
 	
 @bp.route('/start_page')
 def start_page():
