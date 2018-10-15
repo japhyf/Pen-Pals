@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+
 {% block content %}
 <html lang="en">
 <head>
@@ -49,23 +49,25 @@
 					<span class="card-title activator white-text card-text">Login</span>
 				</div>
 				<div class="card-reveal">
-					<form class="container">
+					<form class="container" method="post">
 						<br>
 						<div class = "row">
 							<span class="card-title grey-text text-darken-4">Login<i class="material-icons right">close</i></span>
+					
+								<div class="input-field col m12">
+									<input id="loginUsername" type="email" name="loginUsername" class="login-text">
+									<label for="loginUsername">Email</label>
+								</div>
+								<div class="input-field col m12">
+									<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">
+									<label for="loginPassword">Password</label>
+								</div>
+				
 							<div class="input-field col m12">
-								<input id="loginEmail" type="email" class="login-text">
-								<label for="loginEmail">Email</label>
-							</div>
-							<div class="input-field col m12">
-								<input id="loginPassword" type="password" class="validate login-text">
-								<label for="loginPassword">Password</label>
-							</div>
-							<div class="input-field col m12">
-							<a class="waves-effect waves-light btn">Login</a>
+							<input type="submit" value="Login">
 							</div>
 						</div>
-					</form>
+					<!--</form>-->
 				</div>
 			</div>
 		</div>
@@ -77,17 +79,20 @@
 					<span class="card-title activator white-text card-text">Register</span>
 				</div>
 				<div class="card-reveal">
-					<form class="container">
+					<!--<form class="container" method="post">-->
 						<br>
 						<div class = "row">
 							<span class="card-title grey-text text-darken-4">Register<i class="material-icons right">close</i></span>
+							
+							
+							
 							<div class="input-field col m12">
-								<input id="registerEmail" type="email" class="validate login-text">
-								<label for="registerEmail">Email</label>
+								<label for="username">Email</label>
+								<input id="username" type="email" name="regUsername" class="validate login-text">
 							</div>
 							<div class="input-field col m12">
-								<input id="registerPassword1" type="password" class="validate login-text">
-								<label for="registerPassword1">Password</label>
+								<label for="password">Password</label>
+								<input id="password" type="password" name="regPassword" class="validate login-text">
 							</div>
 							<!--
 							<div class="input-field col m12">
@@ -96,7 +101,8 @@
 							</div>
 							-->
 							<div class="input-field col m12">
-							<a class="waves-effect waves-light btn">Register</a>
+							
+							<input type="submit" value="Register">
 							</div>
 						</div>
 					</form>
