@@ -35,7 +35,7 @@ def register():
                     (regUsername, generate_password_hash(regPassword))
                 )
                 db.commit()
-                return redirect(url_for('auth.login'))
+                return redirect(url_for('auth.index'))
             flash(error)
         else:
             user = db.execute(
@@ -50,7 +50,7 @@ def register():
             if error is None:
                 session.clear()
                 session['user_id'] = user['id']
-                return redirect(url_for('index'))
+                return redirect(url_for('auth.index'))
  
             flash(error)
 
@@ -76,7 +76,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('auth.index'))
 
         flash(error)
 
@@ -98,3 +98,7 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return redirect(url_for('index'))
+	
+@bp.route('/index')
+def index():
+    return render_template('main-site/index.html')
