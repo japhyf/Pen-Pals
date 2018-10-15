@@ -11,4 +11,5 @@ CREATE TABLE user (
   city TEXT,
   state TEXT,
   zip INTEGER
+  has TEXT,
 );
