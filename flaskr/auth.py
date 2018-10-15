@@ -9,17 +9,16 @@ from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-
-@bp.route('/register', methods=('GET', 'POST'))
+#handles register and login on the start page
+@bp.route('/start_page', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        regUsername = request.form['regUsername']
-        regPassword = request.form['regPassword']
-        loginUsername = request.form['loginUsername']
-        loginPassword = request.form['loginPassword']
         db = get_db()
         error = None
-        if not loginUsername and not loginPassword:
+        #if the register button is clicked load the register inputs
+        if request.form["button"]=="Register":
+            regUsername = request.form['regUsername']
+            regPassword = request.form['regPassword']	
             if not regUsername:
                 return redirect(url_for('auth.noRegUser'))
             elif not regPassword:
@@ -37,7 +36,10 @@ def register():
                 db.commit()
                 return redirect(url_for('auth.index'))
             flash(error)
+        #else if the login button is clicked load the login inputs
         else:
+            loginUsername = request.form['loginUsername']
+            loginPassword = request.form['loginPassword']
             user = db.execute(
                 'SELECT * FROM user WHERE username = ?', (loginUsername,)
             ).fetchone()
@@ -54,33 +56,7 @@ def register():
  
             flash(error)
 
-    return render_template('auth/register.html')
-
-
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
-    if request.method == 'POST':
-        username = request.form['loginUsername']
-        password = request.form['loginPassword']
-        db = get_db()
-        error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
-
-        if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
-
-        if error is None:
-            session.clear()
-            session['user_id'] = user['id']
-            return redirect(url_for('auth.index'))
-
-        flash(error)
-
-    return render_template('auth/login.html')
+    return render_template('auth/start_page.html')
 
 @bp.before_app_request
 def load_logged_in_user():
