@@ -46,6 +46,11 @@ p {
 	background-color: #f44336;
 }
 
+#home-red{
+	height: 700px !important;
+	background-color: #f44336;
+}
+
 #bio-container{
 	background-color: white;
 	height: 1000px;
