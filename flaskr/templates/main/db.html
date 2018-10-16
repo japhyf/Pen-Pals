@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pen Pals</title>
+
+
+  <!-- CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/materialize.css') }}">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+</head>
+<body>
+ 
+ <!-- Navigation Bar --
+	<ul>
+		<li><a class="active" href="index.html">Home</a></li>
+		<li><a href="#login">Login</a></li>
+		<li><a href="#contact">Contact</a></li>
+		<li><a href="#about">About</a></li>
+	</ul>
+ ------->
+<!-- Page introduction box -->
+<div class="row">
+<div class="col s2">
+<p>email</p>
+</div>
+<div class="col s2">
+<p>username</p>
+</div>
+<div class="col s2">
+<p>first</p>
+</div>
+<div class="col s2">
+<p>last</p>
+</div>
+<div class="col s2">
+<p>address1</p>
+</div>
+<div class="col s2">
+<p>address2</p>
+</div>
+</div>
+{% for item in data %}
+<div class="row">
+<div class="col s2">
+<p>{{item.email}}</p>
+</div>
+<div class="col s2">
+<p>{{item.username}}</p>
+</div>
+<div class="col s2">
+<p>{{item.first}}</p>
+</div>
+<div class="col s2">
+<p>{{item.last}}</p>
+</div>
+<div class="col s2">
+<p>{{item.address_line1}}</p>
+</div>
+<div class="col s2">
+<p>{{item.address_line2}}</p>
+</div>
+
+</div>
+{% endfor %}
+<form class="container" method="post">
+<input id="email" type="email" class="validate" name="email">
+<button class="btn waves-effect waves-light" type="submit" name="button" >new email</button>
+</form>
+	<a href="{{ url_for('auth.logout') }}">log out</a>
+    <a href="{{ url_for('auth.index') }}">index</a>
+        
+<!-- Footer Section -->
+	<footer class="page-footer white">	
+		<div class="footer-copyright">
+			<p id="copyright">copyrighted mother effers</p>
+		</div>
+	</footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/materialize.js') }}"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+  <script type="text/javascript">
+	var typed = new Typed(".typed", {
+		strings: ["^250 discuss books", "^250 share your favorites", "^250 meet someone new", "^250 be encouraged to read"],
+		typeSpeed: 40,
+		backSpeed: 20,
+		backDelay: 500,
+		loop: true,
+		fadeOut: true
+	});
+
+  </script>
+  </body>
+</html>

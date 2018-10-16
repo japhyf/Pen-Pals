@@ -27,7 +27,6 @@ def register():
                 'SELECT id FROM user WHERE email = ?', (regEmail,)
             ).fetchone() is not None:
                 error = 'User {} is already registered.'.format(regEmail)
-            
             if error is None:
                 db.execute(
                     'INSERT INTO user (email, password) VALUES (?, ?)',
@@ -66,7 +65,6 @@ def register():
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-
     if user_id is None:
         g.user = None
     else:
@@ -92,14 +90,56 @@ def index():
     user_details = {      
 		'email': user['email'],
     }
+    return render_template('main/index.html', user=user_details)
+    
+@bp.route('/index', methods=('GET', 'POST'))
+def create_bio():
+    user_id = session.get('user_id')
+    if request.method == 'POST':
+        db = get_db()
+        error = None
+        #if the register button is clicked load the register inputs
+        first = request.form['first']
+        last = request.form['last']
+        email = request.form['email']
+        username = request.form['username']
+        address1 = request.form['address1']
+        address2 = request.form['address2']
+        sql = 'UPDATE user SET first = ?, last = ?, email = ?, username = ?, address_line1 = ?, address_line2 = ? WHERE id = ?'
+        val = (first, last, email, username, address1, address2, user_id)
+        db.execute(sql, val)
+        db.commit()
+        return redirect(url_for('auth.db'))
+       
+@bp.route('/db')
+def db():
+    db = get_db()
+    data = db.execute(
+        'SELECT * FROM user'
+    ).fetchall()
+    return render_template('main/db.html', data=data)
+    
+@bp.route('/db', methods=('GET', 'POST'))
+def update_email():
+    user_id = session.get('user_id')
+    db = get_db()
+    if request.method == 'POST':
+        error = None
+        #if the register button is clicked load the register inputs
+        email = request.form['email']
+        sql = 'UPDATE user SET email = ? WHERE id = ?'
+        val = (email, user_id)
+        db.execute(sql, val)
+        db.commit()
+        return redirect(url_for('auth.db'))
 
-    return render_template('main-site/index.html', user=user_details)
-	
+    
+    
 @bp.route('/start_page')
 def start_page():
     user_id = session.get('user_id')
     if user_id is not None:
-        return redirect(url_for('auth.index'))
+        return redirect(url_for('main.index'))
     else:
         return render_template('auth/start_page.html')
 
