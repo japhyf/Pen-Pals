@@ -17,35 +17,40 @@ def register():
         error = None
         #if the register button is clicked load the register inputs
         if request.form["button"]=="Register":
-            regUsername = request.form['regUsername']
+            regEmail = request.form['regEmail']
             regPassword = request.form['regPassword']	
-            if not regUsername:
+            if not regEmail:
                 return redirect(url_for('auth.noRegUser'))
             elif not regPassword:
                 return redirect(url_for('auth.noRegPass'))
             elif db.execute(
-                'SELECT id FROM user WHERE username = ?', (regUsername,)
+                'SELECT id FROM user WHERE email = ?', (regEmail,)
             ).fetchone() is not None:
-                error = 'User {} is already registered.'.format(regUsername)
+                error = 'User {} is already registered.'.format(regEmail)
             
             if error is None:
                 db.execute(
-                    'INSERT INTO user (username, password) VALUES (?, ?)',
-                    (regUsername, generate_password_hash(regPassword))
+                    'INSERT INTO user (email, password) VALUES (?, ?)',
+                    (regEmail, generate_password_hash(regPassword))
                 )
                 db.commit()
+                user = db.execute(
+                    'SELECT * FROM user WHERE email = ?', (regEmail,)
+                ).fetchone()
+                session.clear()
+                session['user_id'] = user['id']
                 return redirect(url_for('auth.index'))
             flash(error)
         #else if the login button is clicked load the login inputs
         else:
-            loginUsername = request.form['loginUsername']
+            loginEmail = request.form['loginEmail']
             loginPassword = request.form['loginPassword']
             user = db.execute(
-                'SELECT * FROM user WHERE username = ?', (loginUsername,)
+                'SELECT * FROM user WHERE email = ?', (loginEmail,)
             ).fetchone()
 
             if user is None:
-                error = 'Incorrect username.'
+                error = 'Incorrect email.'
             elif not check_password_hash(user['password'], loginPassword):
                 error = 'Incorrect password.'
 
@@ -85,12 +90,16 @@ def index():
         'SELECT * FROM user WHERE id = ?', (user_id,)
     ).fetchone()
     user_details = {      
-		'email': user['username'],
+		'email': user['email'],
     }
 
     return render_template('main-site/index.html', user=user_details)
 	
 @bp.route('/start_page')
 def start_page():
-    return render_template('auth/start_page.html')
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return redirect(url_for('auth.index'))
+    else:
+        return render_template('auth/start_page.html')
 
