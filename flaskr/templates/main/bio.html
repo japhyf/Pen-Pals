@@ -23,15 +23,42 @@
 	</ul>
  ------->
 <!-- Page introduction box -->
-	<div id="home-red" >
+	<div id="bio-red">
 		<div class="section no-pad-bot">
-			<h1 id="title" class="header center white-text accent-2">Home</h1>
+			<h1 id="title" class="header center white-text accent-2">View Bio</h1>
 			<br><br>
-			<div class="container">
+			<div id="bio-container" class="container">
 				<br><br>
-				<h2 class="white-text" id="type">No matches yet... you should recieve an email to</h2> 
-                <h2 class="white-text" >{{user.email}}</h2>
-                <h2 class="white-text" id="type"> when you get your first match, stay tuned!</h2>
+					<div class="row">
+						<div class="input-field col s6">
+							<h3>Name: {{user.first}} {{user.last}}</h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row">
+						<div class="input-field col s12">
+                            <h3>Email Address: {{user.email}}</h3>     
+						</div>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="row">
+						<div class="input-field col s12">
+							<h3>Username: {{user.username}}</h3> 
+						</div>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="input-field col s12">
+							<h3>Address: {{user.address1}}</h3> 
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<h3>{{user.address2}}</h3> 
+						</div>
+					</div>
+                    <a href="{{url_for('auth.edit_bio')}}"><button class="btn waves-effect waves-light">Edit</button></a>
 			</div>
 		</div>
     <div class="parallax red"></div>
@@ -39,7 +66,6 @@
 	
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
-    <a href="{{ url_for('auth.bio') }}">view bio</a>
         
 <!-- Footer Section -->
 	<footer class="page-footer white">	

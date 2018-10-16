@@ -68,10 +68,11 @@
 {% endfor %}
 <form class="container" method="post">
 <input id="email" type="email" class="validate" name="email">
-<button class="btn waves-effect waves-light" type="submit" name="button" >new email</button>
+<button class="btn waves-effect waves-light" type="submit" name="button">new email</button>
 </form>
 	<a href="{{ url_for('auth.logout') }}">log out</a>
-    <a href="{{ url_for('auth.create_bio') }}">create_bio</a>
+    <a href="{{ url_for('auth.bio') }}">View Bio</a>
+    <a href="{{url_for('auth.home')}}">Home</a>
         
 <!-- Footer Section -->
 	<footer class="page-footer white">	
