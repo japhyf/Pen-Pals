@@ -9,6 +9,12 @@
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
 @import url('http://fonts.googleapis.com/css?family=Cookie');
 
+*, *:after, *:before {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -80,12 +86,17 @@ p {
  #type{
     color: white;
     height: 65px;
+    left: 50px;
     font: 60px 'Cookie', Helvetica, sans-serif;
     text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
  }
  
  #typed-header{
     height: 65px;
+ }
+ 
+ .Typewriter__cursor{
+     color: transparent;
  }
  
  .login-row{
@@ -96,7 +107,7 @@ p {
  }
 
  .login-background{
-	 background-color:  #2396d6;
+	background-color:  #2396d6;
  }
  
  #copyright-text{
