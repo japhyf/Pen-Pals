@@ -1,0 +1,76 @@
+
+<!--{% block content %}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html>
+<head>
+
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pen Pals</title>
+</head>
+<body>
+    <div id="start-container" class="parallax-container ">
+		<div class="section no-pad-bot">
+			<div class="container">
+				<div class="card large">
+                    <div class="card-tabs">
+                        <ul class="tabs tabs-fixed-width light-red">
+                            <li class="tab"><a class="active white-text" href="#register">Register</a></li>
+                            <li class="tab"><a class="white-text" href="#login">Login</a></li>
+                        </ul>
+                    </div>
+                    <div class="card-content">
+                        <div id="register">
+                            <form class="container" method="post">
+						<br>
+						<div class = "row">
+							<span class="card-title grey-text text-darken-4">Register</span>
+								<div class="input-field col m12">
+									<input id="loginUsername" type="email" name="loginEmail" class="login-text">
+									<label for="loginUsername">Email</label>
+								</div>
+								<div class="input-field col m12">
+									<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">
+									<label for="loginPassword">Password</label>
+								</div>
+				
+							<div class="input-field col m12">
+							<button class="btn waves-effect waves-light" type="submit" name="button" value="Register">Register</button>
+							</div>
+						</div>
+					</form>
+                        
+                        
+                       </div>
+                        <div id="login">login page</div>
+                    </div>
+                </div>
+				<br><br>
+			</div>
+		</div>
+	</div>
+    
+
+
+
+
+</body>
+</html>
+
+<script>
+$(document).ready(function(){
+  $('ul.tabs').tabs();
+});
+$(document).ready(function(){
+  $('ul.tabs').tabs('select_tab', 'tab_id');
+});
+ 
+</script>
+<!--{% endblock %}-->

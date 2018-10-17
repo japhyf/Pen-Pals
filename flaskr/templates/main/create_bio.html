@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Pen Pals</title>
+
+
+  <!-- CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/materialize.css') }}">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+</head>
+<body>
+ 
+ <!-- Navigation Bar --
+	<ul>
+		<li><a class="active" href="index.html">Home</a></li>
+		<li><a href="#login">Login</a></li>
+		<li><a href="#contact">Contact</a></li>
+		<li><a href="#about">About</a></li>
+	</ul>
+ ------->
+<!-- Page introduction box -->
+	<div id="bio-red">
+		<div class="section no-pad-bot">
+			<h1 id="title" class="header center white-text accent-2">Create Bio</h1>
+			<br><br>
+			<div id="bio-container" class="container">
+				<br><br>
+				<form class="container" method="post">
+					<div class="row">
+						<div class="input-field col s6">
+							<input id="first_name" type="text" name="first" class="validate" value="{{user.first}}">
+							<label for="first_name">First Name</label>
+						</div>
+						<div class="input-field col s6">
+							<input id="last_name" type="text" name="last" class="validate" value="{{user.last}}">
+							<label for="last_name">Last Name</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="row">
+						<div class="input-field col s12">
+							<input id="email" type="email" class="validate" name="email" value="{{user.email}}">
+							<label for="email">Email</label>
+						</div>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="row">
+						<div class="input-field col s12">
+							<input id="username" type="text" name="username" value="{{user.username}}">
+							<label for="username">Username</label>
+						</div>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="input-field col s12">
+							<input id="address1" type="text" name="address1" value="{{user.address1}}">
+							<label for="address1">Address line 1</label>
+							<span class="helper-text" data-error="wrong" data-success="right">Street address, P.O. box, company name</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-field col s12">
+							<input id="address2" type="text" name="address2" value="{{user.address2}}">
+							<label for="address2">Address line 2</label>
+							<span class="helper-text" data-error="wrong" data-success="right">Apartment, suite , unit, building, floor, etc.</span>
+						</div>
+					</div>
+					<button class="btn waves-effect waves-light" type="submit" name="button">Submit</button>
+				</form>
+			</div>
+		</div>
+    <div class="parallax red"></div>
+	</div>
+	
+	<a href="{{ url_for('auth.logout') }}">log out</a>
+    <a href="{{ url_for('auth.db') }}">database</a>
+        
+<!-- Footer Section -->
+	<footer class="page-footer white">	
+		<div class="footer-copyright">
+			<p id="copyright">copyrighted mother effers</p>
+		</div>
+	</footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/materialize.js') }}"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+  <script type="text/javascript">
+	var typed = new Typed(".typed", {
+		strings: ["^250 discuss books", "^250 share your favorites", "^250 meet someone new", "^250 be encouraged to read"],
+		typeSpeed: 40,
+		backSpeed: 20,
+		backDelay: 500,
+		loop: true,
+		fadeOut: true
+	});
+
+  </script>
+  </body>
+</html>

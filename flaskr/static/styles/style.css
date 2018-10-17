@@ -1,0 +1,164 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+@import url('https://fonts.googleapis.com/css?family=Sacramento');
+@import url('https://fonts.googleapis.com/css?family=Amatic+SC');
+@import url('http://fonts.googleapis.com/css?family=Cookie');
+
+*, *:after, *:before {
+    -webkit-box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: red;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #10;
+}
+
+p {
+  line-height: 2rem;
+}
+#title{
+	font-family: "Amatic SC";
+	font-weight: bold;
+	font-size: 100px;
+
+}
+.large{
+    width: 500px;
+}
+
+#bio-red{
+	height: 2000px !important;
+	background-color: #f44336;
+}
+
+#start-container{
+	height: 1000px !important;
+	background-color: #81d4fa;
+}
+
+#home-red{
+	height: 700px !important;
+	background-color: #f44336;
+}
+
+#bio-container{
+	background-color: white;
+	height: 1000px;
+	border-radius: 25px;
+}
+
+.light-red{
+    background-color: #f37a7a;
+}
+.sidenav-trigger {
+  color: #26a69a;
+}
+ .context{
+		font-size: 25px;
+ }
+
+ .context-icons{
+	 color: teal;
+ }
+ 
+ .card-text{
+    color: white;
+    top-margin: 10px;
+    font: 100px 'Cookie', Helvetica, sans-serif !important;
+
+    text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
+ }
+ 
+ #type{
+    color: white;
+    height: 65px;
+    left: 50px;
+    font: 60px 'Cookie', Helvetica, sans-serif;
+    text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
+ }
+ 
+ #typed-header{
+    height: 65px;
+ }
+ 
+ .Typewriter__cursor{
+     color: transparent;
+ }
+ 
+ .login-row{
+	padding-top: 190px;
+ }
+ .login-custom-text{
+	vertical-align: middle;
+ }
+
+ .login-background{
+	background-color:  #2396d6;
+ }
+ 
+ #copyright-text{
+	 color: black;
+ }
+ 
+.login-text{
+	 color: black;
+ }
+
+ 
+ #red-back{
+	 width: 100%;
+ }
+ 
+ 
+ .typed-cursor{
+	 opacity: 100;
+	 visibility: hidden;
+ }
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
+
+#copyright{
+	color: black;
+}
+
+
+
+
+
+
+

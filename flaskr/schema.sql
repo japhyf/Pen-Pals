@@ -3,12 +3,12 @@ DROP TABLE IF EXISTS user;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
   first TEXT,
   last TEXT,
-  street TEXT,
-  city TEXT,
-  state TEXT,
-  zip INTEGER
+  address_line1 TEXT,
+  address_line2 TEXT,
+  username TEXT,
+  has TEXT
 );
