@@ -40,6 +40,7 @@ p {
 	font-family: "Amatic SC";
 	font-weight: bold;
 	font-size: 100px;
+
 }
 #bio-red{
 	height: 2000px !important;
@@ -69,26 +70,26 @@ p {
  }
  
  .card-text{
-	color: white;
+    color: white;
+    top-margin: 10px;
+    font: 100px 'Cookie', Helvetica, sans-serif !important;
 
-  font: 100px 'Cookie', Helvetica, sans-serif !important;
-
-  text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
+    text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
  }
  
  #type{
-	color: white;
-
-  font: 60px 'Cookie', Helvetica, sans-serif;
-
-  text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
+    color: white;
+    height: 65px;
+    font: 60px 'Cookie', Helvetica, sans-serif;
+    text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
  }
- #login-row{
-	min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-    min-height: 100vh; /* These two lines are counted as one :-)       */
-	text-align: center;
-   display: flex;
-   align-items: center;
+ 
+ #typed-header{
+    height: 65px;
+ }
+ 
+ .login-row{
+	padding-top: 190px;
  }
  .login-custom-text{
 	vertical-align: middle;
