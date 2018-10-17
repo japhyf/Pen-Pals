@@ -59,12 +59,15 @@ p {
 
 #start-container{
 	height: 1000px !important;
-	background-color: #81d4fa;
+
 }
 
-#home-red{
-	height: 700px !important;
+.primary-color{
 	background-color: #f44336;
+}
+
+.secondary-color{
+	background-color: blue;
 }
 
 #bio-container{
