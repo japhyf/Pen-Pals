@@ -63,11 +63,16 @@ p {
 }
 
 .primary-color{
-	background-color: #f44336;
+	/*background-color: #5cdb95;*/
+    background-image: url({{ url_for('static', filename='images/forest.jpg') }})
 }
 
 .secondary-color{
-	background-color: blue;
+	background-color: #05386b;
+}
+
+.btn:hover, .btn-large:hover {
+    background-color: #5cdb95;
 }
 
 #bio-container{
