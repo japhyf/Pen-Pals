@@ -1,5 +1,19 @@
 As of 10/14/18:
 
-Create new branch for cosmetic changes and other updates to login/register html pages and CSS
+*Create new branch for cosmetic changes and other updates to login/register html pages and CSS*
 
 Scrape good reads
+
+As of 10/16/18:
+
+Style:
+maybe change the font of the typed words
+change the font of the title
+come to a consensus on logo idea
+
+Automated email system
+Stylize view bio
+Messaging system
+Set up book database
+Matching algorithm
+Matching UI
