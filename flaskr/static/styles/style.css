@@ -48,9 +48,18 @@ p {
 	font-size: 100px;
 
 }
+.large{
+    width: 500px;
+}
+
 #bio-red{
 	height: 2000px !important;
 	background-color: #f44336;
+}
+
+#start-container{
+	height: 1000px !important;
+	background-color: #81d4fa;
 }
 
 #home-red{
@@ -64,6 +73,9 @@ p {
 	border-radius: 25px;
 }
 
+.light-red{
+    background-color: #f37a7a;
+}
 .sidenav-trigger {
   color: #26a69a;
 }
@@ -128,45 +140,6 @@ p {
 	 opacity: 100;
 	 visibility: hidden;
  }
-.parallax-container {
-    height: 400px !important;
-    z-index: -1;
-}
-
-	.parallax img {
-		max-width: 50%;
-        max-height: auto;
-		bottom: -20%;
-		right: 1000px !important;
-        height: auto;
-        min-width: 100px;/*Note the px*/
-        min-height: 100%;
-
-	-webkit-transform: translate3d(0, 0, 0);
-			transform: translate3d(0, 0, 0);
-	-webkit-transform: translateX(-50%);
-			transform: translateX(-50%);
-	}
-
-  .parallax-container .section {
-    width: 100%;
-  }
-
-@media only screen and (max-width : 992px) {
-  .parallax-container .section {
-    position: absolute;
-    top: 40%;
-  }
-  #index-banner .section {
-    top: 10%;
-  }
-}
-
-@media only screen and (max-width : 600px) {
-  #index-banner .section {
-    top: 0;
-  }
-}
 
 .icon-block {
   padding: 0 15px;
