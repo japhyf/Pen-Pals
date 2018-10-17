@@ -39,14 +39,26 @@
 	
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
-    <a href="{{ url_for('auth.bio') }}">view bio</a>
-        
+    <a href="{{ url_for('main.bio') }}">view bio</a>
+
+
+ {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <!-- Footer Section -->
 	<footer class="page-footer white">	
 		<div class="footer-copyright">
 			<p id="copyright">copyrighted mother effers</p>
 		</div>
 	</footer>
+
 
 
   <!--  Scripts-->
@@ -63,6 +75,9 @@
 		loop: true,
 		fadeOut: true
 	});
+
+
+
 
   </script>
   </body>
