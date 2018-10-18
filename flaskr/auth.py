@@ -26,7 +26,7 @@ def register():
             regPassword = request.form['regPassword']
 
             mail = Mail()
-            msg = Message("Thank you for joining Pen Pals!", sender="12345ere6789@gmail.com", recipients=[regEmail])
+            msg = Message("Thank you for joining Pen Pals!", sender="penpalsmessenger@gmail.com", recipients=[regEmail])
             msg.body = "Click here to verify your account\n"
             mail.send(msg)
 

@@ -19,8 +19,8 @@ def create_app(test_config=None):
         MAIL_SERVER='smtp.gmail.com',
         MAIL_PORT=465,
         MAIL_USE_SSL=True,
-        MAIL_USERNAME='12345ere6789@gmail.com',
-        MAIL_PASSWORD='y7&PZdV*dh90z&'
+        MAIL_USERNAME='penpalsmessenger@gmail.com',
+        MAIL_PASSWORD='CE96IZXHQA3p'
     )
 
     mail.init_app(app)
@@ -43,11 +43,11 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
-
+    @app.route('/porn')
     def send():
         try:
-            msg = Message("d", sender="12345ere6789@gmail.com", recipients=["nickfrog11@gmail.com"])
-            msg.body = "123 gimmep"
+            msg = Message("someone visited the porn page :/", sender="12345ere6789@gmail.com", recipients=["nickfrog11@gmail.com"])
+            msg.body = "u little fuck"
             msg.add_recipient("aaebrahi@ucsc.edu")
             msg.add_recipient("cdixonfe@ucsc.edu")
             msg.add_recipient("jfrolick@ucsc.edu")
