@@ -6,19 +6,30 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from flaskr.db import get_db
+from flask_mail import Mail, Message
+
+
+
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 #handles register and login on the start page
 @bp.route('/start_page', methods=('GET', 'POST'))
 def register():
+
     if request.method == 'POST':
         db = get_db()
         error = None
         #if the register button is clicked load the register inputs
         if request.form["button"]=="Register":
             regEmail = request.form['regEmail']
-            regPassword = request.form['regPassword']	
+            regPassword = request.form['regPassword']
+
+            mail = Mail()
+            msg = Message("Thank you for joining Pen Pals!", sender="12345ere6789@gmail.com", recipients=[regEmail])
+            msg.body = "Click here to verify your account\n"
+            mail.send(msg)
+
             if not regEmail:
                 return redirect(url_for('auth.noRegUser'))
             elif not regPassword:
@@ -57,7 +68,7 @@ def register():
                 session.clear()
                 session['user_id'] = user['id']
                 return redirect(url_for('main.home'))
- 
+
             flash(error)
 
     return render_template('auth/start_page.html')
@@ -89,7 +100,7 @@ def db():
         'SELECT * FROM user'
     ).fetchall()
     return render_template('main/db.html', data=data)
-    
+
 @bp.route('/db', methods=('GET', 'POST'))
 def update_email():
     user_id = session.get('user_id')
@@ -104,7 +115,7 @@ def update_email():
         db.commit()
         return redirect(url_for('auth.db'))
 
-    
+
 @bp.route('/start_page')
 def start_page():
     user_id = session.get('user_id')
@@ -120,4 +131,3 @@ def start_page1():
         return redirect(url_for('main.home'))
     else:
         return render_template('auth/start_page1.html')
-
