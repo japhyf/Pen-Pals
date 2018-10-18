@@ -119,10 +119,7 @@ p {
  .Typewriter__cursor{
      color: transparent;
  }
- 
- .login-row{
-	padding-top: 190px;
- }
+
  .login-custom-text{
 	vertical-align: middle;
  }
@@ -137,6 +134,7 @@ p {
  
 .login-text{
 	 color: black;
+     width: 400px !important;
  }
 
  
@@ -175,6 +173,55 @@ footer.page-footer {
   width: 0;
   height: 100%;
   transition: .5s ease;
+}
+.fixed{
+    position: fixed;
+}
+
+.continue{
+    margin-top: 30px;
+    margin-left: 10px;
+}
+
+#close{
+    margin-left: 305px;
+    cursor:pointer;
+}
+
+.login-row{
+    margin-bottom: 0px !important;
+}
+
+#first_name{
+    width: 190px;
+}
+
+#last_name{
+    width: 190px;
+}
+
+#cont{
+    position: relative !important;       
+    overflow: visible !important;
+}
+ 
+.over{
+    overflow: hidden !important;
+}
+
+
+.login-container{
+    width: 1000px;
+    overflow: visible !important;
+}
+
+
+#reg1{
+    width: 500px;
+}
+
+#reg2{
+    width: 500px;
 }
 
 .start-1-card {

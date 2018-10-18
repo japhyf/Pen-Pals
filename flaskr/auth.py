@@ -16,7 +16,6 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 #handles register and login on the start page
 @bp.route('/start_page', methods=('GET', 'POST'))
 def register():
-
     if request.method == 'POST':
         db = get_db()
         error = None

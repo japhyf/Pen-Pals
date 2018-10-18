@@ -6,6 +6,7 @@
 <head>
 
   <!-- Compiled and minified CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css"> 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
@@ -18,7 +19,6 @@
 <body>
     <div id="start-container" class="primary-color">
 		<div class="section no-pad-bot">
-
             <div class="row">
             <div class="col s4 offset-s1">
                 <div class="card large hoverable">
@@ -46,10 +46,15 @@
                                     </div>
                                 </div>
                             </form>  
+                            
                        </div>
                     </div>
+                    
                 </div>
 			</div>
+            
+            
+            
             <div class="col s4 offset-s1">
 				<div id="test-card" class="card large hoverable">
                     <div class="card-tabs">
@@ -60,8 +65,9 @@
                     </div>
                     <div class="card-content">
                         <div id="register">
-                            <form id="cont" class="container" method="post">
+                            <form class="container" method="post">
                                 <div class = "row">
+                                    <div class="col s6 offset-s1 fixed">
                                     <div id="regp1">
                                         <span class="card-title black-text">Register</span>
                                         <div class="input-field col m12">
@@ -77,6 +83,9 @@
                                             <label for="regPassword2">Repeat Password</label>
                                         </div>
                                     </div>
+                                    </div>
+                                    
+                                    <div class="col s6 offset-s3 fixed">
                                     <div id="regp2">
                                         <span class="card-title black-text">Register</span>
                                         <div class="input-field col m12">
@@ -92,14 +101,13 @@
                                             <label for="regPassword2">Repeat Password</label>
                                         </div>
                                     </div>
+                                    </div>
                                         
                                 </div>
-                                <div class="overlay">
-                                    <div class="overlay-text">Hello World</div>
-                                </div>
+
                             </form>  
                             <div class="container">
-                                <button id="butt" class="btn waves-effect waves-light continue secondary-color" onclick="slide()" name="button">Continue</button>
+                             
                                 <a id="test" value="blah"></a>
                             </div>
                        </div>
@@ -116,6 +124,7 @@
                                         <label for="loginPassword">Password</label>
                                     </div>
                                     <div class="input-field col m12">
+                                        
                                         <button class="btn waves-effect waves-light secondary-color" type="submit" name="button" value="login">Login</button>
                                         
                                     </div>
@@ -129,15 +138,84 @@
 			</div>
 		</div>
 	</div>
-    
-    
-<div class="card reg" id="reg">
- <p>alksujfhdjaklsdfhj</p>
-  <div class="overlay">
-    <div class="overlay-text">Hello World</div>
-  </div>
-</div>
 
+<div class="row">
+    <div class="col">
+        <div class="card large over">
+        <div class="card-tabs">
+                        <ul class="tabs tabs-fixed-width secondary-color">
+                            <li class="tab"><a class="active white-text" href="#register">Register</a></li>
+                            <li class="tab"><a class="white-text" href="#login">Login</a></li>
+                        </ul>
+                    </div>
+            <div id="cont" class="card-content">
+                <div class="row">
+                    <div class="login-container">
+                        <form method="post">
+                        <div id="reg1" class="col">
+                            <div id="regp1">
+                                <span class="card-title black-text">Register</span>
+                                <div class="input-field col m12">
+                                    <input id="regEmail" type="email" name="regEmail" class="login-text">
+                                    <label for="regEmail">Email</label>
+                                </div>
+                                <div class="input-field col m12">
+                                    <input id="regPassword" type="password" name="regPassword" class="validate login-text">
+                                    <label for="regPassword">Password</label>
+                                </div>
+                                <div class="input-field col m12">
+                                    <input id="regPassword2" type="password" name="regPassword2" class="validate login-text">
+                                    <label for="regPassword2">Repeat Password</label>
+                                </div>
+                            </div>
+                            <button id="butt" class="btn waves-effect waves-light continue secondary-color" type="button" name="button">Continue</button>
+                        </div>
+                        <div id="reg2" class="col s1">
+                            <div id="regp2">
+                                <span class="card-title grey-text text-darken-4">Register<i id="close" class="material-icons">arrow_back</i></span>
+                                <div class="row login-row">
+                                    <div class="input-field col">
+                                        <input id="first_name" type="text" name="first" class="validate">
+                                        <label for="first_name">First Name</label>
+                                    </div>
+                                    <div class="input-field col">
+                                        <input id="last_name" type="text" name="last" class="validate">
+                                        <label for="last_name">Last Name</label>
+                                    </div>
+                                </div>
+                                <div class="row login-row">
+                                <div class="input-field col m12">
+                                    <input id="regUsername" type="email" name="regEmail" class="login-text">
+                                    <label for="regUsername">Display Name</label>
+                                </div>
+                                </div>
+                                <div class="row login-row">
+						<div class="input-field col s12">
+							<input id="address1" type="text" name="address1">
+							<label for="address1">Address line 1 (Street address, P.O. box, company name)</label>
+							
+						</div>
+					</div>
+					<div class="row login-row">
+						<div class="input-field col s12">
+							<input id="address2" type="text" name="address2">
+							<label for="address2">Address line 2 (Apartment, suite , unit, building, floor, etc.)</label>
+
+						</div>
+					</div>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+
+                </div>
+
+            </div>
+                   
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>
@@ -145,9 +223,13 @@
 <script> 
 $(document).ready(function(){
     $("#butt").click(function(){
-        $("#regp2").animate({width: '250px'});
+        $("#cont").animate({right: '+=500px'},450);
+    });
+    $("#close").click(function(){
+        $("#cont").animate({right: '-=500px'},450);
     });
 });
+
 </script> 
 
 <script>
