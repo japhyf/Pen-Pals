@@ -62,9 +62,10 @@ p {
 
 }
 
+
 .primary-color{
-	/*background-color: #5cdb95;*/
-    background-image: url({{ url_for('static', filename='images/forest.jpg') }})
+	background-color: #5cdb95;
+    /*background-image: url({{ url_for('static', filename='images/forest.jpg') }})*/
 }
 
 .secondary-color{
@@ -164,6 +165,57 @@ footer.page-footer {
 	color: black;
 }
 
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+}
+
+#cont {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+#regp1{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+,
+
+#regp2 {
+  width: 0px;
+  z-index: 10;
+}
+
+.start-1-card {
+    width: 700px;
+}
+
+.reg:hover .overlay {
+  width: 100%;
+  left: 0;
+}
+
+.overlay-text {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
 
 
 

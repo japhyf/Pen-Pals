@@ -8,7 +8,6 @@
 
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/materialize.css') }}">
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 </head>
@@ -32,11 +31,11 @@
 				<form class="container" method="post">
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="first_name" type="text" name="first" class="validate" value="{{user.first}}">
+							<input id="first_name" type="text" name="first" value="{{user.first}}">
 							<label for="first_name">First Name</label>
 						</div>
 						<div class="input-field col s6">
-							<input id="last_name" type="text" name="last" class="validate" value="{{user.last}}">
+							<input id="last_name" type="text" name="last" value="{{user.last}}">
 							<label for="last_name">Last Name</label>
 						</div>
 					</div>
@@ -89,20 +88,9 @@
 
 
   <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/materialize.js') }}"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
-  <script type="text/javascript">
-	var typed = new Typed(".typed", {
-		strings: ["^250 discuss books", "^250 share your favorites", "^250 meet someone new", "^250 be encouraged to read"],
-		typeSpeed: 40,
-		backSpeed: 20,
-		backDelay: 500,
-		loop: true,
-		fadeOut: true
-	});
-
-  </script>
   </body>
 </html>

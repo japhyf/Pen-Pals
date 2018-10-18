@@ -20,16 +20,16 @@
 		<div class="section no-pad-bot">
 
             <div class="row">
-            <div class="col s12 m6">
+            <div class="col s4 offset-s1">
                 <div class="card large hoverable">
                     <div class="card-tabs">
                         <ul class="tabs tabs-fixed-width secondary-color">
-                            <li class="tab"><a class="active white-text" href="#register">Register</a></li>
-                            <li class="tab"><a class="white-text" href="#login">Login</a></li>
+                            <li class="tab"><a class="active white-text" href="#step1">Step 1</a></li>
+                            <li class="tab"><a class="white-text" href="#step2">Step 2</a></li>
                         </ul>
                     </div>
                     <div class="card-content">
-                        <div id="register">
+                        <div id="step1">
                             <form class="container" method="post">
                                 <div class = "row">
                                     <span class="card-title black-text">Register</span>
@@ -47,12 +47,11 @@
                                 </div>
                             </form>  
                        </div>
-                       <div id="login">login page</div>
                     </div>
                 </div>
 			</div>
-            <div class="col s12 m6">
-				<div class="card large hoverable">
+            <div class="col s4 offset-s1">
+				<div id="test-card" class="card large hoverable">
                     <div class="card-tabs">
                         <ul class="tabs tabs-fixed-width secondary-color">
                             <li class="tab"><a class="active white-text" href="#register">Register</a></li>
@@ -61,9 +60,53 @@
                     </div>
                     <div class="card-content">
                         <div id="register">
+                            <form id="cont" class="container" method="post">
+                                <div class = "row">
+                                    <div id="regp1">
+                                        <span class="card-title black-text">Register</span>
+                                        <div class="input-field col m12">
+                                            <input id="regUsername" type="email" name="regEmail" class="login-text">
+                                            <label for="regUsername">Email</label>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <input id="regPassword" type="password" name="regPassword" class="validate login-text">
+                                            <label for="regPassword">Password</label>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <input id="regPassword2" type="password" name="regPassword2" class="validate login-text">
+                                            <label for="regPassword2">Repeat Password</label>
+                                        </div>
+                                    </div>
+                                    <div id="regp2">
+                                        <span class="card-title black-text">Register</span>
+                                        <div class="input-field col m12">
+                                            <input id="regUsername" type="email" name="regEmail" class="login-text">
+                                            <label for="regUsername">Email</label>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <input id="regPassword" type="password" name="regPassword" class="validate login-text">
+                                            <label for="regPassword">Password</label>
+                                        </div>
+                                        <div class="input-field col m12">
+                                            <input id="regPassword2" type="password" name="regPassword2" class="validate login-text">
+                                            <label for="regPassword2">Repeat Password</label>
+                                        </div>
+                                    </div>
+                                        
+                                </div>
+                                <div class="overlay">
+                                    <div class="overlay-text">Hello World</div>
+                                </div>
+                            </form>  
+                            <div class="container">
+                                <button id="butt" class="btn waves-effect waves-light continue secondary-color" onclick="slide()" name="button">Continue</button>
+                                <a id="test" value="blah"></a>
+                            </div>
+                       </div>
+                       <div id="login">
                             <form class="container" method="post">
                                 <div class = "row">
-                                    <span class="card-title black-text">Register</span>
+                                    <span class="card-title black-text">Login</span>
                                     <div class="input-field col m12">
                                         <input id="loginUsername" type="email" name="loginEmail" class="login-text">
                                         <label for="loginUsername">Email</label>
@@ -73,12 +116,12 @@
                                         <label for="loginPassword">Password</label>
                                     </div>
                                     <div class="input-field col m12">
-                                        <button class="btn waves-effect waves-light secondary-color" type="submit" name="button" value="Register">Register</button>
+                                        <button class="btn waves-effect waves-light secondary-color" type="submit" name="button" value="login">Login</button>
+                                        
                                     </div>
                                 </div>
                             </form>  
                        </div>
-                       <div id="login">login page</div>
                     </div>
                 </div>
                 
@@ -87,12 +130,27 @@
 		</div>
 	</div>
     
+    
+<div class="card reg" id="reg">
+ <p>alksujfhdjaklsdfhj</p>
+  <div class="overlay">
+    <div class="overlay-text">Hello World</div>
+  </div>
+</div>
 
 
 
 
 </body>
 </html>
+
+<script> 
+$(document).ready(function(){
+    $("#butt").click(function(){
+        $("#regp2").animate({width: '250px'});
+    });
+});
+</script> 
 
 <script>
 $(document).ready(function(){

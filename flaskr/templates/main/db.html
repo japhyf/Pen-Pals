@@ -8,7 +8,6 @@
 
   <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="static/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/materialize.css') }}">
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 </head>
@@ -25,22 +24,22 @@
 <!-- Page introduction box -->
 <div class="row">
 <div class="col s2">
-<p>email</p>
+<h4>email</h4>
 </div>
 <div class="col s2">
-<p>username</p>
+<h4>username</h4>
 </div>
 <div class="col s2">
-<p>first</p>
+<h4>first</h4>
 </div>
 <div class="col s2">
-<p>last</p>
+<h4>last</h4>
 </div>
 <div class="col s2">
-<p>address1</p>
+<h4>address1</h4>
 </div>
 <div class="col s2">
-<p>address2</p>
+<h4>address2</h4>
 </div>
 </div>
 {% for item in data %}
@@ -84,20 +83,9 @@
 
 
   <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/materialize.js') }}"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
-  <script type="text/javascript">
-	var typed = new Typed(".typed", {
-		strings: ["^250 discuss books", "^250 share your favorites", "^250 meet someone new", "^250 be encouraged to read"],
-		typeSpeed: 40,
-		backSpeed: 20,
-		backDelay: 500,
-		loop: true,
-		fadeOut: true
-	});
-
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   </body>
 </html>
