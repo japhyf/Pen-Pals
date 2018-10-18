@@ -177,25 +177,6 @@ footer.page-footer {
   transition: .5s ease;
 }
 
-#cont {
-  width: 100px;
-  height: 100px;
-  position: relative;
-}
-#regp1{
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-,
-
-#regp2 {
-  width: 0px;
-  z-index: 10;
-}
-
 .start-1-card {
     width: 700px;
 }
