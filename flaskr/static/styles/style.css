@@ -156,6 +156,7 @@ p {
 } /*Color of underline*/
 
  .login-background{
+    width: 620px !important;
 	background-color:  #2396d6;
  }
  
@@ -219,9 +220,12 @@ footer.page-footer {
     cursor:pointer;
 }
 
+.login-row-old{
+    padding-top: 150px;
+}
+
 .login-row{
     margin-bottom: 0px !important;
-    padding-top: 180px;
 }
 
 #first_name{

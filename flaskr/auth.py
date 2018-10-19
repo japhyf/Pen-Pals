@@ -28,11 +28,6 @@ def register():
             username = request.form['username']
             address1 = request.form['address1']
             address2 = request.form['address2']
-            mail = Mail()
-            msg = Message("Thank you for joining Pen Pals!", sender="penpalsmessenger@gmail.com", recipients=[regEmail])
-            msg.body = "Click here to verify your account\n"
-            mail.send(msg)
-
             if not regEmail:
                 return redirect(url_for('auth.noRegUser'))
             elif not regPassword:
