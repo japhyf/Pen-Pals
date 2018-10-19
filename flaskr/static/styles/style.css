@@ -1,9 +1,6 @@
 /* Custom Stylesheet */
 /**
- * Use this file to override Materialize files so you can update
- * the core Materialize files in the future
- *
- * Made By MaterializeCSS.com
+ * https://www.canva.com/learn/website-color-schemes/
  */
 @import url('https://fonts.googleapis.com/css?family=Sacramento');
 @import url('https://fonts.googleapis.com/css?family=Amatic+SC');
@@ -42,6 +39,12 @@ li a:hover {
 p {
   line-height: 2rem;
 }
+
+:root{
+    --primary-color: #caebf2;
+    --secondary-color: #ff3b3f;
+}
+
 #title{
 	font-family: "Amatic SC";
 	font-weight: bold;
@@ -64,17 +67,21 @@ p {
 
 
 .primary-color{
-	background-color: #5cdb95;
+	background-color: var(--primary-color);
     /*background-image: url({{ url_for('static', filename='images/forest.jpg') }})*/
 }
 
 .secondary-color{
-	background-color: #05386b;
+	background-color: var(--secondary-color);
 }
 
-.btn:hover, .btn-large:hover {
-    background-color: #5cdb95;
+.secondary-item-color{
+	color: var(--secondary-color);
 }
+
+/*.btn:hover, .btn-large:hover {
+    background-color: var(--primary-color);
+}*/
 
 #bio-container{
 	background-color: white;
@@ -123,6 +130,10 @@ p {
  .login-custom-text{
 	vertical-align: middle;
  }
+ 
+ .tabs .indicator {
+    background-color: var(--primary-color);
+} /*Color of underline*/
 
  .login-background{
 	background-color:  #2396d6;

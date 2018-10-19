@@ -112,7 +112,7 @@
 											</div>
 											<div id="reg2" class="col s1">
 												<div id="regp2">
-													<span class="card-title grey-text text-darken-4">Register<i id="close" class="material-icons">arrow_back</i></span>
+													<span class="card-title grey-text text-darken-4">Register<i id="close" class="material-icons secondary-item-color">arrow_back</i></span>
 													<div class="row login-row">
 														<div class="input-field col">
 															<input id="first_name" type="text" name="first" class="validate">
@@ -182,6 +182,8 @@
 
 <script> 
 $(document).ready(function(){
+    $('ul.tabs').tabs();
+    $('ul.tabs').tabs('select_tab', 'tab_id');
     $("#butt").click(function(){
         $("#cont").animate({right: '+=500px'},450);
     });
@@ -194,14 +196,9 @@ $(document).ready(function(){
     });
 });
 
-</script> 
-<script>
-$(document).ready(function(){
-  $('ul.tabs').tabs();
-});
-$(document).ready(function(){
-  $('ul.tabs').tabs('select_tab', 'tab_id');
-});
+</script>
  
+<script>
+
 </script>
 <!--{% endblock %}-->
