@@ -126,3 +126,11 @@ def start_page():
         return redirect(url_for('main.home'))
     else:
         return render_template('auth/start_page.html')
+        
+@bp.route('/start_page_old')
+def start_page_old():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return redirect(url_for('main.home'))
+    else:
+        return render_template('auth/start_page_old.html')

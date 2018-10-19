@@ -23,18 +23,19 @@
 	</ul>
  ------->
 <!-- Page introduction box -->
-	<div id="home-red" >
+	<div id="home-back" >
 		<div class="section no-pad-bot">
-			<h1 id="title" class="header center white-text accent-2">Home</h1>
-			<br><br>
+			<h1 id="title" class="header center white-text">Home</h1>
+            <div class="row center">	
+                <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span><span class="Typewriter__cursor">|</span></h1>                  
+			</div>
 			<div class="container">
 				<br><br>
-				<h2 class="white-text" id="type">No matches yet... you should recieve an email to</h2> 
-                <h2 class="white-text" >{{user.email}}</h2>
-                <h2 class="white-text" id="type"> when you get your first match, stay tuned!</h2>
+				<h2 class="home-text" id="type">No matches yet... you should recieve an email to</h2> 
+                <h2 class="secondary-item-color" >{{user.email}}</h2>
+                <h2 class="home-text" id="type"> when you get your first match, stay tuned!</h2>
 			</div>
 		</div>
-    <div class="parallax red"></div>
 	</div>
 	
 	<a href="{{ url_for('auth.logout') }}">log out</a>
@@ -75,10 +76,7 @@
 		loop: true,
 		fadeOut: true
 	});
-
-
-
-
-  </script>
+    
+</script>
   </body>
 </html>
