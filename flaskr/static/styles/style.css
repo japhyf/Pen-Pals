@@ -215,6 +215,11 @@ footer.page-footer {
 #cont{
     position: relative !important;       
     overflow: visible !important;
+	padding-top: 0px;
+}
+
+.register{
+	margin-left: 10px;
 }
  
 .over{
