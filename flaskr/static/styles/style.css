@@ -197,7 +197,19 @@ footer.page-footer {
 }
 
 #last_name{
-    width: 190px;
+    width: 185px;
+}
+
+#regUsername{
+	width: 400px;
+}
+
+#address1{
+	width: 400px;
+}
+
+#address2{
+	width: 400px;
 }
 
 #cont{
