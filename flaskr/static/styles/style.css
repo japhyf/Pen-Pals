@@ -132,7 +132,7 @@ p {
  }
  
  .tabs .indicator {
-    background-color: var(--primary-color);
+    background-color: white;
 } /*Color of underline*/
 
  .login-background{
