@@ -47,6 +47,10 @@ p {
   line-height: 2rem;
 }
 
+#heading{
+    height: 75px;
+}
+
 
 #title{
 	font-family: "Amatic SC";
@@ -65,7 +69,24 @@ p {
 
 #start-container{
 	height: 1000px !important;
+    background-color: var(--primary-color);
+}
 
+#icon-container{
+	height: 700px !important;
+    background-color: var(--primary-color);
+}
+
+.material-icons{
+    color: var(--secondary-color);
+}
+
+.icon-header{
+    color: black;
+}
+
+.icon-text{
+    color: black;
 }
 
 #home-back{
@@ -130,9 +151,9 @@ p {
  }
  
  #type{
-    height: 65px;
-    left: 50px;
+    color: white;
     font: 60px 'Cookie', Helvetica, sans-serif;
+    height: 100px;
  }
  
  .typed{
@@ -144,11 +165,16 @@ p {
  }
  
  .Typewriter__cursor{
-     color: transparent;
+    height: 100px;
+    color: transparent;
  }
 
  .login-custom-text{
 	vertical-align: middle;
+ }
+ 
+ .horiz-center{
+    margin: auto;
  }
  
  .tabs .indicator {
@@ -177,7 +203,7 @@ p {
  
  .typed-cursor{
 	 opacity: 100;
-	 visibility: hidden;
+	 color: transparent;
  }
 
 .icon-block {
