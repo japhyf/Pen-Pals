@@ -111,7 +111,7 @@
 													<label for="loginUsername">Email</label>
 												</div>
 												<div class="input-field col m12">
-													<input id="loginPassword" type="text" name="loginPassword" class="validate login-text">                                   
+													<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">                                   
 													<label for="loginPassword">Password</label>
 												</div>
                                                 <input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
@@ -231,7 +231,9 @@ function submit_login_form()
 {
 	card = document.getElementById("main-card");
 	form = document.forms['login_form'];
-	if (form.elements['loginEmail'].value === '') {
+	var reg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+	email = form.elements['loginEmail'].value;
+	if (!reg.test(email)) {
 		$("#login-header").css("display", "none");
 		$("#invalid-login").css("display", "block");
 		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
