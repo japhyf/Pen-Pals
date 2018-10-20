@@ -19,8 +19,8 @@ def create_app(test_config=None):
         MAIL_SERVER='smtp.gmail.com',
         MAIL_PORT=465,
         MAIL_USE_SSL=True,
-        MAIL_USERNAME='penpalsmessenger@gmail.com',
-        MAIL_PASSWORD='CE96IZXHQA3p'
+        MAIL_USERNAME='12345ere6789@gmail.com',
+        MAIL_PASSWORD='y7&PZdV*dh90z&'
     )
 
     mail.init_app(app)
