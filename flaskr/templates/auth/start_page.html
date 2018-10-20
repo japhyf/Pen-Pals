@@ -31,7 +31,7 @@
                     <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span></h1>                  
 				</div>
                 <div class="row">
-					<div class="card large over hoverable horiz-center wow fadeInLeft">
+					<div id="main-card" class="card large over hoverable horiz-center">
 						<div class="card-tabs">
 							<ul class="tabs tabs-fixed-width secondary-color">
 								<li id="login-tab" class="active tab"><a class="white-text" href="#login">Login</a></li>
@@ -104,7 +104,8 @@
 									<div class="login-container">
 										<form id="login_form" method="post">
 											<div class = "col">
-												<span class="card-title black-text">Login</span>
+												<span id="login-header" class="card-title black-text">Login</span>
+												<span id="invalid-login" class="card-title red-text"><i class="error material-icons secondary-item-color">error</i> Invalid username or password </span>
 												<div class="input-field col m12">
 													<input id="loginUsername" type="email" name="loginEmail" class="login-text">
 													<label for="loginUsername">Email</label>
@@ -228,8 +229,19 @@
 <script type="text/javascript">
 function submit_login_form()
 {
-  form = document.forms['login_form'];
-   form.submit();
+	card = document.getElementById("main-card");
+	form = document.forms['login_form'];
+	if (form.elements['loginEmail'].value === '') {
+		$("#login-header").css("display", "none");
+		$("#invalid-login").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$("#main-card").removeClass('animated shake faster');
+			});
+	}
+	else {
+		$("#login_form").submit();
+	}
 }
 </script>
 <script> 
@@ -245,6 +257,8 @@ $(document).ready(function(){
 	$("#login-tab").click(function(){
         $("#register").attr('style', 'display: none');
 		$("#cont").animate({right: '0px'},1);
+		$("#login-header").css("display", "block");
+		$("#invalid-login").css("display", "none");
     });
 });
 

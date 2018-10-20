@@ -118,9 +118,13 @@ p {
 	color: var(--secondary-color);
 }
 
-/*.btn:hover, .btn-large:hover {
-    background-color: var(--primary-color);
-}*/
+.btn:hover, .btn-large:hover {
+    background-color: #ff8f91;
+}
+
+.btn:focus{
+	background-color: var(--secondary-color);
+}
 
 #bio-container{
 	background-color: white;
@@ -176,6 +180,7 @@ p {
  .horiz-center{
     margin: auto;
  }
+
  
  .tabs .indicator {
     background-color: white;
@@ -193,6 +198,14 @@ p {
 .login-text{
 	 color: black;
      width: 400px !important;
+ }
+ 
+ #invalid-login{
+	display: none;
+ }
+ 
+ .error{
+	margin-top: 5px;
  }
 
  
