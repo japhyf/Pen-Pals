@@ -1,0 +1,26 @@
+{
+  "name": "frog",
+  "version": "1.0.0",
+  "description": "the json package",
+  "main": "index.js",
+  "dependencies": {
+    "sendbird": "^3.0.83"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abteen/Pen-Pals.git"
+  },
+  "keywords": [
+    "frog"
+  ],
+  "author": "nick stull",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abteen/Pen-Pals/issues"
+  },
+  "homepage": "https://github.com/abteen/Pen-Pals#readme"
+}
