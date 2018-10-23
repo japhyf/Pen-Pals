@@ -42,10 +42,11 @@
 							<div id="register">
 								<div class="row">
 									<div class="login-container">
-										<form method="post">
+										<form id="register_form" method="post">
 											<div id="reg1" class="col">
 												<div id="regp1">
-													<span class="card-title black-text">Register</span>
+													<span id="reg-header" class="card-title black-text">Register</span>
+													<span id="reg_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
 													<div class="input-field col m12">
 														<input id="regEmail" type="email" name="regEmail" class="login-text">
 														<label for="regEmail">Email</label>
@@ -59,11 +60,13 @@
 														<label for="regPassword2">Repeat Password</label>
 													</div>
 												</div>
-												<button id="butt" class="btn waves-effect waves-light continue secondary-color" type="button" name="button">Continue</button>
+												<input id="reg_button" type="password" name="button" value="continue" style="display: none;">
+												<button id="butt" class="btn waves-effect waves-light continue secondary-color" type="button" name="button" onclick="reg_continue();">Continue</button>
 											</div>
 											<div id="reg2" class="col s1">
 												<div id="regp2">
-													<span class="card-title grey-text text-darken-4">Register<i id="close" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2" class="material-icons secondary-item-color">arrow_back</i></span>
 													<div class="row login-row">
 														<div class="input-field col">
 															<input id="first_name" type="text" name="first" class="validate">
@@ -92,7 +95,9 @@
 															<label for="address2">Address line 2 (Apartment, suite , unit, building, floor, etc.)</label>
 														</div>
 													</div>
-													<button class="btn waves-effect waves-light secondary-color" type="submit" name="button" value="Register">Register</button>
+													<div class="input-field col m12">
+														<button class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_register_form();" value="Register">Register</button>
+													</div>
 												</div>
 											</div>
 										</form>
@@ -105,7 +110,7 @@
 										<form id="login_form" method="post">
 											<div class = "col">
 												<span id="login-header" class="card-title black-text">Login</span>
-												<span id="invalid-email" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
+												<span id="login_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
 												<div class="input-field col m12">
 													<input id="loginUsername" type="email" name="loginEmail" class="login-text">
 													<label for="loginUsername">Email</label>
@@ -238,8 +243,8 @@ function submit_login_form()
 	if (!reg.test(email)) {
 		//if email isn't valid display error and shake the card
 		$("#login-header").css("display", "none");
-		$("#invalid-email").get(0).lastChild.nodeValue = (" Invalid email address");
-		$("#invalid-email").css("display", "block");
+		$("#login_error").get(0).lastChild.nodeValue = (" Invalid email address");
+		$("#login_error").css("display", "block");
 		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 			function() {
 				$("#main-card").removeClass('animated shake faster');
@@ -253,10 +258,10 @@ function submit_login_form()
             type: 'POST',
             success: function(response) {
                 //if the response isn't one of these two errors, it is the rendering of the home page
-				if (response === "Email address not it our system" || response === "Incorrect password") {
-					$("#invalid-email").get(0).lastChild.nodeValue = " " + response;
+				if (response === "Email address not in our system" || response === "Incorrect password") {
+					$("#login_error").get(0).lastChild.nodeValue = " " + response;
 					$("#login-header").css("display", "none");
-					$("#invalid-email").css("display", "block");
+					$("#login_error").css("display", "block");
 					$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 					function() {
 						$("#main-card").removeClass('animated shake faster');
@@ -274,21 +279,124 @@ function submit_login_form()
 	}
 }
 </script>
+<script type="text/javascript">
+function reg_continue()
+{
+	card = document.getElementById("main-card");
+	form = document.forms['register_form'];
+	email = form.elements['regEmail'].value;
+	password = form.elements['regPassword'].value;
+	password2 = form.elements['regPassword2'].value;
+	var reg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+	//check if email is valid
+	if (!reg.test(email)) {
+		//if email isn't valid display error and shake the card
+		$("#reg-header").css("display", "none");
+		$("#reg_error").get(0).lastChild.nodeValue = (" Invalid email address");
+		$("#reg_error").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$("#main-card").removeClass('animated shake faster');
+			});
+	}
+	else if (password != password2) {
+	$("#reg-header").css("display", "none");
+	$("#reg_error").get(0).lastChild.nodeValue = (" Passwords don't match");
+	$("#reg_error").css("display", "block");
+	$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+		function() {
+			$("#main-card").removeClass('animated shake faster');
+		});
+	}
+	else if (password === "") {
+	$("#reg-header").css("display", "none");
+	$("#reg_error").get(0).lastChild.nodeValue = (" Password fields empty");
+	$("#reg_error").css("display", "block");
+	$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+		function() {
+			$("#main-card").removeClass('animated shake faster');
+		});
+	}
+	else {
+		$.ajax({
+            url: '/auth/start_page',
+            data: $('#register_form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                //if the response isn't one of these two errors, it is the rendering of the home page
+				if (response === "Email address already exists in our system") {
+					$("#reg_error").get(0).lastChild.nodeValue = " Email address exists in our system";
+					$("#reg-header").css("display", "none");
+					$("#reg_error").css("display", "block");
+					$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+					function() {
+						$("#main-card").removeClass('animated shake faster');
+					});
+				}
+				//here we just send the approved login to get sent to the home page
+				else {
+					$("#reg_error2").css("display", "none");
+					$("#reg-header2").css("display", "block");
+					$("#cont").animate({right: '+=500px'},450);
+				}
+			},
+            error: function(error) {
+                console.log(error);
+            }
+        });
+
+	}
+}
+</script>
+<script type="text/javascript">
+function submit_register_form()
+{
+	card = document.getElementById("main-card");
+	form = document.forms['register_form'];
+	email = form.elements['regEmail'].value;
+	password = form.elements['regPassword'].value;
+	password2 = form.elements['regPassword2'].value;
+	first = form.elements['first'].value;
+	last = form.elements['last'].value;
+	username = form.elements['last'].value;
+	address1 = form.elements['address1'].value;
+	address2 = form.elements['address2'].value;
+	//check if email is valid
+	if (first === "" || last === "" || username === "" || address1 === "" || address2 === "") {
+		//if email isn't valid display error and shake the card
+		$("#reg-header2").css("display", "none");
+		$("#reg_error2").get(0).lastChild.nodeValue = (" empty field(s)");
+		$("#reg_error2").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$("#main-card").removeClass('animated shake faster');
+			});
+	}
+	else {
+		document.getElementById("reg_button").value = 'Register';
+		$("#register_form").submit();
+	}
+}
+</script>
 <script> 
 $(document).ready(function(){
     $('ul.tabs').tabs();
     $('ul.tabs').tabs('select_tab', 'tab_id');
-    $("#butt").click(function(){
-        $("#cont").animate({right: '+=500px'},450);
-    });
     $("#close").click(function(){
         $("#cont").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#close2").click(function(){
+        $("#cont").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
     });
 	$("#login-tab").click(function(){
         $("#register").attr('style', 'display: none');
 		$("#cont").animate({right: '0px'},1);
 		$("#login-header").css("display", "block");
-		$("#invalid-email").css("display", "none");
+		$("#login_error").css("display", "none");
     });
 });
 

@@ -200,10 +200,17 @@ p {
      width: 400px !important;
  }
  
- #invalid-email{
+ #login_error{
 	display: none;
  }
  
+ #reg_error{
+	display: none;
+ }
+ 
+  #reg_error2{
+	display: none;
+ }
  .error{
 	margin-top: 5px;
  }
@@ -256,6 +263,11 @@ footer.page-footer {
 
 #close{
     margin-left: 305px;
+    cursor:pointer;
+}
+
+#close2{
+    margin-left: 220px;
     cursor:pointer;
 }
 

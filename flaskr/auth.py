@@ -60,18 +60,30 @@ def register():
             if user is None:
                 error = 'Incorrect email.'
                 #display this message:
-                return "Email address not it our system";
+                return "Email address not in our system"
             
             #if the email exists but the password is wrong
             elif not check_password_hash(user['password'], loginPassword):
                 error = 'Incorrect password.'
-                return "Incorrect password";
+                return "Incorrect password"
             #if there is no error
             if error is None:
                 session.clear()
                 session['user_id'] = user['id']
                 return redirect(url_for('main.home'))
 
+            flash(error)
+        elif request.form["button"]=="continue":
+            email = request.form['regEmail']
+            user = db.execute(
+                'SELECT * FROM user WHERE email = ?', (email,)
+            ).fetchone()
+            #if the input email doesnt exist in our db
+            if user is None:
+                return "good"
+            else:
+                error = 'Incorrect password.'
+                return "Email address already exists in our system"
             flash(error)
         else:
             email = request.form['loginEmail']
