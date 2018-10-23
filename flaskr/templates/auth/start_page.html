@@ -258,7 +258,7 @@ function submit_login_form()
             type: 'POST',
             success: function(response) {
                 //if the response isn't one of these two errors, it is the rendering of the home page
-				if (response === "Email address not in our system" || response === "Incorrect password") {
+				if (response === "Email address is not in our system" || response === "Incorrect password") {
 					$("#login_error").get(0).lastChild.nodeValue = " " + response;
 					$("#login-header").css("display", "none");
 					$("#login_error").css("display", "block");
@@ -299,20 +299,22 @@ function reg_continue()
 				$("#main-card").removeClass('animated shake faster');
 			});
 	}
+	//check if passwords are identical
 	else if (password != password2) {
-	$("#reg-header").css("display", "none");
-	$("#reg_error").get(0).lastChild.nodeValue = (" Passwords don't match");
-	$("#reg_error").css("display", "block");
-	$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+		$("#reg-header").css("display", "none");
+		$("#reg_error").get(0).lastChild.nodeValue = (" Passwords don't match");
+		$("#reg_error").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 		function() {
 			$("#main-card").removeClass('animated shake faster');
 		});
 	}
+	//check if password fields are empty
 	else if (password === "") {
-	$("#reg-header").css("display", "none");
-	$("#reg_error").get(0).lastChild.nodeValue = (" Password fields empty");
-	$("#reg_error").css("display", "block");
-	$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+		$("#reg-header").css("display", "none");
+		$("#reg_error").get(0).lastChild.nodeValue = (" Password fields empty");
+		$("#reg_error").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 		function() {
 			$("#main-card").removeClass('animated shake faster');
 		});

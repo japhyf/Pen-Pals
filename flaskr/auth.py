@@ -60,7 +60,7 @@ def register():
             if user is None:
                 error = 'Incorrect email.'
                 #display this message:
-                return "Email address not in our system"
+                return "Email address is not in our system"
             
             #if the email exists but the password is wrong
             elif not check_password_hash(user['password'], loginPassword):
@@ -73,6 +73,7 @@ def register():
                 return redirect(url_for('main.home'))
 
             flash(error)
+        #this is to check if email exists on continue button press
         elif request.form["button"]=="continue":
             email = request.form['regEmail']
             user = db.execute(
@@ -85,24 +86,7 @@ def register():
                 error = 'Incorrect password.'
                 return "Email address already exists in our system"
             flash(error)
-        else:
-            email = request.form['loginEmail']
-            password = request.form['loginPassword']
-            user = db.execute(
-                'SELECT * FROM user WHERE email = ?', (email,)
-            ).fetchone()
-            return json.dumps({'status':'OK','user':email,'pass':password});
-            if user is None:
-                error = 'Incorrect email.'
-            elif not check_password_hash(user['password'], loginPassword):
-                error = 'Incorrect password.'
 
-            if error is None:
-                session.clear()
-                session['user_id'] = user['id']
-                return redirect(url_for('main.home'))
-
-            flash(error)
     #elif request.method == 'GET':
     #    email = request.args.get('email', '')
     #    password = request.args.get('password', '')
