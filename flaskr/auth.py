@@ -1,7 +1,7 @@
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, __main__
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, __main__, json
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -16,9 +16,9 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 #handles register and login on the start page
 @bp.route('/start_page', methods=('GET', 'POST'))
 def register():
+    db = get_db()
+    error = None
     if request.method == 'POST':
-        db = get_db()
-        error = None
         #if the register button is clicked load the register inputs
         if request.form["button"]=="Register":
             regEmail = request.form['regEmail']
@@ -50,13 +50,36 @@ def register():
                 return redirect(url_for('auth.db'))
             flash(error)
         #else if the login button is clicked load the login inputs
-        else:
+        elif request.form["button"]=="Login":
             loginEmail = request.form['loginEmail']
             loginPassword = request.form['loginPassword']
             user = db.execute(
                 'SELECT * FROM user WHERE email = ?', (loginEmail,)
             ).fetchone()
+            #if the input email doesnt exist in our db
+            if user is None:
+                error = 'Incorrect email.'
+                #display this message:
+                return "Email address not it our system";
+            
+            #if the email exists but the password is wrong
+            elif not check_password_hash(user['password'], loginPassword):
+                error = 'Incorrect password.'
+                return "Incorrect password";
+            #if there is no error
+            if error is None:
+                session.clear()
+                session['user_id'] = user['id']
+                return redirect(url_for('main.home'))
 
+            flash(error)
+        else:
+            email = request.form['loginEmail']
+            password = request.form['loginPassword']
+            user = db.execute(
+                'SELECT * FROM user WHERE email = ?', (email,)
+            ).fetchone()
+            return json.dumps({'status':'OK','user':email,'pass':password});
             if user is None:
                 error = 'Incorrect email.'
             elif not check_password_hash(user['password'], loginPassword):
@@ -68,9 +91,39 @@ def register():
                 return redirect(url_for('main.home'))
 
             flash(error)
-
+    #elif request.method == 'GET':
+    #    email = request.args.get('email', '')
+    #    password = request.args.get('password', '')
+    #    user = db.execute(
+    #        'SELECT * FROM user WHERE email = ?', (email,)
+    #    ).fetchone()
+    #
+    #    if user is None:
+    #        return "user doesn't exist"
+    #    elif not check_password_hash(user['password'], password):
+    #        return "password is incorrect"
+    #    else:
+    #        return "login correct"
+        
     return render_template('auth/start_page.html')
 
+@bp.route('/checkLogin', methods=['POST'])
+def checkLogin():
+    #db = get_db()
+    #error = None
+    #email =  request.form['email'];
+    #password = request.form['password'];
+    #user = db.execute(
+    #    'SELECT * FROM user WHERE email = ?', (email,)
+    #).fetchone()
+    return json.dumps({'status':'OK','user':email,'pass':password});
+    #if user is None:
+    #    return jsonify({ 'message': 'user doesnt exist' })
+    #elif not check_password_hash(user['password'], password):
+    #    return jsonify({ 'message': 'password is incorrect' })
+    #else:
+    #    return jsonify({ 'message': 'login is correct' })
+    
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')

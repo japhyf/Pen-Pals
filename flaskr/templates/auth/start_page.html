@@ -105,7 +105,7 @@
 										<form id="login_form" method="post">
 											<div class = "col">
 												<span id="login-header" class="card-title black-text">Login</span>
-												<span id="invalid-login" class="card-title red-text"><i class="error material-icons secondary-item-color">error_outline</i> Invalid username or password </span>
+												<span id="invalid-email" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
 												<div class="input-field col m12">
 													<input id="loginUsername" type="email" name="loginEmail" class="login-text">
 													<label for="loginUsername">Email</label>
@@ -116,7 +116,7 @@
 												</div>
                                                 <input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
 												<div class="input-field col m12">
-                                                    <button class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="login">Login</button>
+                                                    <button class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="Login">Login</button>
 												</div>
 											</div>
 										</form>  
@@ -233,16 +233,44 @@ function submit_login_form()
 	form = document.forms['login_form'];
 	var reg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 	email = form.elements['loginEmail'].value;
+	password = form.elements['loginPassword'].value;
+	//check if email is valid
 	if (!reg.test(email)) {
+		//if email isn't valid display error and shake the card
 		$("#login-header").css("display", "none");
-		$("#invalid-login").css("display", "block");
+		$("#invalid-email").get(0).lastChild.nodeValue = (" Invalid email address");
+		$("#invalid-email").css("display", "block");
 		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
 			function() {
 				$("#main-card").removeClass('animated shake faster');
 			});
 	}
+	//if email is valid, check if an account exists with specified email
 	else {
-		$("#login_form").submit();
+		$.ajax({
+            url: '/auth/start_page',
+            data: $('#login_form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                //if the response isn't one of these two errors, it is the rendering of the home page
+				if (response === "Email address not it our system" || response === "Incorrect password") {
+					$("#invalid-email").get(0).lastChild.nodeValue = " " + response;
+					$("#login-header").css("display", "none");
+					$("#invalid-email").css("display", "block");
+					$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+					function() {
+						$("#main-card").removeClass('animated shake faster');
+					});
+				}
+				//here we just send the approved login to get sent to the home page
+				else {
+					$("#login_form").submit();
+				}
+			},
+            error: function(error) {
+                console.log(error);
+            }
+        });
 	}
 }
 </script>
@@ -260,7 +288,7 @@ $(document).ready(function(){
         $("#register").attr('style', 'display: none');
 		$("#cont").animate({right: '0px'},1);
 		$("#login-header").css("display", "block");
-		$("#invalid-login").css("display", "none");
+		$("#invalid-email").css("display", "none");
     });
 });
 
