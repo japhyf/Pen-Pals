@@ -60,8 +60,8 @@
 														<label for="regPassword2">Repeat Password</label>
 													</div>
 												</div>
-												<input id="reg_button" type="password" name="button" value="continue" style="display: none;">
-												<button id="butt" class="btn waves-effect waves-light continue secondary-color" type="button" name="button" onclick="reg_continue();">Continue</button>
+												<input id="butt" type="password" name="button" value="continue" style="display: none;">
+												<button id="cont_button" class="btn waves-effect waves-light continue secondary-color" type="button" name="button" onclick="reg_continue();">Continue</button>
 											</div>
 											<div id="reg2" class="col s1">
 												<div id="regp2">
@@ -96,7 +96,7 @@
 														</div>
 													</div>
 													<div class="input-field col m12">
-														<button class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_register_form();" value="Register">Register</button>
+														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_register_form();" value="Register">Register</button>
 													</div>
 												</div>
 											</div>
@@ -121,7 +121,7 @@
 												</div>
                                                 <input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
 												<div class="input-field col m12">
-                                                    <button class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="Login">Login</button>
+                                                    <button id="login_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="Login">Login</button>
 												</div>
 											</div>
 										</form>  
@@ -375,7 +375,7 @@ function submit_register_form()
 			});
 	}
 	else {
-		document.getElementById("reg_button").value = 'Register';
+		document.getElementById("butt").value = 'Register';
 		$("#register_form").submit();
 	}
 }
@@ -399,6 +399,49 @@ $(document).ready(function(){
 		$("#cont").animate({right: '0px'},1);
 		$("#login-header").css("display", "block");
 		$("#login_error").css("display", "none");
+    });
+	//pressing return key with username/password field selected
+	$('#loginPassword').keypress(function(e){
+      if(e.keyCode==13)
+      $('#login_button').click();
+    });
+	$('#loginUsername').keypress(function(e){
+      if(e.keyCode==13)
+      $('#login_button').click();
+    });
+	//pressing return key with register email or password1/2 field selected
+	$('#regEmail').keypress(function(e){
+      if(e.keyCode==13)
+      $('#cont_button').click();
+    });
+	$('#regPassword').keypress(function(e){
+      if(e.keyCode==13)
+      $('#cont_button').click();
+    });
+	$('#regPassword2').keypress(function(e){
+      if(e.keyCode==13)
+      $('#cont_button').click();
+    });
+	//pressing return key with register first, last, username, address1 or address2 field selected
+	$('#first_name').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#last_name').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#username').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#address1').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#address2').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
     });
 });
 

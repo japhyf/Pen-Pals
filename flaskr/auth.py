@@ -13,6 +13,15 @@ from flask_mail import Mail, Message
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+@bp.route('/start_page')
+def start_page():
+    user_id = session.get('user_id')
+    if user_id is not None:
+        return redirect(url_for('main.home'))
+    else:
+        return render_template('auth/start_page.html')
+  
+
 #handles register and login on the start page
 @bp.route('/start_page', methods=('GET', 'POST'))
 def register():
@@ -102,23 +111,6 @@ def register():
     #        return "login correct"
         
     return render_template('auth/start_page.html')
-
-@bp.route('/checkLogin', methods=['POST'])
-def checkLogin():
-    #db = get_db()
-    #error = None
-    #email =  request.form['email'];
-    #password = request.form['password'];
-    #user = db.execute(
-    #    'SELECT * FROM user WHERE email = ?', (email,)
-    #).fetchone()
-    return json.dumps({'status':'OK','user':email,'pass':password});
-    #if user is None:
-    #    return jsonify({ 'message': 'user doesnt exist' })
-    #elif not check_password_hash(user['password'], password):
-    #    return jsonify({ 'message': 'password is incorrect' })
-    #else:
-    #    return jsonify({ 'message': 'login is correct' })
     
 @bp.before_app_request
 def load_logged_in_user():
@@ -163,14 +155,7 @@ def update_email():
         return redirect(url_for('auth.db'))
 
 
-@bp.route('/start_page')
-def start_page():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return redirect(url_for('main.home'))
-    else:
-        return render_template('auth/start_page.html')
-        
+      
 @bp.route('/start_page_old')
 def start_page_old():
     user_id = session.get('user_id')

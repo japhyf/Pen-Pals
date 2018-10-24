@@ -16,13 +16,14 @@ def home():
     db = get_db()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
-    user = db.execute(
-        'SELECT * FROM user WHERE id = ?', (user_id,)
-    ).fetchone()
-    user_details = {
-		'email': user['email'],
-    }
-    return render_template('main/home.html', user=user_details)
+    else:
+        user = db.execute(
+            'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
+        user_details = {
+            'email': user['email'],
+        }
+        return render_template('main/home.html', user=user_details)
 
 
 @bp.route('/create_bio')
