@@ -9,6 +9,20 @@ from flaskr.db import get_db
 
 bp = Blueprint('main', __name__, url_prefix='/main')
 
+@bp.route('/chat')
+def chat():
+    user_id = session.get('user_id')
+    db = get_db()
+    if user_id is None:
+        return redirect(url_for('auth.start_page'))
+    else:
+        user = db.execute(
+            'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
+        user_details = {
+            'email': user['email'],
+        }
+        return render_template('main/chatpage.html', user=user_details)
 
 @bp.route('/home')
 def home():
