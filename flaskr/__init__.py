@@ -4,14 +4,15 @@ from flask import Flask
 from flask_mail import Mail, Message
 
 
+
 def create_app(test_config=None):
     # create and configure the app
     mail = Mail()
-
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        SECURITY_PASSWORD_SALT='penpalsmf',
+        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite')
     )
 
     app.config.update(
@@ -45,14 +46,10 @@ def create_app(test_config=None):
 
     @app.route('/porn')
     def send():
+        recipient_list = ["thaygood@ucsc.edu", "nickfrog@gmail.com"]
         try:
-            msg = Message("someone visited the porn page :/", sender="12345ere6789@gmail.com", recipients=["nickfrog11@gmail.com"])
+            msg = Message("someone visited the porn page :/", sender="12345ere6789@gmail.com", bcc=recipient_list)
             msg.body = "u little fuck"
-            msg.add_recipient("aaebrahi@ucsc.edu")
-            msg.add_recipient("cdixonfe@ucsc.edu")
-            msg.add_recipient("jfrolick@ucsc.edu")
-            msg.add_recipient("thaygood@ucsc.edu")
-            msg.add_recipient("hbquique@gmail.com")
 
             mail.send(msg)
             return 'Mail sent'
@@ -60,6 +57,8 @@ def create_app(test_config=None):
 
         except Exception as e:
             return str(e)
+
+
 
     from . import db
     db.init_app(app)

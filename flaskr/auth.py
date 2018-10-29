@@ -8,6 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flaskr.db import get_db
 from flask_mail import Mail, Message
 
+from flaskr.token import generate_confirmation_token, confirm_token
 
 
 
@@ -46,6 +47,14 @@ def register():
             ).fetchone() is not None:
                 error = 'User {} is already registered.'.format(regEmail)
             if error is None:
+
+                token = generate_confirmation_token(regEmail)
+                confirm_url = url_for('auth.confirm_email', token=token, _external=True)
+                html = render_template('auth/activate.html', confirm_url=confirm_url)
+                subject = 'Welcome to Pen Pals! Please Confirm your email.'
+                sendVerification(regEmail, subject, html)
+
+
                 db.execute(
                     'INSERT INTO user (email, password, first, last, address_line1, address_line2, username) VALUES (?, ?, ?, ?, ?, ?, ?)',
                     (regEmail, generate_password_hash(regPassword), first, last, address1, address2, username)
@@ -154,6 +163,22 @@ def update_email():
         db.commit()
         return redirect(url_for('auth.db'))
 
+@bp.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    db = get_db()
+    if db.execute(
+                'SELECT id FROM user WHERE email = ?', (email,)
+            ).fetchone() is not None:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        db.execute('INSERT INTO user (verified) VALUES (TRUE)')
+        flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('main.home'))
+
 
       
 @bp.route('/start_page_old')
@@ -163,3 +188,15 @@ def start_page_old():
         return redirect(url_for('main.home'))
     else:
         return render_template('auth/start_page_old.html')
+
+
+
+def sendVerification(to, subject, template):
+    mail = Mail()
+    msg = Message(
+       subject,
+       recipients=[to],
+       html=template,
+       sender='penpalsmessenger@gmail.com'
+    )
+    mail.send(msg)

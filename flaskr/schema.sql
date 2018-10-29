@@ -10,5 +10,6 @@ CREATE TABLE user (
   address_line1 TEXT,
   address_line2 TEXT,
   username TEXT,
-  has TEXT
+  has TEXT,
+  verified BOOLEAN
 );
