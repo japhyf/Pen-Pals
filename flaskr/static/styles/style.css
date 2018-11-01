@@ -218,6 +218,10 @@ p {
  #desc-header{
 	padding-top: 30px;
  }
+ 
+ #upload-file{
+	width: 300px;
+ }
   
  #descr-field{
 	width: 400px;
@@ -279,12 +283,12 @@ footer.page-footer {
 }
 
 #close-home{
-    margin-left: 305px;
+    margin-left: 180px;
     cursor:pointer;
 }
 
-#close2-home{
-    margin-left: 220px;
+#close-home2{
+    margin-left: 140px;
     cursor:pointer;
 }
 
