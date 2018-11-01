@@ -227,6 +227,25 @@ p {
 	width: 400px;
  }
  
+ #descr_button{
+	margin-top: 240px;
+	margin-left: 300px;
+ }
+ 
+ #add{
+	margin-top: 140px;
+	margin-left: 170px;
+ }
+ 
+ #pic_button{
+	margin-top: 200px;
+	margin-left: 300px;
+ }
+ 
+  #file_button{
+	margin-top: 60px;
+ }
+ 
  #red-back{
 	 width: 100%;
  }
