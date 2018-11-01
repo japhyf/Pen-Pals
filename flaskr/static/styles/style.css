@@ -199,7 +199,7 @@ p {
 	 color: black;
      width: 400px !important;
  }
- 
+
  #login_error{
 	display: none;
  }
@@ -215,6 +215,13 @@ p {
 	margin-top: 5px;
  }
 
+ #desc-header{
+	padding-top: 30px;
+ }
+  
+ #descr-field{
+	width: 400px;
+ }
  
  #red-back{
 	 width: 100%;
@@ -271,6 +278,21 @@ footer.page-footer {
     cursor:pointer;
 }
 
+#close-home{
+    margin-left: 305px;
+    cursor:pointer;
+}
+
+#close2-home{
+    margin-left: 220px;
+    cursor:pointer;
+}
+
+#close3-home{
+    margin-left: 220px;
+    cursor:pointer;
+}
+
 .login-row-old{
     padding-top: 150px;
 }
@@ -305,6 +327,18 @@ footer.page-footer {
 	padding-top: 0px;
 }
 
+#cont-home{
+    position: relative !important;       
+    overflow: visible !important;
+	padding-top: 0px;
+	width: 100000px;
+}
+
+.larger{
+	width: 1000px;
+	height: 700px;
+}
+
 .register{
 	margin-left: 10px;
 }
@@ -325,6 +359,10 @@ footer.page-footer {
 }
 
 #reg2{
+    width: 500px;
+}
+
+#reg3{
     width: 500px;
 }
 

@@ -56,7 +56,7 @@ def register():
                 ).fetchone()
                 session.clear()
                 session['user_id'] = user['id']
-                return redirect(url_for('auth.db'))
+                return redirect(url_for('main.create_bio'))
             flash(error)
         #else if the login button is clicked load the login inputs
         elif request.form["button"]=="Login":
