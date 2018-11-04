@@ -1,20 +1,96 @@
 <!DOCTYPE html>
+<html lang="en">
 <html>
 
 <head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
   <title>chat</title>
 </head>
 
 <body>
 
-<h1 id='heading'>
-buttz
-</h1>
+  <h1 id='heading'>
+  buttz
+  </h1>
 
+  <script>
+  (function(t,a,l,k,j,s){
+  s=a.createElement('script');s.async=1;s.src="https://cdn.talkjs.com/talk.js";a.head.appendChild(s)
+  ;k=t.Promise;t.Talk={v:1,ready:{then:function(f){if(k)return new k(function(r,e){l.push([f,r,e])});l
+  .push([f])},catch:function(){return k&&new k()},c:l}};})(window,document,[]);
+  </script>
+
+  <!-- container element in which TalkJS will display a chat UI -->
+  <div id="talkjs-container" style="width: 90%; margin: 30px; height: 500px"><i>Loading chat...</i></div>
+
+  <!-- TalkJS initialization code, which we'll customize in the next steps -->
+  <script>
+
+  </script>
+
+  <script>
+
+  console.log("im being called");
+  var x = 'pepe';
+  var name;
+  var name2;
+  var email;
+  $.ajax({
+         url: '/main/chat',
+         data: '',
+         type: 'POST',
+         success: function(response) {
+           console.log(response);
+           var obj = JSON.parse(response);
+           email = obj[Object.keys(obj)[0]];
+           name = obj[Object.keys(obj)[1]];
+           name2 = obj[Object.keys(obj)[2]];
+           console.log(name);
+         },
+         error: function(error) {
+             console.log(error);
+         }
+     });
+
+  Talk.ready.then(function() {
+
+      var me = new Talk.User({
+          id: "123456",
+          name: name + " " + name2,
+          email: email,
+          photoUrl: "https://demo.talkjs.com/img/alice.jpg",
+          welcomeMessage: "Hey there! How are you? :-)"
+      });
+      window.talkSession = new Talk.Session({
+          appId: "t9L5OOAD",
+          me: me
+      });
+      var other = new Talk.User({
+          id: "654321",
+          name: name + " " + name2,
+          email: email,
+          photoUrl: "https://demo.talkjs.com/img/sebastian.jpg",
+          welcomeMessage: "Hey, how can I help?"
+      });
+
+      var conversation = talkSession.getOrCreateConversation(Talk.oneOnOneId(me, other))
+      conversation.setParticipant(me);
+      conversation.setParticipant(other);
+      var inbox = talkSession.createInbox({selected: conversation});
+      inbox.mount(document.getElementById("talkjs-container"));
+  });
+  </script>
 
 <button onclick="changetext();" type="button">change</button>
 
-<script type="text/javascript" src= "{{ url_for('static',filename='js/chat.js') }}"></script>
+<script type="text/javascript" src= "{{ url_for('static',filename='js/chat.js') }}">
+
+console.log("iba");
+
+</script>
+
+
 
 
 
