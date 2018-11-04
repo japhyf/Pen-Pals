@@ -1,7 +1,7 @@
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, json, jsonify
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -11,18 +11,43 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 
 @bp.route('/chat')
 def chat():
-    user_id = session.get('user_id')
-    db = get_db()
-    if user_id is None:
-        return redirect(url_for('auth.start_page'))
-    else:
-        user = db.execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
-        user_details = {
-            'email': user['email'],
-        }
-        return render_template('main/chatpage.html', user=user_details)
+    return render_template('main/chatpage.html')
+    #make sure user is logged in
+
+@bp.route('/chat', methods=('GET', 'POST'))
+def chat_post():
+    if request.method == 'POST':
+        user_id = session.get('user_id')
+        db = get_db()
+        if user_id is None:
+            return redirect(url_for('auth.start_page'))
+        else:
+            user = db.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
+            user_details = {
+                'email': user['email'],
+                'last': user['last'],
+                'first': user['first'],
+            }
+            y = json.dumps(user_details)
+#            jim = user['first'] + " " + user['last']
+
+#            a = user['email'] + user['first'] + user['last'];
+#            emailreturn = user['email'];
+#            firstreturn = user['first'];
+#            lastreturn = user['last'];
+            return jsonify(y)
+#        return emailreturn, firstreturn, lastreturn;
+
+#        regEmail = 'nstull@ucsc.edu'
+#        usertwo = db.execute(
+#            'SELECT * FROM user WHERE email = ?', (regEmail,)
+#        ).fetchone()
+#        usertwo_details = {
+#            'emailtwo': usertwo['email'],
+#            'lasttwo': usertwo['last'],
+#            'firsttwo': usertwo['first'],
+#        }
+
 
 @bp.route('/home')
 def home():
