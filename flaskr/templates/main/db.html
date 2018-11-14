@@ -23,44 +23,50 @@
  ------->
 <!-- Page introduction box -->
 <div class="row">
-<div class="col s2">
+<div class="col s1">
 <h4>email</h4>
 </div>
-<div class="col s2">
+<div class="col s1">
 <h4>username</h4>
 </div>
-<div class="col s2">
+<div class="col s1">
 <h4>first</h4>
 </div>
-<div class="col s2">
+<div class="col s1">
 <h4>last</h4>
 </div>
-<div class="col s2">
+<div class="col s1">
 <h4>address1</h4>
 </div>
-<div class="col s2">
+<div class="col s1">
 <h4>address2</h4>
+</div>
+<div class="col s1">
+<h4>genres</h4>
 </div>
 </div>
 {% for item in data %}
 <div class="row">
-<div class="col s2">
+<div class="col s1">
 <p>{{item.email}}</p>
 </div>
-<div class="col s2">
+<div class="col s1">
 <p>{{item.username}}</p>
 </div>
-<div class="col s2">
+<div class="col s1">
 <p>{{item.first}}</p>
 </div>
-<div class="col s2">
+<div class="col s1">
 <p>{{item.last}}</p>
 </div>
-<div class="col s2">
+<div class="col s1">
 <p>{{item.address_line1}}</p>
 </div>
-<div class="col s2">
+<div class="col s1">
 <p>{{item.address_line2}}</p>
+</div>
+<div class="col s1">
+<p>{{item.genres}}</p>
 </div>
 
 </div>
@@ -69,10 +75,11 @@
 <input id="email" type="email" class="validate" name="email">
 <button class="btn waves-effect waves-light" type="submit" name="button">new email</button>
 </form>
-	<a href="{{ url_for('auth.logout') }}">log out</a>
-    <a href="{{ url_for('main.bio') }}">View Bio</a>
-    <a href="{{ url_for('main.create_bio') }}">Create Bio</a>
+	<a href="{{url_for('auth.logout')}}">log out</a>
+    <a href="{{url_for('main.bio')}}">View Bio</a>
+    <a href="{{url_for('main.create_bio')}}">Create Bio</a>
     <a href="{{url_for('main.home')}}">Home</a>
+	<a href="{{url_for('main.search')}}">Search</a>
         
 <!-- Footer Section -->
 	<footer class="page-footer white">	

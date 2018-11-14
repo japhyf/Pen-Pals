@@ -1,7 +1,7 @@
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, json, jsonify
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -68,6 +68,125 @@ def create_bio():
         'username': username
     }
     return render_template('main/create_bio.html', user=user_details)
+    
+@bp.route('/create_bio', methods=('GET', 'POST'))
+def create_bio_submit():
+    user_id = session.get('user_id')
+    db = get_db()
+    error = None
+    if request.method == 'POST':
+        jsonGenres = json.loads(request.form['names'])
+        genreString = ' '
+        for x in jsonGenres:
+            genreString += ' '
+            genreString += jsonGenres[x]
+        sql = 'UPDATE user SET genres = ? WHERE id = ?'
+        val = (genreString,user_id)
+        db.execute(sql, val)
+        db.commit()
+                
+    return render_template('main/db.html')
+
+@bp.route('/search')
+def search():
+    user_id = session.get('user_id')
+    db = get_db()
+    if user_id is None:
+        return redirect(url_for('auth.start_page'))
+    user = db.execute(
+        'SELECT * FROM user WHERE id = ?', (user_id,)
+    ).fetchone()
+    if user['first'] is None:
+        first = ""
+    else:
+        first = user['first']
+    if user['email'] is None:
+        email = ""
+    else:
+        email = user['email']
+    if user['last'] is None:
+        last = ""
+    else:
+        last = user['last']
+    if user['address_line1'] is None:
+        address_line1 = ""
+    else:
+        address_line1 = user['address_line1']
+    if user['address_line2'] is None:
+        address_line2 = ""
+    else:
+        address_line2 = user['address_line2']
+    if user['username'] is None:
+        username = ""
+    else:
+        username = user['username']
+    user_details = {
+        'first': first,
+        'last': last,
+        'email': email,
+        'address1': address_line1,
+        'address2': address_line2,
+        'username': username
+    }
+    return render_template('main/search.html', user=user_details)
+    
+@bp.route('/search', methods=('GET', 'POST'))
+def search_results():
+    db = get_db()
+    error = None
+    if request.method == 'POST':
+
+        jsonGenres = json.loads(request.form['names'])
+        genres = []
+        for x in jsonGenres:
+            genres.append(jsonGenres[x])
+        str = '%' + genres[0] + '%'
+        user = db.execute(
+            'SELECT * FROM user WHERE genres LIKE ?', (str,)
+        ).fetchone()
+        if user is None:
+            user_details = {
+                'first' : 'error'
+            }
+            y = json.dumps(user_details)
+            return jsonify(y)
+        if user['first'] is None:
+            first = ""
+        else:
+            first = user['first']
+        if user['email'] is None:
+            email = ""
+        else:
+            email = user['email']
+        if user['last'] is None:
+            last = ""
+        else:
+            last = user['last']
+        if user['address_line1'] is None:
+            address_line1 = ""
+        else:
+            address_line1 = user['address_line1']
+        if user['address_line2'] is None:
+            address_line2 = ""
+        else:
+            address_line2 = user['address_line2']
+        if user['username'] is None:
+            username = ""
+        else:
+            username = user['username']
+        user_details = {
+            'first': first,
+            'last': last,
+            'email': email,
+            'address1': address_line1,
+            'address2': address_line2,
+            'username': username
+        }
+        y = json.dumps(user_details)
+        return jsonify(y)
+                
+    return render_template('main/search.html')
+    
 
 
 @bp.route('/bio')

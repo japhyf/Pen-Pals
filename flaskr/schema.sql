@@ -10,5 +10,9 @@ CREATE TABLE user (
   address_line1 TEXT,
   address_line2 TEXT,
   username TEXT,
-  has TEXT
+  has TEXT,
+  genres TEXT,
+  titles TEXT,
+  birthdate TEXT,
+  penpal TINYINT
 );

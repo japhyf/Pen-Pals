@@ -6,23 +6,19 @@
   <title>Pen Pals</title>
 
 
-  <!-- CSS -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/materialize.css') }}">
+    <!-- Compiled and minified CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-  <link rel="shortcut icon" href="#" />
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </head>
 <body>
- 
- <!-- Navigation Bar --
-	<ul>
-		<li><a class="active" href="index.html">Home</a></li>
-		<li><a href="#login">Login</a></li>
-		<li><a href="#contact">Contact</a></li>
-		<li><a href="#about">About</a></li>
-	</ul>
- ------->
-<!-- Page introduction box -->
 	<div id="start-container">
 		<div class="section no-pad-bot">
 			<div class="row">
@@ -43,7 +39,7 @@
 												<div id="regp1">
 													<span id="desc-header" class="card-title black-text">Add description</span>
 											<div class="input-field col s12">
-												<textarea id="descr-field" class="materialize-textarea"></textarea>
+												<textarea id="descr-field" class="materialize-textarea" length="10"></textarea>
 												<label for="descr-field">I love books...</label>
 											</div>
 												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
@@ -71,9 +67,9 @@
 												<div id="regp3">
 													<span id="desc-header" class="card-title grey-text text-darken-4">Add books to your profile<i id="close-home2" class="material-icons secondary-item-color">arrow_back</i></span>
 													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<i id="add" class="material-icons large secondary-item-color">add_box</i>
-													</div>
+													<div class="chips-autocomplete-genre-create"></div>
+													<button id="create-bio-submit-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_create_bio();">Submit</button>
+												</div>
 											</div>
 
 										</form>
@@ -83,113 +79,13 @@
 							
 						</div> 
 					</div>
-				
-				
-				
-				<!--
-					<div id="main-card" class="card large over hoverable horiz-center">
-
-						<div id="cont-home" class="card-content">
-							<div id="register">
-								<div class="row">
-								
-										<form id="register_form" method="post">
-											
-											<div id="reg1" class="col">
-												<div id="regp1">
-													<span id="desc-header" class="card-title black-text">Add description</span>
-											<div class="input-field col s12">
-												<textarea id="descr-field" class="materialize-textarea"></textarea>
-												<label for="descr-field">I love books...</label>
-											</div>
-											<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();" href="#pic">Next</button>
-											</div>
-											<div id="reg2" class="col">
-												<div id="regp2">
-													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<h2 class="home-text" id="type">No matches yet... you should recieve an email to</h2> 
-														<h2 class="secondary-item-color" >{{user.email}}</h2>
-														<h2 class="home-text" id="type"> when you get your first match, stay tuned!</h2>
-													</div>
-													<div class="input-field col m12">
-														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="reg_continue();" value="Register">Register</button>
-													</div>
-												</div>
-											</div>
-											<div id="reg3" class="col">
-												<div id="regp3">
-													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close3-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<div class="input-field col">
-															<input id="first_name" type="text" name="first" class="validate">
-															<label for="first_name">First Name</label>
-														</div>
-														<div class="input-field col">
-															<input id="last_name" type="text" name="last" class="validate">
-															<label for="last_name">Last Name</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col m12">
-															<input id="username" type="text" name="username" class="login-text">
-															<label for="username">Display Name</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col s12">
-															<input id="address1" type="text" name="address1">
-															<label for="address1">Address line 1 (Street address, P.O. box, company name)</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col s12">
-															<input id="address2" type="text" name="address2">
-															<label for="address2">Address line 2 (Apartment, suite , unit, building, floor, etc.)</label>
-														</div>
-													</div>
-													<div class="input-field col m12">
-														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_register_form();" value="Register">Register</button>
-													</div>
-												</div>
-											</div>
-
-										</form>
-									
-								</div>
-							</div>
-							<div id="login">
-								<div class="row">
-									<div class="login-container">
-										<form id="login_form" method="post">
-											<div class = "col">
-												<span id="login-header" class="card-title black-text">Login</span>
-												<span id="login_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
-												<div class="input-field col m12">
-													<input id="loginUsername" type="email" name="loginEmail" class="login-text">
-													<label for="loginUsername">Email</label>
-												</div>
-												<div class="input-field col m12">
-													<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">                                   
-													<label for="loginPassword">Password</label>
-												</div>
-                                                <input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
-												<div class="input-field col m12">
-                                                    <button id="login_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="Login">Login</button>
-												</div>
-											</div>
-										</form>  
-									</div>
-								</div>
-							</div>
-						</div> 
-					</div>-->
+	
 				</div>
 			</div>
+			
 		</div>
-	
+	</div>
+														
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
         
@@ -202,8 +98,6 @@
 
 
   <!--  Scripts-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/materialize.js') }}"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
   <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
 
@@ -212,10 +106,47 @@ function submit_descr()
 {
 	$("#cont-home").animate({right: '+=500px'},450);
 }
+
+function submit_create_bio()
+{
+	genres = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
+	names = {};
+	for (x in genres.chipsData) {
+		names[x] = genres.chipsData[x].tag
+	}
+	$.ajax({
+		url: '/main/create_bio',
+		data: {
+			'names' : JSON.stringify(names)
+		},
+		type: 'POST',
+		success: function(response) {
+
+		},
+		error: function(error) {
+			console.log(error);
+        }
+    });
+}
 </script>  
 
 <script> 
 $(document).ready(function(){
+
+	$('.chips-autocomplete-genre-create').chips({
+		secondaryPlaceholder: '+genre',
+		placeholder: 'Search by genre',
+		autocompleteOptions: {
+			data: {
+				'Mystery': null,
+				'Horror': null,
+				'Adventure': null,
+				'a@gmail.com' : null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+  });
 
 	M.textareaAutoResize($('#descr-field'));
 	$("#close-home").click(function(){
@@ -233,6 +164,7 @@ $(document).ready(function(){
 		$("#reg_error").css("display", "none");
 		$("#reg-header").css("display", "block");
     });
+	$('textarea#descr-field').characterCounter();
 });
 
 </script>

@@ -77,9 +77,86 @@ p {
     background-color: var(--primary-color);
 }
 
-.material-icons{
-    color: var(--secondary-color);
+#search-icon{
+	margin-top: 10px;
 }
+
+#age-text{
+	margin-bottom: 30px;
+}
+
+#age-default{
+	margin-top: 20px;
+}
+
+#slider{
+	margin-top: 10px;
+}
+
+#search-button{
+	margin-top: 10px;
+	width: 90px;
+	padding-left: 15px;
+}
+
+.result-card{
+	width: 200px;
+	height: 250px !important;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+ /* label focus color */
+   textarea.materialize-textarea:focus:not([readonly]){
+     border-bottom: 1px solid var(--primary-color) !important;
+     box-shadow: 0 1px 0 0 var(--primary-color) !important;
+}
+
+   textarea.materialize-textarea:focus:not([readonly])+label{
+    color: var(--carbon) !important;
+   }
+/* label underline focus color */
+   .input-field input:focus {
+     border-bottom: 1px solid var(--primary-color) !important;
+     box-shadow: 0 1px 0 0 var(--primary-color) !important;
+   }
+   
+    .input-field input:focus+label {
+     color: var(--carbon) !important;
+   }
+
+.chips-autocomplete-genre-create{
+	width: 380px;
+}
+
+.chips.focus{
+	border-bottom: 1px solid var(--primary-color) !important;
+    box-shadow: 0 1px 0 0 var(--primary-color) !important;
+}
+
+.dropdown-content li>span {
+    font-size: 16px;
+    color: black;
+    display: block;
+    line-height: 22px;
+    padding: 14px 16px;
+}
+   
+
+.search-card-container {
+    display: grid;
+    padding: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 1rem;
+}
+.search-card {
+    display: grid;
+}
+
+
+
+
+
 
 .icon-header{
     color: black;
@@ -411,6 +488,41 @@ footer.page-footer {
   transform: translate(-50%, -50%);
   white-space: nowrap;
 }
+
+.row{
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.noUi-connect {
+	background: var(--secondary-color);
+}
+.noUi-horizontal .noUi-handle, .noUi-vertical .noUi-handle {
+	background: var(--secondary-color);
+}
+.noUi-target.noUi-horizontal .noUi-tooltip {
+	background-color: var(--secondary-color);
+}
+
+/**** Custom styles for Range ****/
+input[type=range]::-webkit-slider-thumb {
+  background-color: skyblue;
+}
+input[type=range]::-moz-range-thumb {
+  background-color: skyblue;
+}
+input[type=range]::-ms-thumb {
+  background-color: skyblue;
+}
+/* For the globe and the text inside */
+input[type=range] + .thumb {
+  background-color: blue;
+}
+input[type=range] + .thumb.active .value {
+  color: #fff;
+}
+
+
 
 
 
