@@ -75,13 +75,14 @@ def create_bio_submit():
     db = get_db()
     error = None
     if request.method == 'POST':
-        jsonGenres = json.loads(request.form['names'])
+        jsonGenres = json.loads(request.form['genres'])
+        jsonDesc = request.form['desc']
         genreString = ' '
         for x in jsonGenres:
             genreString += ' '
             genreString += jsonGenres[x]
-        sql = 'UPDATE user SET genres = ? WHERE id = ?'
-        val = (genreString,user_id)
+        sql = 'UPDATE user SET genres = ?, description = ? WHERE id = ?'
+        val = (genreString, jsonDesc, user_id)
         db.execute(sql, val)
         db.commit()
                 
@@ -135,58 +136,25 @@ def search_results():
     db = get_db()
     error = None
     if request.method == 'POST':
-
         jsonGenres = json.loads(request.form['names'])
         genres = []
         for x in jsonGenres:
             genres.append(jsonGenres[x])
-        str = '%' + genres[0] + '%'
-        user = db.execute(
-            'SELECT * FROM user WHERE genres LIKE ?', (str,)
-        ).fetchone()
-        if user is None:
-            user_details = {
-                'first' : 'error'
-            }
-            y = json.dumps(user_details)
-            return jsonify(y)
-        if user['first'] is None:
-            first = ""
-        else:
-            first = user['first']
-        if user['email'] is None:
-            email = ""
-        else:
-            email = user['email']
-        if user['last'] is None:
-            last = ""
-        else:
-            last = user['last']
-        if user['address_line1'] is None:
-            address_line1 = ""
-        else:
-            address_line1 = user['address_line1']
-        if user['address_line2'] is None:
-            address_line2 = ""
-        else:
-            address_line2 = user['address_line2']
-        if user['username'] is None:
-            username = ""
-        else:
-            username = user['username']
-        user_details = {
-            'first': first,
-            'last': last,
-            'email': email,
-            'address1': address_line1,
-            'address2': address_line2,
-            'username': username
-        }
-        y = json.dumps(user_details)
+        full_users = {}
+        for i in genres:
+            str = '%' + i + '%'
+            users = db.execute(
+                'SELECT * FROM user WHERE genres LIKE ?', (str,)
+            ).fetchall()
+            cursor = db.execute('select * from user')
+            header = [x[0] for x in cursor.description]
+            users_obj = {}
+            for user in users:
+                users_obj[user["id"]] = dict(zip(header,user))
+            full_users.update(users_obj)
+        y = json.dumps(full_users)
         return jsonify(y)
-                
     return render_template('main/search.html')
-    
 
 
 @bp.route('/bio')

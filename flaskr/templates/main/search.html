@@ -42,67 +42,9 @@
 	</div>
     <div class="col s10" >
 		<div class="row">
+			<section class="search-card-container" id="search-container">
 
-		<section class="search-card-container" id="search-container">
-
-	
-	
-	<article class="card search-card">
-
-        <figure class="card__thumbnail">
-            <img src="https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg" width="50%" >
-        </figure>
-		<header class="card__title">
-            <h3>Hello World</h3>
-        </header>
-        <main class="card__description">
-            Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun
-        </main>
-        <a href="#" class="button">Call to Action</a>
-
-    </article>
-	<article class="card search-card">
-
-        <figure class="card__thumbnail">
-            <img src="https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg" width="50%" >
-        </figure>
-		<header class="card__title">
-            <h3>Hello World</h3>
-        </header>
-        <main class="card__description">
-            Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun
-        </main>
-        <a href="#" class="button">Call to Action</a>
-
-    </article>
-	<article class="card search-card">
-
-        <figure class="card__thumbnail">
-            <img src="https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg" width="50%" >
-        </figure>
-		<header class="card__title">
-            <h3>Hello World</h3>
-        </header>
-        <main class="card__description">
-            Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun
-        </main>
-        <a href="#" class="button">Call to Action</a>
-
-    </article>
-	<article class="card search-card">
-
-        <figure class="card__thumbnail">
-            <img src="https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg" width="50%" >
-        </figure>
-
-
-    </article>
-	
-
-</section>
-		
-		
-		
+			</section>
 		</div>
 		
 	</div>
@@ -128,20 +70,8 @@
 <script type="text/javascript">
 function search(){
 	var cards = $();
-	/*var data = [
-    { "Name": "Peter", "Job": "Programmer" },
-    { "Name": "John", "Job": "Programmer" },
-    { "Name": "Kevin", "Job": "Scientist" },
-	];
-	data.forEach(function(item) {
-  cards = cards.add(createCard(item));
-});
-	$('#search-container').append(cards);*/
 	genres = M.Chips.getInstance($('.chips-autocomplete-genre'));
-	//alert(genres.chipsData[0].tag);
-	
 
-	
 	names = {};
 	for (x in genres.chipsData) {
 		names[x] = genres.chipsData[x].tag
@@ -153,18 +83,12 @@ function search(){
 		},
 		type: 'POST',
 		success: function(response) {
+			$("#search-container").html("");
 			var obj = JSON.parse(response);				
-			/*for (x in obj) {
-				alert(obj[x])
+			for (userIndex in obj) {
+				user = obj[userIndex]
+				cards = cards.add(createCard(user));
 			}
-			for (x in obj.genres) {
-				cards = cards.add(createCard(obj.genres[x]));		
-				alert(obj.genres[x]);
-			}*/
-			cards = cards.add(createCard(obj));
-			/*obj.genres.forEach(function(item) {
-				cards = cards.add(createCard(item));
-			});*/
 			$('#search-container').append(cards);
 		},
 		error: function(error) {
@@ -241,7 +165,27 @@ $(document).ready(function(){
 		}
 	});
 });
+
+
+/*    
+        jsonGenres = json.loads(request.form['names'])
+        genres = []
+        for x in jsonGenres:
+            genres.append(jsonGenres[x])
+        str = '%' + genres[0] + '%'
+        users = db.execute(
+            'SELECT * FROM user WHERE genres LIKE ?', (str,)
+        ).fetchall()
+        cursor = db.execute('select * from user')
+        header = [x[0] for x in cursor.description]
+        users_obj = {}
+        for user in users:
+            users_obj[user["id"]] = dict(zip(header,user))
+        y = json.dumps(users_obj)
+        return jsonify(y)
+*/
 </script>
+
 
 
 

@@ -39,7 +39,7 @@
 												<div id="regp1">
 													<span id="desc-header" class="card-title black-text">Add description</span>
 											<div class="input-field col s12">
-												<textarea id="descr-field" class="materialize-textarea" length="10"></textarea>
+												<textarea id="descr-field" class="materialize-textarea" name="desc" length="10"></textarea>
 												<label for="descr-field">I love books...</label>
 											</div>
 												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
@@ -85,7 +85,6 @@
 			
 		</div>
 	</div>
-														
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
         
@@ -111,13 +110,15 @@ function submit_create_bio()
 {
 	genres = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
 	names = {};
+	desc =  document.getElementById('descr-field').value;
 	for (x in genres.chipsData) {
 		names[x] = genres.chipsData[x].tag
 	}
 	$.ajax({
 		url: '/main/create_bio',
 		data: {
-			'names' : JSON.stringify(names)
+			'genres' : JSON.stringify(names),
+			'desc'   : desc
 		},
 		type: 'POST',
 		success: function(response) {
