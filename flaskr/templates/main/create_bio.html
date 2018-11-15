@@ -3,19 +3,22 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="referrer" content="no-referrer"/>
   <title>Pen Pals</title>
 
 
     <!-- Compiled and minified CSS -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
-  <link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
 
   <!-- Compiled and minified JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 
 </head>
 <body>
@@ -39,7 +42,7 @@
 												<div id="regp1">
 													<span id="desc-header" class="card-title black-text">Add description</span>
 											<div class="input-field col s12">
-												<textarea id="descr-field" class="materialize-textarea" name="desc" length="10"></textarea>
+												<textarea id="descr-field" class="materialize-textarea" name="desc" data-length="50"></textarea>
 												<label for="descr-field">I love books...</label>
 											</div>
 												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
@@ -49,15 +52,11 @@
 												<div id="regp2">
 													<span id="desc-header" class="card-title grey-text text-darken-4">Choose profile picture<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
 													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div id="file_button" class="file-field input-field">
-													  <div class="btn waves-effect waves-light secondary-color">
-														<span>File</span>
-														<input type="file">
-													  </div>
-													  <div class="file-path-wrapper">
-														<input id="upload-file" class="file-path validate" type="text">
-													  </div>
-													</div>
+
+														<div class="dropzone">
+															<div class="image-info"></div>
+														</div>
+														<div class="img"></div>
 													<div class="input-field col m12">
 														<button id="pic_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();" value="Register">Next</button>
 													</div>
@@ -68,6 +67,7 @@
 													<span id="desc-header" class="card-title grey-text text-darken-4">Add books to your profile<i id="close-home2" class="material-icons secondary-item-color">arrow_back</i></span>
 													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
 													<div class="chips-autocomplete-genre-create"></div>
+													<div class="chips-autocomplete-title-create"></div>
 													<button id="create-bio-submit-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_create_bio();">Submit</button>
 												</div>
 											</div>
@@ -85,44 +85,77 @@
 			
 		</div>
 	</div>
+
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
+	<textarea id="pic" class="test hidden"></textarea>
         
 <!-- Footer Section -->
 	<footer class="page-footer white">	
 		<div class="footer-copyright">
-			<p id="copyright">copyrighted mother effers</p>
+			<p class="copyright" id="copyright">copyrighted mother effers</p>
 		</div>
 	</footer>
 
 
   <!--  Scripts-->
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/imgur.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/upload.js') }}"></script>
+
 
 <script type="text/javascript">
 function submit_descr()
 {
-	$("#cont-home").animate({right: '+=500px'},450);
+	desc = document.getElementById('descr-field').value;
+	if(desc.length > 50){
+		$("#create-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$("#create-card").removeClass('animated shake faster');
+			});
+	}
+	else{
+		$("#cont-home").animate({right: '+=500px'},450);
+	}
 }
 
 function submit_create_bio()
 {
-	genres = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
-	names = {};
-	desc =  document.getElementById('descr-field').value;
-	for (x in genres.chipsData) {
-		names[x] = genres.chipsData[x].tag
+	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
+	genres = {};
+
+	for (x in genreTags.chipsData) {
+		if(x > 0) {
+			genres[x] = ', ' + genreTags.chipsData[x].tag;
+		}
+		else{
+			genres[x] = genreTags.chipsData[x].tag;
+		}
 	}
+	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
+	titles = {};
+	for (x in titleTags.chipsData) {
+		if(x > 0) {
+			titles[x] = ', ' + titleTags.chipsData[x].tag;
+		}
+		else{
+			titles[x] = titleTags.chipsData[x].tag;
+		}
+	}
+	desc = document.getElementById('descr-field').value;
+	pic_url = document.getElementById('pic').value;
 	$.ajax({
 		url: '/main/create_bio',
 		data: {
-			'genres' : JSON.stringify(names),
-			'desc'   : desc
+			'genres' : JSON.stringify(genres),
+			'titles' : JSON.stringify(titles),
+			'desc'   : desc,
+			'pic'    : pic_url
 		},
 		type: 'POST',
 		success: function(response) {
-
+			window.location.href='/main/search';
 		},
 		error: function(error) {
 			console.log(error);
@@ -136,13 +169,26 @@ $(document).ready(function(){
 
 	$('.chips-autocomplete-genre-create').chips({
 		secondaryPlaceholder: '+genre',
-		placeholder: 'Search by genre',
+		placeholder: 'Add your favroite genres',
 		autocompleteOptions: {
 			data: {
 				'Mystery': null,
 				'Horror': null,
-				'Adventure': null,
-				'a@gmail.com' : null
+				'Adventure': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+  });
+  
+  	$('.chips-autocomplete-title-create').chips({
+		secondaryPlaceholder: '+title',
+		placeholder: 'Add your favorite book titles',
+		autocompleteOptions: {
+			data: {
+				'Catcher in the rye': null,
+				'50 Shades of Nut': null,
+				'The Hangover Part 2': null
 			},
 			limit: Infinity,
 			minLength: 1

@@ -129,6 +129,14 @@ p {
 	width: 380px;
 }
 
+.chips-autocomplete-title-create{
+	width: 380px;
+}
+
+.chips .input{
+	width: 300px !important;
+}
+
 .chips.focus{
 	border-bottom: 1px solid var(--primary-color) !important;
     box-shadow: 0 1px 0 0 var(--primary-color) !important;
@@ -153,7 +161,18 @@ p {
     display: grid;
 }
 
+.favorite-books{
+	float: right;
+}
 
+.character-counter{
+	float: none !important;
+}
+
+textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:focus, .select-wrapper.invalid>input.select-dropdown {
+    border-bottom: 1px solid #F44336 !important;
+    box-shadow: 0 1px 0 0 #F44336 !important;
+}
 
 
 
@@ -315,7 +334,7 @@ p {
  }
  
  #pic_button{
-	margin-top: 200px;
+	margin-top: 60px;
 	margin-left: 300px;
  }
  
@@ -520,6 +539,104 @@ input[type=range] + .thumb {
 }
 input[type=range] + .thumb.active .value {
   color: #fff;
+}
+
+@charset "UTF-8";
+
+/* Imgur Upload Style */
+
+body.loading .loading-modal {
+    display: block
+}
+
+.title {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.dropzone {
+    border: 4px dashed #ccc;
+    height: 200px;
+    position: relative;
+    margin-right: auto;
+    margin-left: 100px;
+	margin-top: 60px;
+    max-width: 50%;
+}
+
+.dropzone p {
+    /*height: 100%;*/
+    /*line-height: 200px;*/
+    margin: 0%;
+    text-align: center;
+    width: 100%
+}
+
+.file-input {
+    height: 100%;
+    left: 0;
+    outline: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%
+}
+
+.status {
+    border-radius: 5px;
+    text-align: center;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.image-url {
+    width: 50%;
+}
+
+.dropzone.dropzone-dragging {
+    border-color: #000
+}
+
+.loading-modal {
+    background-color: rgba(255, 255, 255, .8);
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%
+}
+
+.loading-image{
+	width: 20px;
+	height: 40px;
+	margin-left: 650px;
+    margin-top: 200px;
+}
+.loading-table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    margin-bottom: 15%;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.img {
+    width: 50%;
+}
+
+.image-info {
+    margin-top: 60px;
+}
+
+.hidden{
+	display: none;
 }
 
 

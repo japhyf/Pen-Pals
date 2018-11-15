@@ -3,6 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="referrer" content="no-referrer"/>
   <title>Pen Pals</title>
 
 
@@ -43,7 +44,7 @@
     <div class="col s10" >
 		<div class="row">
 			<section class="search-card-container" id="search-container">
-
+				
 			</section>
 		</div>
 		
@@ -64,22 +65,28 @@
 	</footer>
 
 
-  <!--  Scripts-->
+  <!--Scripts-->
 
   </body>
 <script type="text/javascript">
 function search(){
 	var cards = $();
-	genres = M.Chips.getInstance($('.chips-autocomplete-genre'));
-
-	names = {};
-	for (x in genres.chipsData) {
-		names[x] = genres.chipsData[x].tag
+	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre'));
+	genres = {};
+	for (x in genreTags.chipsData) {
+		genres[x] = genreTags.chipsData[x].tag
 	}
+	titleTags = M.Chips.getInstance($('.chips-autocomplete-book'));
+	titles = {};
+	for (x in titleTags.chipsData) {
+		titles[x] = titleTags.chipsData[x].tag
+	}
+	
 	$.ajax({
 		url: '/main/search',
 		data: {
-			'names' : JSON.stringify(names)
+			'genres' : JSON.stringify(genres),
+			'titles' : JSON.stringify(titles)
 		},
 		type: 'POST',
 		success: function(response) {
@@ -98,11 +105,24 @@ function search(){
 }
 
 function createCard(cardData) {
-  var cardTemplate = [
+  
+var cardTemplate = [
     '<article class="card search-card">',
     '<figure class="card__thumbnail">',
-    '<img src="https://amp.businessinsider.com/images/5899ffcf6e09a897008b5c04-750-750.jpg" width="50%" >',
-    '</figure>',
+    '<img src="',
+	cardData.picture,
+	'" width="130px" >',
+	'<div class="favorite-books">',
+    '<h6 class="bold">Favorite books:</h6>',
+	'<h6>',
+	cardData.titles,
+	'</h6>',
+	'<h6 class="bold">Favorite genres:</h6>',
+	'<h6>',
+	cardData.genres,
+	'</h6>',
+	'</div>',
+	'</figure>',
 	'<header class="card__title">',
     '<h3>',
 	cardData.first + " ",
@@ -110,7 +130,7 @@ function createCard(cardData) {
 	'</h3>',
     '</header>',
     '<main class="card__description">',
-    'Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun Lorem Ipsum dolor amet sun',
+    cardData.description,
     '</main>',
     '</article>'
   ];

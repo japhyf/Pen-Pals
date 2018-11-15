@@ -76,13 +76,19 @@ def create_bio_submit():
     error = None
     if request.method == 'POST':
         jsonGenres = json.loads(request.form['genres'])
-        jsonDesc = request.form['desc']
+        jsonTitles = json.loads(request.form['titles'])
+        desc = request.form['desc']
+        pic_url = request.form['pic']
         genreString = ' '
         for x in jsonGenres:
             genreString += ' '
             genreString += jsonGenres[x]
-        sql = 'UPDATE user SET genres = ?, description = ? WHERE id = ?'
-        val = (genreString, jsonDesc, user_id)
+        titleString = ' '
+        for x in jsonTitles:
+            titleString += ' '
+            titleString += jsonTitles[x]
+        sql = 'UPDATE user SET genres = ?, titles = ?, picture = ?, description = ? WHERE id = ?'
+        val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)
         db.commit()
                 
@@ -136,7 +142,7 @@ def search_results():
     db = get_db()
     error = None
     if request.method == 'POST':
-        jsonGenres = json.loads(request.form['names'])
+        jsonGenres = json.loads(request.form['genres'])
         genres = []
         for x in jsonGenres:
             genres.append(jsonGenres[x])
@@ -145,6 +151,21 @@ def search_results():
             str = '%' + i + '%'
             users = db.execute(
                 'SELECT * FROM user WHERE genres LIKE ?', (str,)
+            ).fetchall()
+            cursor = db.execute('select * from user')
+            header = [x[0] for x in cursor.description]
+            users_obj = {}
+            for user in users:
+                users_obj[user["id"]] = dict(zip(header,user))
+            full_users.update(users_obj)
+        jsonTitles = json.loads(request.form['titles'])
+        titles = []
+        for x in jsonTitles:
+            titles.append(jsonTitles[x])
+        for i in titles:
+            str = '%' + i + '%'
+            users = db.execute(
+                'SELECT * FROM user WHERE titles LIKE ?', (str,)
             ).fetchall()
             cursor = db.execute('select * from user')
             header = [x[0] for x in cursor.description]
