@@ -23,19 +23,24 @@ def chat_post():
             return redirect(url_for('auth.start_page'))
         else:
             user = db.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
+            user2 = db.execute('SELECT * FROM user WHERE email = ?', ('fugg@fugg',)).fetchone()
             user_details = {
                 'email': user['email'],
                 'last': user['last'],
                 'first': user['first'],
+                'email2': user2['email'],
+                'last2': user2['last'],
+                'first2': user2['first'],
             }
             y = json.dumps(user_details)
+            return jsonify(y)
 #            jim = user['first'] + " " + user['last']
 
 #            a = user['email'] + user['first'] + user['last'];
 #            emailreturn = user['email'];
 #            firstreturn = user['first'];
 #            lastreturn = user['last'];
-            return jsonify(y)
+
 #        return emailreturn, firstreturn, lastreturn;
 
 #        regEmail = 'nstull@ucsc.edu'

@@ -44,8 +44,11 @@
            console.log(response);
            var obj = JSON.parse(response);
            email = obj[Object.keys(obj)[0]];
-           name = obj[Object.keys(obj)[1]];
-           name2 = obj[Object.keys(obj)[2]];
+           name = obj[Object.keys(obj)[2]];
+           name2 = obj[Object.keys(obj)[4]];
+           emailreciver = obj[Object.keys(obj)[1]];
+           namereciver = obj[Object.keys(obj)[3]];
+           name2reciver = obj[Object.keys(obj)[5]];
            console.log(name);
          },
          error: function(error) {
@@ -68,10 +71,10 @@
       });
       var other = new Talk.User({
           id: "654321",
-          name: name + " " + name2,
-          email: email,
+          name: namereciver + " " + name2reciver,
+          email: emailreciver,
           photoUrl: "https://demo.talkjs.com/img/sebastian.jpg",
-          welcomeMessage: "Hey, how can I help?"
+          welcomeMessage: "hey its me ur best friend"
       });
 
       var conversation = talkSession.getOrCreateConversation(Talk.oneOnOneId(me, other))
