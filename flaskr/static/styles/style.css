@@ -156,10 +156,31 @@ p {
     padding: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-gap: 1rem;
+	background-color: var(--primary-color);
+	min-height: 550px;
 }
+
 .search-card {
     display: grid;
 }
+
+.search-card-name{
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 50px !important;
+}
+
+.card__description{
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 30px !important;
+}
+
+.search-card-opt{
+	margin-left: 210px;
+	margin-top: 10px;
+}
+
 
 .favorite-books{
 	float: right;
@@ -629,6 +650,19 @@ body.loading .loading-modal {
 
 .img {
     width: 50%;
+}
+
+.search-img{
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 .image-info {

@@ -106,12 +106,13 @@ function search(){
 
 function createCard(cardData) {
   
-var cardTemplate = [
+/*var cardTemplate = [
     '<article class="card search-card">',
     '<figure class="card__thumbnail">',
     '<img src="',
 	cardData.picture,
 	'" width="130px" >',
+		'</figure>',
 	'<div class="favorite-books">',
     '<h6 class="bold">Favorite books:</h6>',
 	'<h6>',
@@ -122,7 +123,7 @@ var cardTemplate = [
 	cardData.genres,
 	'</h6>',
 	'</div>',
-	'</figure>',
+
 	'<header class="card__title">',
     '<h3>',
 	cardData.first + " ",
@@ -132,6 +133,39 @@ var cardTemplate = [
     '<main class="card__description">',
     cardData.description,
     '</main>',
+    '</article>'
+  ];
+*/
+
+var cardTemplate = [
+    '<article class="card search-card">',
+    '<div class="search-img activator" style="background-image:url(\'',
+	cardData.picture,
+	'\')">',
+	'<i class="activator material-icons search-card-opt">more_vert</i>',
+	'</div>',
+
+	'<span class="card-title search-card-name activator grey-text text-darken-4">',
+	cardData.first + " ",
+	cardData.last,
+	'</span>',
+    '<main class="card__description">',
+    cardData.description,
+    '</main>',
+	
+	'<div class="card-reveal">',
+    '<span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span>',
+	'<div class="favorite-books">',
+    '<h6 class="bold">Favorite books:</h6>',
+	'<h6>',
+	cardData.titles,
+	'</h6>',
+	'<h6 class="bold">Favorite genres:</h6>',
+	'<h6>',
+	cardData.genres,
+	'</h6>',
+	'</div>',
+    '</div>',
     '</article>'
   ];
 

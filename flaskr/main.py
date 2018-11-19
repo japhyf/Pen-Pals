@@ -20,6 +20,8 @@ def home():
         user = db.execute(
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
+        if user is None:
+            return redirect(url_for('auth.start_page'))
         user_details = {
             'email': user['email'],
         }
@@ -75,18 +77,20 @@ def create_bio_submit():
     db = get_db()
     error = None
     if request.method == 'POST':
-        jsonGenres = json.loads(request.form['genres'])
-        jsonTitles = json.loads(request.form['titles'])
+        #jsonGenres = json.loads(request.form['genres'])
+        #jsonTitles = json.loads(request.form['titles'])
+        genreString = request.form['genres']
+        titleString = request.form['titles']
         desc = request.form['desc']
         pic_url = request.form['pic']
-        genreString = ' '
-        for x in jsonGenres:
-            genreString += ' '
-            genreString += jsonGenres[x]
-        titleString = ' '
-        for x in jsonTitles:
-            titleString += ' '
-            titleString += jsonTitles[x]
+        #genreString = ' '
+        #for x in jsonGenres:
+        #    genreString += ' '
+        #    genreString += jsonGenres[x]
+        #titleString = ' '
+        #for x in jsonTitles:
+        #    titleString += ' '
+        #    titleString += jsonTitles[x]
         sql = 'UPDATE user SET genres = ?, titles = ?, picture = ?, description = ? WHERE id = ?'
         val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)

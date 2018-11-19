@@ -123,24 +123,23 @@ function submit_descr()
 function submit_create_bio()
 {
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
-	genres = {};
-
+	genreString = ' ';
 	for (x in genreTags.chipsData) {
 		if(x > 0) {
-			genres[x] = ', ' + genreTags.chipsData[x].tag;
+			genreString = genreString + ', ' + genreTags.chipsData[x].tag;
 		}
-		else{
-			genres[x] = genreTags.chipsData[x].tag;
+		else {
+			genreString = genreTags.chipsData[x].tag;
 		}
 	}
 	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
-	titles = {};
+	titleString = ' ';
 	for (x in titleTags.chipsData) {
 		if(x > 0) {
-			titles[x] = ', ' + titleTags.chipsData[x].tag;
+			titleString = titleString + ', ' + titleTags.chipsData[x].tag;
 		}
 		else{
-			titles[x] = titleTags.chipsData[x].tag;
+			titleString = titleTags.chipsData[x].tag;
 		}
 	}
 	desc = document.getElementById('descr-field').value;
@@ -148,8 +147,8 @@ function submit_create_bio()
 	$.ajax({
 		url: '/main/create_bio',
 		data: {
-			'genres' : JSON.stringify(genres),
-			'titles' : JSON.stringify(titles),
+			'genres' : genreString,
+			'titles' : titleString,
 			'desc'   : desc,
 			'pic'    : pic_url
 		},
