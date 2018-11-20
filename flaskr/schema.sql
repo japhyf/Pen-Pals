@@ -18,4 +18,13 @@ CREATE TABLE user (
   picture TEXT
 );
 
+CREATE TABLE total_msg (
+  identifier VARCHAR(101),
+  total_messages INT
+);
 
+CREATE TABLE messages (
+  identifier_msg_nmbr VARCHAR(120),
+  message TEXT,
+  sender VARCHAR(50)
+);

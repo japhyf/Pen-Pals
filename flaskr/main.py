@@ -17,6 +17,7 @@ def home():
     if user_id is None:
         return redirect(url_for('auth.start_page'))
     else:
+        db.commit()
         user = db.execute(
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
@@ -25,6 +26,77 @@ def home():
         }
         return render_template('main/home.html', user=user_details)
 
+@bp.route('/chathome')
+def chat():
+    return render_template('main/chathome.html')
+    #make sure user is logged in
+
+@bp.route('/chathome', methods=('GET', 'POST'))
+def chat_post():
+    if request.method == 'POST':
+        user_id = session.get('user_id')
+        db = get_db()
+        if user_id is None:
+            return redirect(url_for('auth.start_page'))
+        else:
+
+#            db.execute(
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES (?, ?)',
+#                ("new tst", 1)
+#            )
+#            db.commit()
+
+            db.execute(
+                'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)',
+                ("helo", "k", "heh")
+            )
+            db.commit()
+
+
+            user = db.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
+            user2 = db.execute('SELECT * FROM user WHERE email = ?', ('d@d.com',)).fetchone()
+
+#            db.execute('INSERT INTO total_msg (identifier, total_messages) VALUES (user['id']:user2['id'], 1)')
+
+            user_details = {
+                'email': user['email'],
+                'last': user['last'],
+                'first': user['first'],
+                'email2': user2['email'],
+                'last2': user2['last'],
+                'first2': user2['first'],
+            }
+            y = json.dumps(user_details)
+            return jsonify(y)
+
+@bp.route('/chatdb')
+def db():
+    user_id = session.get('user_id')
+    db = get_db()
+    if user_id is None:
+        return redirect(url_for('auth.start_page'))
+    db = get_db()
+    tbl1 = db.execute(
+        'SELECT * FROM total_msg'
+    ).fetchall()
+    tbl2 = db.execute(
+        'SELECT * FROM messages'
+    ).fetchall()
+    return render_template('main/chatdb.html', tbl1=tbl1, tbl2=tbl2)
+
+#@bp.route('/chatdb', methods=('GET', 'POST'))
+#def update_email():
+#    user_id = session.get('user_id')
+#    db = get_db()
+#    if request.method == 'POST':
+#        error = None
+        #if the register button is clicked load the register inputs
+#        email = request.form['email']
+#        sql = 'UPDATE user SET email = ? WHERE id = ?'
+#        val = (email, user_id)
+#        db.execute(sql, val)
+#        db.commit()
+#        return redirect(url_for('auth.db'))
 
 @bp.route('/create_bio')
 def create_bio():
@@ -68,7 +140,7 @@ def create_bio():
         'username': username
     }
     return render_template('main/create_bio.html', user=user_details)
-    
+
 @bp.route('/create_bio', methods=('GET', 'POST'))
 def create_bio_submit():
     user_id = session.get('user_id')
@@ -91,7 +163,7 @@ def create_bio_submit():
         val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)
         db.commit()
-                
+
     return render_template('main/db.html')
 
 @bp.route('/search')
@@ -136,7 +208,7 @@ def search():
         'username': username
     }
     return render_template('main/search.html', user=user_details)
-    
+
 @bp.route('/search', methods=('GET', 'POST'))
 def search_results():
     db = get_db()

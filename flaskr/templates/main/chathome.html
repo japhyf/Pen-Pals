@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+  <title>chat</title>
+</head>
+
+<body>
+
+  <h1 id='heading'>
+  buttz
+  </h1>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script>
+  console.log("im being called");
+  $.ajax({
+         url: '/main/chathome',
+         data: '',
+         type: 'POST',
+         success: function(response) {
+           console.log(response);
+           console.log("no err");
+           var obj = JSON.parse(response);
+           emailself = obj[Object.keys(obj)[0]];
+           name1self = obj[Object.keys(obj)[2]];
+           name2self = obj[Object.keys(obj)[4]];
+           emailreciver = obj[Object.keys(obj)[1]];
+           namereciver = obj[Object.keys(obj)[3]];
+           name2reciver = obj[Object.keys(obj)[5]];
+           console.log(name);
+         },
+         error: function(error) {
+             console.log("err");
+         }
+     });
+  console.log("im being called part 2");
+  </script>
+<p>{emailself}</p>
+
+<button onclick=document.getElementById("heading").innerHTML = poo; type="button">change</button>
+
+<script type="text/javascript" src= "{{ url_for('static',filename='js/chat.js') }}"></script>
+
+</body>
+
+</html>
