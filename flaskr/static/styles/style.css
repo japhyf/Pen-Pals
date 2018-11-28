@@ -154,7 +154,7 @@ p {
     padding: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-gap: 1rem;
-	background-color: var(--primary-color);
+	background-color: var(--neutral);
 	min-height: 550px;
 }
 
@@ -163,7 +163,6 @@ p {
 }
 
 #search-window{
-	border-radius: 25px;
 	min-height: 550px;
 	min-width: 200px;
 }

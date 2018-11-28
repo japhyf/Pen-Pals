@@ -156,7 +156,6 @@ def update_email():
         return redirect(url_for('auth.db'))
 
 
-      
 @bp.route('/start_page_old')
 def start_page_old():
     user_id = session.get('user_id')
