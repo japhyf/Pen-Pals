@@ -53,7 +53,8 @@ def chat_post():
 
 
             user = db.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
-            user2 = db.execute('SELECT * FROM user WHERE email = ?', ('d@d.com',)).fetchone()
+            user2 = db.execute('SELECT * FROM user WHERE email = ?', ('three@3.com',)).fetchone()
+
 
             user_details = {
                 'email': user['email'],
@@ -64,17 +65,28 @@ def chat_post():
                 'first2': user2['first'],
             }
 
-            x = user_details['email'] + ":" + user_details['email2']
-            y = x + "1"
-            z = "lick my taint"
-            f = user_details['email']
+            concat_users = user_details['email'] + ":" + user_details['email2']
 
             db.execute(
-                'INSERT INTO total_msg (identifier, total_messages) VALUES (?, ?)  ', (x, 1,)
-#                'INSERT INTO total_msg (identifier, total_messages) VALUES ("fuck", 1) ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
-#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+                'INSERT OR IGNORE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, 0,)
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES ("fuck", 3) ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;', hack['total_messages'] +1
             )
             db.commit()
+
+            hack = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_users,)).fetchone()
+
+            db.execute(
+                'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, hack['total_messages'] +1,)
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES ("fuck", 3) ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;', hack['total_messages'] +1
+            )
+            db.commit()
+
+            hack2 = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_users,)).fetchone()
+            y = concat_users + str(hack['total_messages'])
+            z = "lick2"
+            f = user_details['email']
 
             db.execute(
                 'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)', (y, z, f,)
