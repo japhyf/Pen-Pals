@@ -23,19 +23,19 @@
  ------->
 <!-- Page introduction box -->
 <div class="row">
-<div class="col s1">
+<div class="col s5">
 <h6 class="bold">Identifier</h6>
 </div>
-<div class="col s1">
+<div class="col s5">
 <h6 class="bold">total messages</h6>
 </div>
 </div>
 {% for item in tbl1 %}
 <div class="row">
-<div class="col s1">
+<div class="col s5">
 <p>{{item.identifier}}</p>
 </div>
-<div class="col s1">
+<div class="col s5">
 <p>{{item.total_messages}}</p>
 </div>
 
@@ -44,25 +44,25 @@
 {% endfor %}
 
 <div class="row">
-<div class="col s1">
+<div class="col s4">
 <h6 class="bold">m_nbr</h6>
 </div>
-<div class="col s1">
+<div class="col s4">
 <h6 class="bold">msg</h6>
 </div>
-<div class="col s1">
+<div class="col s4">
 <h6 class="bold">sender</h6>
 </div>
 </div>
 {% for item in tbl2 %}
 <div class="row">
-<div class="col s1">
+<div class="col s4">
 <p>{{item.identifier_msg_nmbr}}</p>
 </div>
-<div class="col s1">
+<div class="col s4">
 <p>{{item.message}}</p>
 </div>
-<div class="col s1">
+<div class="col s4">
 <p>{{item.sender}}</p>
 </div>
 

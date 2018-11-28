@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS total_msg;
 
 
 CREATE TABLE user (
@@ -19,12 +21,12 @@ CREATE TABLE user (
 );
 
 CREATE TABLE total_msg (
-  identifier VARCHAR(101),
+  identifier VARCHAR(101) PRIMARY KEY,
   total_messages INT
 );
 
 CREATE TABLE messages (
-  identifier_msg_nmbr VARCHAR(120),
+  identifier_msg_nmbr VARCHAR(120) PRIMARY KEY,
   message TEXT,
   sender VARCHAR(50)
 );

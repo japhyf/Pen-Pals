@@ -41,22 +41,19 @@ def chat_post():
         else:
 
 #            db.execute(
-#                'INSERT INTO total_msg (identifier, total_messages) VALUES (?, ?)',
-#                ("new tst", 1)
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES (, 1)',
+#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
 #            )
 #            db.commit()
 
-            db.execute(
-                'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)',
-                ("helo", "k", "heh")
-            )
-            db.commit()
+#            db.execute(
+#                'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES ("new", "test", "today")'
+#            )
+#            db.commit()
 
 
             user = db.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
             user2 = db.execute('SELECT * FROM user WHERE email = ?', ('d@d.com',)).fetchone()
-
-#            db.execute('INSERT INTO total_msg (identifier, total_messages) VALUES (user['id']:user2['id'], 1)')
 
             user_details = {
                 'email': user['email'],
@@ -66,6 +63,24 @@ def chat_post():
                 'last2': user2['last'],
                 'first2': user2['first'],
             }
+
+            x = user_details['email'] + ":" + user_details['email2']
+            y = x + "1"
+            z = "lick my taint"
+            f = user_details['email']
+
+            db.execute(
+                'INSERT INTO total_msg (identifier, total_messages) VALUES (?, ?)  ', (x, 1,)
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES ("fuck", 1) ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+            )
+            db.commit()
+
+            db.execute(
+                'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)', (y, z, f,)
+            )
+            db.commit()
+
             y = json.dumps(user_details)
             return jsonify(y)
 
