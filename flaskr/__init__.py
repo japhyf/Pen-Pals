@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from flask_mail import Mail, Message
+from db import init_db
 
 
 def create_app(test_config=None):
