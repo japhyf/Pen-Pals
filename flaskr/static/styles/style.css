@@ -49,6 +49,21 @@ p {
     height: 75px;
 }
 
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
+    border: 2px solid #0000;
+}
+
+[type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:after {
+    background-color: var(--secondary-color); 
+}
+
+[type="radio"]:not(:checked)+label, [type="radio"]:checked+label {
+	color: #212121;
+}
+
+#hint{
+	font-size: 1.4em;
+}
 
 #title{
 	font-family: "Amatic SC";
@@ -88,11 +103,11 @@ p {
 }
 
 #slider{
-	margin-top: 80px;
+	display: none;
 }
 
 #search-button{
-	margin-top: 80px;
+	margin-top: 40px;
 	width: 90px;
 	padding-left: 15px;
 }
@@ -116,7 +131,6 @@ p {
 /* label underline focus color */
    .input-field input:focus {
      border-bottom: 1px solid var(--primary-color) !important;
-     box-shadow: 0 1px 0 0 var(--primary-color) !important;
    }
    
     .input-field input:focus+label {
@@ -136,8 +150,8 @@ p {
 }
 
 .chips.focus{
-	border-bottom: 1px solid var(--primary-color) !important;
-    box-shadow: 0 1px 0 0 var(--primary-color) !important;
+	border-bottom: .2px solid black !important;
+    box-shadow: 0 .2px 0 0 black !important;
 }
 
 .dropdown-content li>span {
@@ -160,6 +174,7 @@ p {
 
 .search-card {
     display: grid;
+	min-height: 300px;
 }
 
 #search-window{
@@ -353,6 +368,11 @@ textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:foc
 	padding-top: 30px;
  }
  
+ #create-bio-submit-button{
+	margin-top: 205px;
+	margin-left: 300px;
+ }
+ 
  #upload-file{
 	width: 300px;
  }
@@ -372,8 +392,8 @@ textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:foc
  }
  
  #pic_button{
-	margin-top: 60px;
-	margin-left: 300px;
+	margin-top: 75px;
+	margin-left: 290px;
  }
  
   #file_button{
