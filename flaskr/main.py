@@ -61,13 +61,33 @@ def create_bio():
         username = ""
     else:
         username = user['username']
+    if user['description'] is None:
+        description = ""
+    else:
+        description = user['description']
+    if user['genres'] is None:
+        genres = ""
+    else:
+        genres = user['genres']
+    if user['titles'] is None:
+        titles = ""
+    else:
+        titles = user['titles']
+    if user['picture'] is None:
+        picture = ""
+    else:
+        picture = user['picture']
     user_details = {
-        'first': first,
-        'last': last,
-        'email': email,
-        'address1': address_line1,
-        'address2': address_line2,
-        'username': username
+        'first'       : first,
+        'last'        : last,
+        'email'       : email,
+        'address1'    : address_line1,
+        'address2'    : address_line2,
+        'username'    : username,
+        'description' : description,
+        'genres'      : genres,
+        'titles'      : titles,
+        'picture'     : picture
     }
     return render_template('main/create_bio.html', user=user_details)
     
@@ -215,13 +235,18 @@ def bio():
         username = ""
     else:
         username = user['username']
+    if user['description'] is None:
+        description = ""
+    else:
+        description = user['description']
     user_details = {
         'first': first,
         'last': last,
         'email': email,
         'address1': address_line1,
         'address2': address_line2,
-        'username': username
+        'username': username,
+        'description' : description
     }
     return render_template('main/bio.html', user=user_details)
 

@@ -112,6 +112,13 @@ p {
 	padding-left: 15px;
 }
 
+#search-edit-button{
+	margin-top: 40px;
+	width: 140px;
+	padding-left: 15px;
+	background-color: var(--carbon);
+}
+
 .result-card{
 	width: 200px;
 	height: 250px !important;
@@ -373,8 +380,11 @@ textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:foc
 	padding-top: 30px;
  }
  
+#pic-header{
+	padding-top: 30px;
+ }
+ 
  #create-bio-submit-button{
-	margin-top: 205px;
 	margin-left: 300px;
  }
  

@@ -22,7 +22,6 @@
 
 </head>
 <body>
-
 	<div id="start-container">
 		<div class="section no-pad-bot">
 			<div class="row">
@@ -43,7 +42,7 @@
 												<div id="regp1">
 													<span id="desc-header" class="card-title black-text">Add description</span>
 											<div class="input-field col s12">
-												<textarea id="the-textarea" maxlength="300" name="desc" placeholder="I love books..."></textarea>
+												<textarea id="the-textarea" maxlength="300" name="desc" placeholder="I love books...">{{user.description}}</textarea>
 													  
 													  <div id="the-count">
 														<span id="current">0</span>
@@ -58,7 +57,7 @@
 											</div>
 											<div id="reg2" class="col">
 												<div id="regp2">
-													<span id="desc-header" class="card-title grey-text text-darken-4">Choose profile picture<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="pic-header" class="card-title grey-text text-darken-4">Choose profile picture<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
 													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
 
 														<div class="dropzone">
@@ -96,7 +95,9 @@
 
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
-	<textarea id="pic" class="test hidden"></textarea>
+	<textarea id="pic" class="hidden test">{{user.picture}}</textarea>
+	<textarea id="usergenres" class="hidden">{{user.genres}}</textarea>
+	<textarea id="usertitles" class="hidden">{{user.titles}}</textarea>
         
 <!-- Footer Section -->
 	<footer class="page-footer white">	
@@ -116,9 +117,14 @@
 <script type="text/javascript">
 function submit_descr()
 {
-
-		$("#cont-home").animate({right: '+=500px'},450);
-	
+	pic = document.getElementById('pic');
+	header = document.getElementById('pic-header');
+	$("#cont-home").animate({right: '+=500px'},450);
+	if(pic.value === ""){
+	}
+	else{
+		header.innerHTML = "Update profile picture";
+	}
 }
 
 function submit_create_bio()
@@ -166,8 +172,16 @@ function submit_create_bio()
 
 <script> 
 $(document).ready(function(){
-
+	genres = document.getElementById('usergenres');
+	genresStr = genres.value;
+	genresArr = genresStr.split(',');
+	var genreTags = [];
+	for(genre in genresArr){
+		obj = {tag : genresArr[genre].trim(),};
+		genreTags.push(obj);
+	}
 	$('.chips-autocomplete-genre-create').chips({
+		data: genreTags,
 		secondaryPlaceholder: '+genre',
 		placeholder: 'Add your favroite genres',
 		autocompleteOptions: {
@@ -179,9 +193,17 @@ $(document).ready(function(){
 			limit: Infinity,
 			minLength: 1
 		}
-  });
-  
+	});
+	titles = document.getElementById('usertitles');
+	titlesStr = titles.value;
+	titlesArr = titlesStr.split(',');
+	var titleTags = [];
+	for(title in titlesArr){
+		obj = {tag : titlesArr[title].trim(),};
+		titleTags.push(obj);
+	}
   	$('.chips-autocomplete-title-create').chips({
+		data: titleTags,
 		secondaryPlaceholder: '+title',
 		placeholder: 'Add your favorite book titles',
 		autocompleteOptions: {
@@ -195,7 +217,6 @@ $(document).ready(function(){
 		}
   });
 
-	M.textareaAutoResize($('#descr-field'));
 	$("#close-home").click(function(){
         $("#cont-home").animate({right: '-=500px'},450);
 		$("#reg_error").css("display", "none");
