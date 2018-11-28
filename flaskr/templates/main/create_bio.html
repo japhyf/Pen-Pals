@@ -3,94 +3,232 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="referrer" content="no-referrer"/>
   <title>Pen Pals</title>
 
 
-  <!-- CSS -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/materialize.css') }}">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+    <!-- Compiled and minified CSS -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+
+  <!-- Compiled and minified JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
 </head>
 <body>
- 
- <!-- Navigation Bar --
-	<ul>
-		<li><a class="active" href="index.html">Home</a></li>
-		<li><a href="#login">Login</a></li>
-		<li><a href="#contact">Contact</a></li>
-		<li><a href="#about">About</a></li>
-	</ul>
- ------->
-<!-- Page introduction box -->
-	<div id="bio-red">
+	<div id="start-container">
 		<div class="section no-pad-bot">
-			<h1 id="title" class="header center white-text accent-2">Create Bio</h1>
-			<br><br>
-			<div id="bio-container" class="container">
-				<br><br>
-				<form class="container" method="post">
-					<div class="row">
-						<div class="input-field col s6">
-							<input id="first_name" type="text" name="first" value="{{user.first}}">
-							<label for="first_name">First Name</label>
-						</div>
-						<div class="input-field col s6">
-							<input id="last_name" type="text" name="last" value="{{user.last}}">
-							<label for="last_name">Last Name</label>
-						</div>
+			<div class="row">
+                <h1 id="title" class="header center white-text accent-2">Pen Pals</h1>
+                <div class="row center">	
+                    <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span></h1>                  
+				</div>
+                <div class="row">
+				
+				<div id="create-card" class="card large over hoverable horiz-center">
+						<div id="cont-home" class="card-content">
+							<div id="register">
+								<div class="row">
+								
+										<form id="register_form" method="post">
+											
+											<div id="reg1" class="col">
+												<div id="regp1">
+													<span id="desc-header" class="card-title black-text">Add description</span>
+											<div class="input-field col s12">
+												<textarea id="the-textarea" maxlength="300" name="desc" placeholder="I love books..."></textarea>
+													  
+													  <div id="the-count">
+														<span id="current">0</span>
+														<span id="maximum">/ 300</span>
+													  </div>
+
+												
+
+											</div>
+												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
+											</div>
+											</div>
+											<div id="reg2" class="col">
+												<div id="regp2">
+													<span id="desc-header" class="card-title grey-text text-darken-4">Choose profile picture<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
+
+														<div class="dropzone">
+															<div class="image-info"></div>
+														</div>
+														<div class="img"></div>
+													<div class="input-field col m12">
+														<button id="pic_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();" value="Register">Next</button>
+													</div>
+												</div>
+											</div>
+											<div id="reg3" class="col">
+												<div id="regp3">
+													<span id="desc-header" class="card-title grey-text text-darken-4">Add books to your profile<i id="close-home2" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
+													<div class="chips-autocomplete-genre-create"></div>
+													<div class="chips-autocomplete-title-create"></div>
+													<button id="create-bio-submit-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_create_bio();">Submit</button>
+												</div>
+											</div>
+
+										</form>
+									
+								</div>
+							</div>
+							
+						</div> 
 					</div>
-					<div class="row">
-						<div class="row">
-						<div class="input-field col s12">
-							<input id="email" type="email" class="validate" name="email" value="{{user.email}}">
-							<label for="email">Email</label>
-						</div>
-						</div>
-					</div>
-                    <div class="row">
-						<div class="row">
-						<div class="input-field col s12">
-							<input id="username" type="text" name="username" value="{{user.username}}">
-							<label for="username">Username</label>
-						</div>
-						</div>
-					</div>
-                    <div class="row">
-						<div class="input-field col s12">
-							<input id="address1" type="text" name="address1" value="{{user.address1}}">
-							<label for="address1">Address line 1</label>
-							<span class="helper-text" data-error="wrong" data-success="right">Street address, P.O. box, company name</span>
-						</div>
-					</div>
-					<div class="row">
-						<div class="input-field col s12">
-							<input id="address2" type="text" name="address2" value="{{user.address2}}">
-							<label for="address2">Address line 2</label>
-							<span class="helper-text" data-error="wrong" data-success="right">Apartment, suite , unit, building, floor, etc.</span>
-						</div>
-					</div>
-					<button class="btn waves-effect waves-light" type="submit" name="button">Submit</button>
-				</form>
-			</div>
-		</div>
-    <div class="parallax red"></div>
-	</div>
 	
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
+	<textarea id="pic" class="test hidden"></textarea>
         
 <!-- Footer Section -->
 	<footer class="page-footer white">	
 		<div class="footer-copyright">
-			<p id="copyright">copyrighted mother effers</p>
+			<p class="copyright" id="copyright">copyrighted mother effers</p>
 		</div>
 	</footer>
 
 
   <!--  Scripts-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/materialize.js') }}"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/imgur.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/upload.js') }}"></script>
+
+
+<script type="text/javascript">
+function submit_descr()
+{
+
+		$("#cont-home").animate({right: '+=500px'},450);
+	
+}
+
+function submit_create_bio()
+{
+	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
+	genreString = ' ';
+	for (x in genreTags.chipsData) {
+		if(x > 0) {
+			genreString = genreString + ', ' + genreTags.chipsData[x].tag;
+		}
+		else {
+			genreString = genreTags.chipsData[x].tag;
+		}
+	}
+	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
+	titleString = ' ';
+	for (x in titleTags.chipsData) {
+		if(x > 0) {
+			titleString = titleString + ', ' + titleTags.chipsData[x].tag;
+		}
+		else{
+			titleString = titleTags.chipsData[x].tag;
+		}
+	}
+	desc = document.getElementById('the-textarea').value;
+	pic_url = document.getElementById('pic').value;
+	$.ajax({
+		url: '/main/create_bio',
+		data: {
+			'genres' : genreString,
+			'titles' : titleString,
+			'desc'   : desc,
+			'pic'    : pic_url
+		},
+		type: 'POST',
+		success: function(response) {
+			window.location.href='/main/search';
+		},
+		error: function(error) {
+			console.log(error);
+        }
+    });
+}
+</script>  
+
+<script> 
+$(document).ready(function(){
+
+	$('.chips-autocomplete-genre-create').chips({
+		secondaryPlaceholder: '+genre',
+		placeholder: 'Add your favroite genres',
+		autocompleteOptions: {
+			data: {
+				'Mystery': null,
+				'Horror': null,
+				'Adventure': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+  });
+  
+  	$('.chips-autocomplete-title-create').chips({
+		secondaryPlaceholder: '+title',
+		placeholder: 'Add your favorite book titles',
+		autocompleteOptions: {
+			data: {
+				'Catcher in the rye': null,
+				'50 Shades of Nut': null,
+				'The Hangover Part 2': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+  });
+
+	M.textareaAutoResize($('#descr-field'));
+	$("#close-home").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#close-home2").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#description-tab").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$('textarea#descr-field').characterCounter();
+	$('textarea').keyup(function() {
+    
+  var characterCount = $(this).val().length,
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
+    
+  current.text(characterCount);
+ 
+  
+  /*This isn't entirely necessary, just playin around*/
+
+
+  
+      
+});
+});
+
+</script>
   </body>
 </html>

@@ -1,7 +1,7 @@
 import functools
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, __main__
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, __main__, json
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -13,23 +13,31 @@ from flask_mail import Mail, Message
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+@bp.route('/start_page')
+def start_page():
+    user_id = session.get('user_id')
+    db = get_db()
+    if user_id is not None:
+        return redirect(url_for('main.home'))
+    else:
+        return render_template('auth/start_page.html')
+  
+
 #handles register and login on the start page
 @bp.route('/start_page', methods=('GET', 'POST'))
 def register():
-
+    db = get_db()
+    error = None
     if request.method == 'POST':
-        db = get_db()
-        error = None
         #if the register button is clicked load the register inputs
         if request.form["button"]=="Register":
             regEmail = request.form['regEmail']
             regPassword = request.form['regPassword']
-
-            mail = Mail()
-            msg = Message("Thank you for joining Pen Pals!", sender="12345ere6789@gmail.com", recipients=[regEmail])
-            msg.body = "Click here to verify your account\n"
-            mail.send(msg)
-
+            first = request.form['first']
+            last = request.form['last']
+            username = request.form['username']
+            address1 = request.form['address1']
+            address2 = request.form['address2']
             if not regEmail:
                 return redirect(url_for('auth.noRegUser'))
             elif not regPassword:
@@ -40,8 +48,8 @@ def register():
                 error = 'User {} is already registered.'.format(regEmail)
             if error is None:
                 db.execute(
-                    'INSERT INTO user (email, password) VALUES (?, ?)',
-                    (regEmail, generate_password_hash(regPassword))
+                    'INSERT INTO user (email, password, first, last, address_line1, address_line2, username) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    (regEmail, generate_password_hash(regPassword), first, last, address1, address2, username)
                 )
                 db.commit()
                 user = db.execute(
@@ -52,27 +60,59 @@ def register():
                 return redirect(url_for('main.create_bio'))
             flash(error)
         #else if the login button is clicked load the login inputs
-        else:
+        elif request.form["button"]=="Login":
             loginEmail = request.form['loginEmail']
             loginPassword = request.form['loginPassword']
             user = db.execute(
                 'SELECT * FROM user WHERE email = ?', (loginEmail,)
             ).fetchone()
-
+            #if the input email doesnt exist in our db
             if user is None:
                 error = 'Incorrect email.'
+                #display this message:
+                return "Email address is not in our system"
+            
+            #if the email exists but the password is wrong
             elif not check_password_hash(user['password'], loginPassword):
                 error = 'Incorrect password.'
-
+                return "Incorrect password"
+            #if there is no error
             if error is None:
                 session.clear()
                 session['user_id'] = user['id']
                 return redirect(url_for('main.home'))
 
             flash(error)
+        #this is to check if email exists on continue button press
+        elif request.form["button"]=="continue":
+            email = request.form['regEmail']
+            user = db.execute(
+                'SELECT * FROM user WHERE email = ?', (email,)
+            ).fetchone()
+            #if the input email doesnt exist in our db
+            if user is None:
+                return "good"
+            else:
+                error = 'Incorrect password.'
+                return "Email address already exists in our system"
+            flash(error)
 
+    #elif request.method == 'GET':
+    #    email = request.args.get('email', '')
+    #    password = request.args.get('password', '')
+    #    user = db.execute(
+    #        'SELECT * FROM user WHERE email = ?', (email,)
+    #    ).fetchone()
+    #
+    #    if user is None:
+    #        return "user doesn't exist"
+    #    elif not check_password_hash(user['password'], password):
+    #        return "password is incorrect"
+    #    else:
+    #        return "login correct"
+        
     return render_template('auth/start_page.html')
-
+    
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -116,18 +156,11 @@ def update_email():
         return redirect(url_for('auth.db'))
 
 
-@bp.route('/start_page')
-def start_page():
+      
+@bp.route('/start_page_old')
+def start_page_old():
     user_id = session.get('user_id')
     if user_id is not None:
         return redirect(url_for('main.home'))
     else:
-        return render_template('auth/start_page.html')
-
-@bp.route('/start_page1')
-def start_page1():
-    user_id = session.get('user_id')
-    if user_id is not None:
-        return redirect(url_for('main.home'))
-    else:
-        return render_template('auth/start_page1.html')
+        return render_template('auth/start_page_old.html')
