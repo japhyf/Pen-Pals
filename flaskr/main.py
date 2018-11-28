@@ -25,7 +25,7 @@ def home():
         user_details = {
             'email': user['email'],
         }
-        return render_template('main/home.html', user=user_details)
+        return render_template('main/search.html', user=user_details)
 
 
 @bp.route('/create_bio')
