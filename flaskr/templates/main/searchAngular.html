@@ -1,0 +1,137 @@
+<html lang="en" >
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.css">
+</head>
+<body ng-app="BlankApp" ng-cloak>
+  <!--
+    Your HTML content here
+  -->  
+  <div ng-controller="CustomInputDemoCtrl as ctrl" layout="column" ng-cloak="" class="chipsdemoCustomInputs" ng-app="MyApp">
+
+  <md-content class="md-padding" layout="column">
+    <h2 class="md-title">Use an <code>input</code> element with no model to build an ordered set of chips.</h2>
+    <md-chips ng-model="ctrl.numberChips">
+      <input type="number" placeholder="Enter a number">
+    </md-chips>
+
+    <br>
+    <h2 class="md-title">Use an <code>input</code>  element to build an ordered set of chips.</h2>
+    <md-chips ng-model="ctrl.numberChips2">
+      <input type="number" ng-model="ctrl.numberBuffer" placeholder="Enter a number">
+    </md-chips>
+
+    
+  </md-content>
+</div>
+
+
+  <!-- Angular Material requires Angular.js Libraries -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+  
+  <!-- Your application bootstrap  -->
+  <script type="text/javascript">    
+(function () {
+  'use strict';
+  var app = angular
+      .module('MyApp', ['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+      .controller('CustomInputDemoCtrl', DemoCtrl);
+	
+	app.config(['$interpolateProvider', function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{a');
+  $interpolateProvider.endSymbol('a}');
+}]);
+
+  function DemoCtrl ($timeout, $q) {
+    var self = this;
+
+    self.readonly = false;
+    self.selectedItem = null;
+    self.searchText = null;
+    self.querySearch = querySearch;
+    self.vegetables = loadVegetables();
+    self.selectedVegetables = [];
+    self.numberChips = [];
+    self.numberChips2 = [];
+    self.numberBuffer = '';
+    self.autocompleteDemoRequireMatch = true;
+    self.transformChip = transformChip;
+
+    /**
+     * Return the proper object when the append is called.
+     */
+    function transformChip(chip) {
+      // If it is an object, it's already a known chip
+      if (angular.isObject(chip)) {
+        return chip;
+      }
+
+      // Otherwise, create a new one
+      return { name: chip, type: 'new' };
+    }
+
+    /**
+     * Search for vegetables.
+     */
+    function querySearch (query) {
+      var results = query ? self.vegetables.filter(createFilterFor(query)) : [];
+      return results;
+    }
+
+    /**
+     * Create filter function for a query string
+     */
+    function createFilterFor(query) {
+      var lowercaseQuery = query.toLowerCase();
+
+      return function filterFn(vegetable) {
+        return (vegetable._lowername.indexOf(lowercaseQuery) === 0) ||
+            (vegetable._lowertype.indexOf(lowercaseQuery) === 0);
+      };
+
+    }
+
+    function loadVegetables() {
+      var veggies = [
+        {
+          'name': 'Broccoli',
+          'type': 'Brassica'
+        },
+        {
+          'name': 'Cabbage',
+          'type': 'Brassica'
+        },
+        {
+          'name': 'Carrot',
+          'type': 'Umbelliferous'
+        },
+        {
+          'name': 'Lettuce',
+          'type': 'Composite'
+        },
+        {
+          'name': 'Spinach',
+          'type': 'Goosefoot'
+        }
+      ];
+
+      return veggies.map(function (veg) {
+        veg._lowername = veg.name.toLowerCase();
+        veg._lowertype = veg.type.toLowerCase();
+        return veg;
+      });
+    }
+  }
+})();
+
+  </script>
+  
+</body>
+</html>

@@ -171,6 +171,8 @@
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
     <a href="{{ url_for('main.bio') }}">view bio</a>
+	<a href="{{ url_for('main.create_bio') }}">create bio</a>
+	<a href="{{ url_for('main.search') }}">search</a>
 
 
  {% with messages = get_flashed_messages(with_categories=true) %}

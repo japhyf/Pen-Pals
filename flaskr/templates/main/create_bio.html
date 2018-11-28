@@ -3,26 +3,25 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="referrer" content="no-referrer"/>
   <title>Pen Pals</title>
 
 
-  <!-- CSS -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/materialize.css') }}">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-  <link rel="shortcut icon" href="#" />
+    <!-- Compiled and minified CSS -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+
+  <!-- Compiled and minified JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
 </head>
 <body>
- 
- <!-- Navigation Bar --
-	<ul>
-		<li><a class="active" href="index.html">Home</a></li>
-		<li><a href="#login">Login</a></li>
-		<li><a href="#contact">Contact</a></li>
-		<li><a href="#about">About</a></li>
-	</ul>
- ------->
-<!-- Page introduction box -->
 	<div id="start-container">
 		<div class="section no-pad-bot">
 			<div class="row">
@@ -43,8 +42,15 @@
 												<div id="regp1">
 													<span id="desc-header" class="card-title black-text">Add description</span>
 											<div class="input-field col s12">
-												<textarea id="descr-field" class="materialize-textarea"></textarea>
-												<label for="descr-field">I love books...</label>
+												<textarea id="the-textarea" maxlength="300" name="desc" placeholder="I love books..."></textarea>
+													  
+													  <div id="the-count">
+														<span id="current">0</span>
+														<span id="maximum">/ 300</span>
+													  </div>
+
+												
+
 											</div>
 												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
 											</div>
@@ -53,15 +59,11 @@
 												<div id="regp2">
 													<span id="desc-header" class="card-title grey-text text-darken-4">Choose profile picture<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
 													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div id="file_button" class="file-field input-field">
-													  <div class="btn waves-effect waves-light secondary-color">
-														<span>File</span>
-														<input type="file">
-													  </div>
-													  <div class="file-path-wrapper">
-														<input id="upload-file" class="file-path validate" type="text">
-													  </div>
-													</div>
+
+														<div class="dropzone">
+															<div class="image-info"></div>
+														</div>
+														<div class="img"></div>
 													<div class="input-field col m12">
 														<button id="pic_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();" value="Register">Next</button>
 													</div>
@@ -71,9 +73,10 @@
 												<div id="regp3">
 													<span id="desc-header" class="card-title grey-text text-darken-4">Add books to your profile<i id="close-home2" class="material-icons secondary-item-color">arrow_back</i></span>
 													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<i id="add" class="material-icons large secondary-item-color">add_box</i>
-													</div>
+													<div class="chips-autocomplete-genre-create"></div>
+													<div class="chips-autocomplete-title-create"></div>
+													<button id="create-bio-submit-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_create_bio();">Submit</button>
+												</div>
 											</div>
 
 										</form>
@@ -83,139 +86,113 @@
 							
 						</div> 
 					</div>
-				
-				
-				
-				<!--
-					<div id="main-card" class="card large over hoverable horiz-center">
-
-						<div id="cont-home" class="card-content">
-							<div id="register">
-								<div class="row">
-								
-										<form id="register_form" method="post">
-											
-											<div id="reg1" class="col">
-												<div id="regp1">
-													<span id="desc-header" class="card-title black-text">Add description</span>
-											<div class="input-field col s12">
-												<textarea id="descr-field" class="materialize-textarea"></textarea>
-												<label for="descr-field">I love books...</label>
-											</div>
-											<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();" href="#pic">Next</button>
-											</div>
-											<div id="reg2" class="col">
-												<div id="regp2">
-													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<h2 class="home-text" id="type">No matches yet... you should recieve an email to</h2> 
-														<h2 class="secondary-item-color" >{{user.email}}</h2>
-														<h2 class="home-text" id="type"> when you get your first match, stay tuned!</h2>
-													</div>
-													<div class="input-field col m12">
-														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="reg_continue();" value="Register">Register</button>
-													</div>
-												</div>
-											</div>
-											<div id="reg3" class="col">
-												<div id="regp3">
-													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close3-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<div class="input-field col">
-															<input id="first_name" type="text" name="first" class="validate">
-															<label for="first_name">First Name</label>
-														</div>
-														<div class="input-field col">
-															<input id="last_name" type="text" name="last" class="validate">
-															<label for="last_name">Last Name</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col m12">
-															<input id="username" type="text" name="username" class="login-text">
-															<label for="username">Display Name</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col s12">
-															<input id="address1" type="text" name="address1">
-															<label for="address1">Address line 1 (Street address, P.O. box, company name)</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col s12">
-															<input id="address2" type="text" name="address2">
-															<label for="address2">Address line 2 (Apartment, suite , unit, building, floor, etc.)</label>
-														</div>
-													</div>
-													<div class="input-field col m12">
-														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_register_form();" value="Register">Register</button>
-													</div>
-												</div>
-											</div>
-
-										</form>
-									
-								</div>
-							</div>
-							<div id="login">
-								<div class="row">
-									<div class="login-container">
-										<form id="login_form" method="post">
-											<div class = "col">
-												<span id="login-header" class="card-title black-text">Login</span>
-												<span id="login_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
-												<div class="input-field col m12">
-													<input id="loginUsername" type="email" name="loginEmail" class="login-text">
-													<label for="loginUsername">Email</label>
-												</div>
-												<div class="input-field col m12">
-													<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">                                   
-													<label for="loginPassword">Password</label>
-												</div>
-                                                <input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
-												<div class="input-field col m12">
-                                                    <button id="login_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="Login">Login</button>
-												</div>
-											</div>
-										</form>  
-									</div>
-								</div>
-							</div>
-						</div> 
-					</div>-->
+	
 				</div>
 			</div>
+			
 		</div>
-	
+	</div>
+
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('auth.db') }}">database</a>
+	<textarea id="pic" class="test hidden"></textarea>
         
 <!-- Footer Section -->
 	<footer class="page-footer white">	
 		<div class="footer-copyright">
-			<p id="copyright">copyrighted mother effers</p>
+			<p class="copyright" id="copyright">copyrighted mother effers</p>
 		</div>
 	</footer>
 
 
   <!--  Scripts-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/materialize.js') }}"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/imgur.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/upload.js') }}"></script>
+
 
 <script type="text/javascript">
 function submit_descr()
 {
-	$("#cont-home").animate({right: '+=500px'},450);
+
+		$("#cont-home").animate({right: '+=500px'},450);
+	
+}
+
+function submit_create_bio()
+{
+	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
+	genreString = ' ';
+	for (x in genreTags.chipsData) {
+		if(x > 0) {
+			genreString = genreString + ', ' + genreTags.chipsData[x].tag;
+		}
+		else {
+			genreString = genreTags.chipsData[x].tag;
+		}
+	}
+	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
+	titleString = ' ';
+	for (x in titleTags.chipsData) {
+		if(x > 0) {
+			titleString = titleString + ', ' + titleTags.chipsData[x].tag;
+		}
+		else{
+			titleString = titleTags.chipsData[x].tag;
+		}
+	}
+	desc = document.getElementById('the-textarea').value;
+	pic_url = document.getElementById('pic').value;
+	$.ajax({
+		url: '/main/create_bio',
+		data: {
+			'genres' : genreString,
+			'titles' : titleString,
+			'desc'   : desc,
+			'pic'    : pic_url
+		},
+		type: 'POST',
+		success: function(response) {
+			window.location.href='/main/search';
+		},
+		error: function(error) {
+			console.log(error);
+        }
+    });
 }
 </script>  
 
 <script> 
 $(document).ready(function(){
+
+	$('.chips-autocomplete-genre-create').chips({
+		secondaryPlaceholder: '+genre',
+		placeholder: 'Add your favroite genres',
+		autocompleteOptions: {
+			data: {
+				'Mystery': null,
+				'Horror': null,
+				'Adventure': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+  });
+  
+  	$('.chips-autocomplete-title-create').chips({
+		secondaryPlaceholder: '+title',
+		placeholder: 'Add your favorite book titles',
+		autocompleteOptions: {
+			data: {
+				'Catcher in the rye': null,
+				'50 Shades of Nut': null,
+				'The Hangover Part 2': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+  });
 
 	M.textareaAutoResize($('#descr-field'));
 	$("#close-home").click(function(){
@@ -233,6 +210,23 @@ $(document).ready(function(){
 		$("#reg_error").css("display", "none");
 		$("#reg-header").css("display", "block");
     });
+	$('textarea#descr-field').characterCounter();
+	$('textarea').keyup(function() {
+    
+  var characterCount = $(this).val().length,
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
+    
+  current.text(characterCount);
+ 
+  
+  /*This isn't entirely necessary, just playin around*/
+
+
+  
+      
+});
 });
 
 </script>
