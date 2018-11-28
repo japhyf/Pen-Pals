@@ -23,8 +23,8 @@
 </head>
 <body>
 
-<div class="row">
-    <div class="col s2">
+<div class="row primary-color">
+    <div class="col s2 neutral-color" id="search-window">
 		<form id="search_form" method="post">
 			<span class="flow-text"><i class="small material-icons" id="search-icon">search</i>Search</span>
 			<br>
@@ -32,10 +32,9 @@
 			<div class="chips-autocomplete-genre text-darken-2"></div>
 			<h3 class="flow-text" id="search-text">By favorite book titles:</h3>
 			<div class="chips-autocomplete-book text-darken-2" name="title"></div>
-			
-			<h3 class="flow-text" id="age-text">By age:</h3>
+
 			<div id="slider"></div>
-			<h6 id="age-default">(defaults to 18,100)</h6>
+
 			<button id="search-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="search();">Search</button>
 
 
@@ -73,13 +72,17 @@ function search(){
 	var cards = $();
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre'));
 	genres = {};
+	searchGenres = [];
 	for (x in genreTags.chipsData) {
-		genres[x] = genreTags.chipsData[x].tag
+		genres[x] = genreTags.chipsData[x].tag;
+		searchGenres.push(genreTags.chipsData[x].tag);
 	}
+	searchTitles = [];
 	titleTags = M.Chips.getInstance($('.chips-autocomplete-book'));
 	titles = {};
 	for (x in titleTags.chipsData) {
-		titles[x] = titleTags.chipsData[x].tag
+		titles[x] = titleTags.chipsData[x].tag;
+		searchTitles.push(titleTags.chipsData[x].tag);
 	}
 	
 	$.ajax({
@@ -94,7 +97,7 @@ function search(){
 			var obj = JSON.parse(response);				
 			for (userIndex in obj) {
 				user = obj[userIndex]
-				cards = cards.add(createCard(user));
+				cards = cards.add(createCard(user, searchGenres, searchTitles));
 			}
 			$('#search-container').append(cards);
 		},
@@ -104,34 +107,82 @@ function search(){
     });
 }
 
-function createCard(cardData) {
-  
+function createCard(cardData, genreTags, titleTags) {
+
+genres = cardData.genres;
+titles = cardData.titles;
+genreSplit = genres.split(",");
+commonGenresArr = [];
+for (genre in genreSplit){
+	temp = genreSplit[genre].trim();
+	if (genreTags.includes(temp)) {
+		commonGenresArr.push(temp);
+	}
+}
+commonGenres = ' ';
+for (i in commonGenresArr) {
+	if(i == 0){
+		commonGenres = commonGenresArr[i];
+	}
+	else{
+		commonGenres += ', ' + commonGenresArr[i];
+	}
+}
+titleSplit = titles.split(",");
+commonTitlesArr = [];
+for (title in titleSplit){
+	temp = titleSplit[title].trim();
+	if (titleTags.includes(temp)) {
+		commonTitlesArr.push(temp);
+	}
+}
+commonTitles = ' ';
+for (i in commonTitlesArr) {
+	if(i == 0){
+		commonTitles = commonTitlesArr[i];
+	}
+	else{
+		commonTitles += ', ' + commonTitlesArr[i];
+	}
+}
 var cardTemplate = [
     '<article class="card search-card">',
-    '<figure class="card__thumbnail">',
-    '<img src="',
+    '<div class="search-img activator" style="background-image:url(\'',
 	cardData.picture,
-	'" width="130px" >',
-	'<div class="favorite-books">',
-    '<h6 class="bold">Favorite books:</h6>',
-	'<h6>',
-	cardData.titles,
-	'</h6>',
-	'<h6 class="bold">Favorite genres:</h6>',
-	'<h6>',
-	cardData.genres,
-	'</h6>',
+	'\')">',
+	'<i class="activator material-icons search-card-opt">more_vert</i>',
 	'</div>',
-	'</figure>',
-	'<header class="card__title">',
-    '<h3>',
+	'<span class="card-title search-card-name activator grey-text text-darken-4">',
 	cardData.first + " ",
 	cardData.last,
-	'</h3>',
-    '</header>',
+	'</span>',
     '<main class="card__description">',
-    cardData.description,
+    cardData.genres,
+	'<br>',
+	cardData.titles,
     '</main>',
+	'<div class="card-reveal">',
+    '<span class="card-title grey-text text-darken-4 search-card-name">',
+	cardData.first + " ",
+	cardData.last,
+	'<i class="material-icons right">close</i></span>',
+	'<h6 class="search-card-description">',
+	cardData.description,
+	'</h6>',
+	'<h6 class="bold">',
+	'Genres in common:',
+	'</h6>',
+	'<h6>',
+	commonGenres,
+	'</h6>',
+	'<h6 class="bold">',
+	'Books in common:',
+	'</h6>',
+	'<h6>',
+	commonTitles,
+	'</h6>',
+	'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
+    '</div>',
     '</article>'
   ];
 
@@ -141,19 +192,15 @@ var cardTemplate = [
 </script>
 <script>
 $(document).ready(function(){
-
 	var slider = document.getElementById('slider');
 	  noUiSlider.create(slider, {
-	   start: [18, 110],
+	   start: [0, 100],
 	   connect: true,
-	   step: 1,
+	   step: 101,
 	   range: {
 		 'min': 0,
 		 'max': 100
 	   },
-	   format: wNumb({
-		 decimals: 0
-	   })
 	});
 
 	$('.chips-autocomplete-genre').chips({
@@ -177,8 +224,8 @@ $(document).ready(function(){
 		autocompleteOptions: {
 			data: {
 			'Catcher in the rye': null,
-			'Horror': null,
-			'Adventure': null,
+			'50 Shades of Nut': null,
+			'The Hangover Part 2': null
 			},
 			limit: Infinity,
 			minLength: 1
@@ -186,24 +233,28 @@ $(document).ready(function(){
 	});
 });
 
+</script>
+<script>
+$(function() {
 
-/*    
-        jsonGenres = json.loads(request.form['names'])
-        genres = []
-        for x in jsonGenres:
-            genres.append(jsonGenres[x])
-        str = '%' + genres[0] + '%'
-        users = db.execute(
-            'SELECT * FROM user WHERE genres LIKE ?', (str,)
-        ).fetchall()
-        cursor = db.execute('select * from user')
-        header = [x[0] for x in cursor.description]
-        users_obj = {}
-        for user in users:
-            users_obj[user["id"]] = dict(zip(header,user))
-        y = json.dumps(users_obj)
-        return jsonify(y)
-*/
+    var $sidebar   = $("#search-window"), 
+        $window    = $(window),
+        offset     = $sidebar.offset(),
+        topPadding = 15;
+
+    $window.scroll(function() {
+        if ($window.scrollTop() > offset.top) {
+            $sidebar.stop().animate({
+                marginTop: $window.scrollTop() - offset.top + topPadding
+            });
+        } else {
+            $sidebar.stop().animate({
+                marginTop: 0
+            });
+        }
+    });
+    
+});
 </script>
 
 

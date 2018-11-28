@@ -42,8 +42,15 @@
 												<div id="regp1">
 													<span id="desc-header" class="card-title black-text">Add description</span>
 											<div class="input-field col s12">
-												<textarea id="descr-field" class="materialize-textarea" name="desc" data-length="50"></textarea>
-												<label for="descr-field">I love books...</label>
+												<textarea id="the-textarea" maxlength="300" name="desc" placeholder="I love books..."></textarea>
+													  
+													  <div id="the-count">
+														<span id="current">0</span>
+														<span id="maximum">/ 300</span>
+													  </div>
+
+												
+
 											</div>
 												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
 											</div>
@@ -108,48 +115,40 @@
 <script type="text/javascript">
 function submit_descr()
 {
-	desc = document.getElementById('descr-field').value;
-	if(desc.length > 50){
-		$("#create-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-			function() {
-				$("#create-card").removeClass('animated shake faster');
-			});
-	}
-	else{
+
 		$("#cont-home").animate({right: '+=500px'},450);
-	}
+	
 }
 
 function submit_create_bio()
 {
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
-	genres = {};
-
+	genreString = ' ';
 	for (x in genreTags.chipsData) {
 		if(x > 0) {
-			genres[x] = ', ' + genreTags.chipsData[x].tag;
+			genreString = genreString + ', ' + genreTags.chipsData[x].tag;
 		}
-		else{
-			genres[x] = genreTags.chipsData[x].tag;
+		else {
+			genreString = genreTags.chipsData[x].tag;
 		}
 	}
 	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
-	titles = {};
+	titleString = ' ';
 	for (x in titleTags.chipsData) {
 		if(x > 0) {
-			titles[x] = ', ' + titleTags.chipsData[x].tag;
+			titleString = titleString + ', ' + titleTags.chipsData[x].tag;
 		}
 		else{
-			titles[x] = titleTags.chipsData[x].tag;
+			titleString = titleTags.chipsData[x].tag;
 		}
 	}
-	desc = document.getElementById('descr-field').value;
+	desc = document.getElementById('the-textarea').value;
 	pic_url = document.getElementById('pic').value;
 	$.ajax({
 		url: '/main/create_bio',
 		data: {
-			'genres' : JSON.stringify(genres),
-			'titles' : JSON.stringify(titles),
+			'genres' : genreString,
+			'titles' : titleString,
 			'desc'   : desc,
 			'pic'    : pic_url
 		},
@@ -212,6 +211,22 @@ $(document).ready(function(){
 		$("#reg-header").css("display", "block");
     });
 	$('textarea#descr-field').characterCounter();
+	$('textarea').keyup(function() {
+    
+  var characterCount = $(this).val().length,
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
+    
+  current.text(characterCount);
+ 
+  
+  /*This isn't entirely necessary, just playin around*/
+
+
+  
+      
+});
 });
 
 </script>
