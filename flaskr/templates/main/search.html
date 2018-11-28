@@ -42,6 +42,7 @@
 	</div>
     <div class="col s10 neutral-color" >
 		<div class="row">
+			<h6 id="search-number">Showing 0 search results</h6>
 			<section class="search-card-container" id="search-container">
 				
 			</section>
@@ -95,11 +96,16 @@ function search(){
 		success: function(response) {
 			$("#search-container").html("");
 			var obj = JSON.parse(response);				
+			counter = 0;
 			for (userIndex in obj) {
 				user = obj[userIndex]
 				cards = cards.add(createCard(user, searchGenres, searchTitles));
+				counter++;
 			}
+			searchStr = "Showing " + counter + " search results.";
 			$('#search-container').append(cards);
+			$('#search-number').css("display", "block");
+			$('#search-number').html(searchStr);
 		},
 		error: function(error) {
 			console.log(error);
@@ -107,84 +113,84 @@ function search(){
     });
 }
 function createCard(cardData, genreTags, titleTags) {
-genres = cardData.genres;
-titles = cardData.titles;
-genreSplit = genres.split(",");
-commonGenresArr = [];
-for (genre in genreSplit){
-	temp = genreSplit[genre].trim();
-	if (genreTags.includes(temp)) {
-		commonGenresArr.push(temp);
+	genres = cardData.genres;
+	titles = cardData.titles;
+	genreSplit = genres.split(",");
+	commonGenresArr = [];
+	for (genre in genreSplit){
+		temp = genreSplit[genre].trim();
+		if (genreTags.includes(temp)) {
+			commonGenresArr.push(temp);
+		}
 	}
-}
-commonGenres = ' ';
-for (i in commonGenresArr) {
-	if(i == 0){
-		commonGenres = commonGenresArr[i];
+	commonGenres = ' ';
+	for (i in commonGenresArr) {
+		if(i == 0){
+			commonGenres = commonGenresArr[i];
+		}
+		else{
+			commonGenres += ', ' + commonGenresArr[i];
+		}
 	}
-	else{
-		commonGenres += ', ' + commonGenresArr[i];
+	titleSplit = titles.split(",");
+	commonTitlesArr = [];
+	for (title in titleSplit){
+		temp = titleSplit[title].trim();
+		if (titleTags.includes(temp)) {
+			commonTitlesArr.push(temp);
+		}
 	}
-}
-titleSplit = titles.split(",");
-commonTitlesArr = [];
-for (title in titleSplit){
-	temp = titleSplit[title].trim();
-	if (titleTags.includes(temp)) {
-		commonTitlesArr.push(temp);
+	commonTitles = ' ';
+	for (i in commonTitlesArr) {
+		if(i == 0){
+			commonTitles = commonTitlesArr[i];
+		}
+		else{
+			commonTitles += ', ' + commonTitlesArr[i];
+		}
 	}
-}
-commonTitles = ' ';
-for (i in commonTitlesArr) {
-	if(i == 0){
-		commonTitles = commonTitlesArr[i];
-	}
-	else{
-		commonTitles += ', ' + commonTitlesArr[i];
-	}
-}
-var cardTemplate = [
-    '<article class="card search-card">',
-    '<div class="search-img activator" style="background-image:url(\'',
-	cardData.picture,
-	'\')">',
-	'<i class="activator material-icons search-card-opt">more_vert</i>',
-	'</div>',
-	'<span class="card-title search-card-name activator grey-text text-darken-4">',
-	cardData.first + " ",
-	cardData.last,
-	'</span>',
-    '<main class="card__description">',
-    cardData.genres,
-	'<br>',
-	cardData.titles,
-    '</main>',
-	'<div class="card-reveal">',
-    '<span class="card-title grey-text text-darken-4 search-card-name">',
-	cardData.first + " ",
-	cardData.last,
-	'<i class="material-icons right">close</i></span>',
-	'<h6 class="search-card-description">',
-	cardData.description,
-	'</h6>',
-	'<h6 class="bold">',
-	'Genres in common:',
-	'</h6>',
-	'<h6>',
-	commonGenres,
-	'</h6>',
-	'<h6 class="bold">',
-	'Books in common:',
-	'</h6>',
-	'<h6>',
-	commonTitles,
-	'</h6>',
-	'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
-    '</div>',
-    '</article>'
-  ];
-  // a jQuery node
-  return $(cardTemplate.join(''));
+	var cardTemplate = [
+		'<article class="card search-card">',
+		'<div class="search-img activator" style="background-image:url(\'',
+		cardData.picture,
+		'\')">',
+		'<i class="activator material-icons search-card-opt">more_vert</i>',
+		'</div>',
+		'<span class="card-title search-card-name activator grey-text text-darken-4">',
+		cardData.first + " ",
+		cardData.last,
+		'</span>',
+		'<main class="card__description">',
+		cardData.genres,
+		'<br>',
+		cardData.titles,
+		'</main>',
+		'<div class="card-reveal">',
+		'<span class="card-title grey-text text-darken-4 search-card-name">',
+		cardData.first + " ",
+		cardData.last,
+		'<i class="material-icons right">close</i></span>',
+		'<h6 class="search-card-description">',
+		cardData.description,
+		'</h6>',
+		'<h6 class="bold">',
+		'Genres in common:',
+		'</h6>',
+		'<h6>',
+		commonGenres,
+		'</h6>',
+		'<h6 class="bold">',
+		'Books in common:',
+		'</h6>',
+		'<h6>',
+		commonTitles,
+		'</h6>',
+		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
+		'</div>',
+		'</article>'
+	  ];
+	  // a jQuery node
+	  return $(cardTemplate.join(''));
 }
 </script>
 <script>

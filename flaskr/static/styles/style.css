@@ -182,6 +182,11 @@ p {
 	min-width: 200px;
 }
 
+#search-number{
+	text-align: center;
+	display: none;
+}
+
 .search-card-name{
 	font-size: 30px !important;
 	text-align: center;
