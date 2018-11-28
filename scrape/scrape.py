@@ -73,6 +73,31 @@ def scrape_detailed_page(url):
         print('Failed pages')
         item_dict['pages'] = None
 
+    try:
+        item_dict['cover_pic'] = soup.find('img', id='coverImage')['src']
+    except Exception as e:
+        print('imgurl error')
+        item_dict['cover_pic'] = None
+
+    try:
+        genres = soup.find_all('div', class_='elementList')
+        list = []
+        i=0
+        j=0
+        while i < len(genres) and j < 3:
+            if genres[i].find('a', class_='actionLinkLite bookPageGenreLink') is not None:
+                list.append(genres[i].find('a', class_='actionLinkLite bookPageGenreLink').text)
+                i += 1
+                j += 1
+            else:
+                i += 1
+        item_dict['genres'] = list
+
+    except Exception as e:
+        print(e)
+        print('genre error')
+        item_dict['genres'] = None
+
     return item_dict
 
 
@@ -120,25 +145,37 @@ def scrape_list_page(url):
         except Exception as e:
             print('boobs')
 
+
+
         book_list.append(book_dict)
         print('sleeping for 3')
         time.sleep(3)
 
     return book_list
 
+def to_csv(list,fname,cols):
+
+    df = pandas.DataFrame(list)
+    f = open(fname, 'w')
+    df.to_csv(f, sep=',', encoding='utf-8',columns=cols, index=False)
+
+
+
+def start_scraping():
+    url_begin = 'https://www.goodreads.com/list/show/264.Books_That_Everyone_Should_Read_At_Least_Once?page='
+    page_val = 198
+    book_list_layered = []
+
+    for j in range(1,page_val+1):
+        book_list_layered.append(scrape_list_page(url_begin+str(j)))
+
+
+    print(book_list_layered)
+    pickle.dump(book_list_layered, open('layered_list.pickle', 'wb'))
 
 
 if __name__ == '__main__':
 
-
-        url_begin = 'https://www.goodreads.com/list/show/264.Books_That_Everyone_Should_Read_At_Least_Once?page='
-        page_val = 198
-        book_list_layered = []
-
-        for j in range(1,page_val+1):
-            book_list_layered.append(scrape_list_page(url_begin+str(j)))
-
-
-        pickle.dump(book_list_layered, open('layered_list.pickle', 'wb'))
-
-        
+    list = pickle.load(open('layered_list.pickle', 'rb'))
+    fin_list = [l[i] for l in list for i in range(0,len(l))]
+    to_csv(fin_list, 'books.csv', ['title', 'author', 'ISBN', 'language', 'pages', 'cover_pic', 'genres'])
