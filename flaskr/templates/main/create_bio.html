@@ -48,9 +48,6 @@
 														<span id="current">0</span>
 														<span id="maximum">/ 300</span>
 													  </div>
-
-												
-
 											</div>
 												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
 											</div>
@@ -126,7 +123,6 @@ function submit_descr()
 		header.innerHTML = "Update profile picture";
 	}
 }
-
 function submit_create_bio()
 {
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
@@ -174,14 +170,8 @@ function submit_create_bio()
 $(document).ready(function(){
 	genres = document.getElementById('usergenres');
 	genresStr = genres.value;
-	genresArr = genresStr.split(',');
-	var genreTags = [];
-	for(genre in genresArr){
-		obj = {tag : genresArr[genre].trim(),};
-		genreTags.push(obj);
-	}
-	$('.chips-autocomplete-genre-create').chips({
-		data: genreTags,
+	if(genresStr == " "){
+		$('.chips-autocomplete-genre-create').chips({
 		secondaryPlaceholder: '+genre',
 		placeholder: 'Add your favroite genres',
 		autocompleteOptions: {
@@ -193,30 +183,69 @@ $(document).ready(function(){
 			limit: Infinity,
 			minLength: 1
 		}
-	});
+		});
+	}
+	else{
+		genresArr = genresStr.split(',');
+		var genreTags = [];
+		for(genre in genresArr){
+			obj = {tag : genresArr[genre].trim(),};
+			genreTags.push(obj);
+		}
+		$('.chips-autocomplete-genre-create').chips({
+			data: genreTags,
+			secondaryPlaceholder: '+genre',
+			placeholder: 'Add your favroite genres',
+			autocompleteOptions: {
+				data: {
+					'Mystery': null,
+					'Horror': null,
+					'Adventure': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
+		});
+	}
 	titles = document.getElementById('usertitles');
 	titlesStr = titles.value;
-	titlesArr = titlesStr.split(',');
-	var titleTags = [];
-	for(title in titlesArr){
-		obj = {tag : titlesArr[title].trim(),};
-		titleTags.push(obj);
+	if(titlesStr == " "){
+		$('.chips-autocomplete-title-create').chips({
+			secondaryPlaceholder: '+title',
+			placeholder: 'Add your favorite book titles',
+			autocompleteOptions: {
+				data: {
+					'Catcher in the rye': null,
+					'50 Shades of Nut': null,
+					'The Hangover Part 2': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
+		});
 	}
-  	$('.chips-autocomplete-title-create').chips({
-		data: titleTags,
-		secondaryPlaceholder: '+title',
-		placeholder: 'Add your favorite book titles',
-		autocompleteOptions: {
-			data: {
-				'Catcher in the rye': null,
-				'50 Shades of Nut': null,
-				'The Hangover Part 2': null
-			},
-			limit: Infinity,
-			minLength: 1
+	else{
+		titlesArr = titlesStr.split(',');
+		var titleTags = [];
+		for(title in titlesArr){
+			obj = {tag : titlesArr[title].trim(),};
+			titleTags.push(obj);
 		}
-  });
-
+		$('.chips-autocomplete-title-create').chips({
+			data: titleTags,
+			secondaryPlaceholder: '+title',
+			placeholder: 'Add your favorite book titles',
+			autocompleteOptions: {
+				data: {
+					'Catcher in the rye': null,
+					'50 Shades of Nut': null,
+					'The Hangover Part 2': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
+	  });
+	}
 	$("#close-home").click(function(){
         $("#cont-home").animate({right: '-=500px'},450);
 		$("#reg_error").css("display", "none");
@@ -241,16 +270,8 @@ $(document).ready(function(){
       theCount = $('#the-count');
     
   current.text(characterCount);
- 
-  
-  /*This isn't entirely necessary, just playin around*/
-
-
-  
-      
 });
 });
-
 </script>
   </body>
 </html>

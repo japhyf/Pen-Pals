@@ -53,6 +53,8 @@
 	</div>
 </div>
 
+<textarea id="useremail" class="hidden">{{user.email}}</textarea>
+
 <div class="row">
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('main.bio') }}">View Bio</a>
@@ -151,46 +153,51 @@ function createCard(cardData, genreTags, titleTags) {
 			commonTitles += ', ' + commonTitlesArr[i];
 		}
 	}
-	var cardTemplate = [
-		'<article class="card search-card">',
-		'<div class="search-img activator" style="background-image:url(\'',
-		cardData.picture,
-		'\')">',
-		'<i class="activator material-icons search-card-opt">more_vert</i>',
-		'</div>',
-		'<span class="card-title search-card-name activator grey-text text-darken-4">',
-		cardData.first + " ",
-		cardData.last,
-		'</span>',
-		'<main class="card__description">',
-		cardData.genres,
-		'<br>',
-		cardData.titles,
-		'</main>',
-		'<div class="card-reveal">',
-		'<span class="card-title grey-text text-darken-4 search-card-name">',
-		cardData.first + " ",
-		cardData.last,
-		'<i class="material-icons right">close</i></span>',
-		'<h6 class="search-card-description">',
-		cardData.description,
-		'</h6>',
-		'<h6 class="bold">',
-		'Genres in common:',
-		'</h6>',
-		'<h6>',
-		commonGenres,
-		'</h6>',
-		'<h6 class="bold">',
-		'Books in common:',
-		'</h6>',
-		'<h6>',
-		commonTitles,
-		'</h6>',
-		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
-		'</div>',
-		'</article>'
-	  ];
+	if(document.getElementById('useremail').value == cardData.email){
+		var cardTemplate = [];
+	}
+	else{
+		var cardTemplate = [
+			'<article class="card search-card">',
+			'<div class="search-img activator" style="background-image:url(\'',
+			cardData.picture,
+			'\')">',
+			'<i class="activator material-icons search-card-opt">more_vert</i>',
+			'</div>',
+			'<span class="card-title search-card-name activator grey-text text-darken-4">',
+			cardData.first + " ",
+			cardData.last,
+			'</span>',
+			'<main class="card__description">',
+			cardData.genres,
+			'<br>',
+			cardData.titles,
+			'</main>',
+			'<div class="card-reveal">',
+			'<span class="card-title grey-text text-darken-4 search-card-name">',
+			cardData.first + " ",
+			cardData.last,
+			'<i class="material-icons right">close</i></span>',
+			'<h6 class="search-card-description">',
+			cardData.description,
+			'</h6>',
+			'<h6 class="bold">',
+			'Genres in common:',
+			'</h6>',
+			'<h6>',
+			commonGenres,
+			'</h6>',
+			'<h6 class="bold">',
+			'Books in common:',
+			'</h6>',
+			'<h6>',
+			commonTitles,
+			'</h6>',
+			'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
+			'</div>',
+			'</article>'
+		  ];
+	  }
 	  // a jQuery node
 	  return $(cardTemplate.join(''));
 }
