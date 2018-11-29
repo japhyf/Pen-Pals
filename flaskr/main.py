@@ -30,10 +30,12 @@ def home():
 
 @bp.route('/create_bio')
 def create_bio():
+    #check that user is logged in
     user_id = session.get('user_id')
     db = get_db()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
+    #send all user data to template
     user = db.execute(
         'SELECT * FROM user WHERE id = ?', (user_id,)
     ).fetchone()
@@ -89,6 +91,7 @@ def create_bio():
         'titles'      : titles,
         'picture'     : picture
     }
+    #send all user data to template
     return render_template('main/create_bio.html', user=user_details)
     
 @bp.route('/create_bio', methods=('GET', 'POST'))
@@ -96,34 +99,26 @@ def create_bio_submit():
     user_id = session.get('user_id')
     db = get_db()
     error = None
+    #insert all info entered on create_bio page into database
     if request.method == 'POST':
-        #jsonGenres = json.loads(request.form['genres'])
-        #jsonTitles = json.loads(request.form['titles'])
         genreString = request.form['genres']
         titleString = request.form['titles']
         desc = request.form['desc']
         pic_url = request.form['pic']
-        #genreString = ' '
-        #for x in jsonGenres:
-        #    genreString += ' '
-        #    genreString += jsonGenres[x]
-        #titleString = ' '
-        #for x in jsonTitles:
-        #    titleString += ' '
-        #    titleString += jsonTitles[x]
         sql = 'UPDATE user SET genres = ?, titles = ?, picture = ?, description = ? WHERE id = ?'
         val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)
-        db.commit()
-                
+        db.commit()       
     return render_template('main/db.html')
 
 @bp.route('/search')
 def search():
+    #check that user is logged in
     user_id = session.get('user_id')
     db = get_db()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
+    #send all user data to template
     user = db.execute(
         'SELECT * FROM user WHERE id = ?', (user_id,)
     ).fetchone()
@@ -159,6 +154,7 @@ def search():
         'address2': address_line2,
         'username': username
     }
+    #send all user data to template
     return render_template('main/search.html', user=user_details)
     
 @bp.route('/search', methods=('GET', 'POST'))
@@ -166,6 +162,7 @@ def search_results():
     db = get_db()
     error = None
     if request.method == 'POST':
+        #find all users with favorite genres matching search genres
         jsonGenres = json.loads(request.form['genres'])
         genres = []
         for x in jsonGenres:
@@ -182,6 +179,7 @@ def search_results():
             for user in users:
                 users_obj[user["id"]] = dict(zip(header,user))
             full_users.update(users_obj)
+        #find all users with favorite titles matching search titles
         jsonTitles = json.loads(request.form['titles'])
         titles = []
         for x in jsonTitles:
@@ -198,6 +196,7 @@ def search_results():
                 users_obj[user["id"]] = dict(zip(header,user))
             full_users.update(users_obj)
         y = json.dumps(full_users)
+        #return full list of users to template
         return jsonify(y)
     return render_template('main/search.html')
 

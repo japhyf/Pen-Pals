@@ -75,6 +75,7 @@
 <script type="text/javascript">
 function search(){
 	var cards = $();
+	//assign genre tags entered in search to object genres
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre'));
 	genres = {};
 	searchGenres = [];
@@ -82,6 +83,7 @@ function search(){
 		genres[x] = genreTags.chipsData[x].tag;
 		searchGenres.push(genreTags.chipsData[x].tag);
 	}
+	//assign title tags entered in search to object titles
 	searchTitles = [];
 	titleTags = M.Chips.getInstance($('.chips-autocomplete-book'));
 	titles = {};
@@ -89,27 +91,38 @@ function search(){
 		titles[x] = titleTags.chipsData[x].tag;
 		searchTitles.push(titleTags.chipsData[x].tag);
 	}
-	
+	//send search criteria to python to check the database
 	$.ajax({
 		url: '/main/search',
+		//sending search info
 		data: {
 			'genres' : JSON.stringify(genres),
 			'titles' : JSON.stringify(titles)
 		},
 		type: 'POST',
 		success: function(response) {
+			//reset search window
 			$("#search-container").html("");
 			var obj = JSON.parse(response);				
+			//counter to count number of search results
 			counter = 0;
 			for (userIndex in obj) {
 				user = obj[userIndex]
-				cards = cards.add(createCard(user, searchGenres, searchTitles));
-				counter++;
+				if(user.email == document.getElementById('useremail').value){
+					//don't display self in search
+				}
+				else {
+					//call createCard to generate the user card
+					cards = cards.add(createCard(user, searchGenres, searchTitles));
+					counter++;
+				}
 			}
+			//display number of search results
 			searchStr = "Showing " + counter + " search results.";
-			$('#search-container').append(cards);
 			$('#search-number').css("display", "block");
 			$('#search-number').html(searchStr);
+			//append generated cards to the DOM
+			$('#search-container').append(cards);
 		},
 		error: function(error) {
 			console.log(error);
@@ -117,8 +130,8 @@ function search(){
     });
 }
 function createCard(cardData, genreTags, titleTags) {
+	//generate list of user's genres
 	genres = cardData.genres;
-	titles = cardData.titles;
 	genreSplit = genres.split(",");
 	commonGenresArr = [];
 	for (genre in genreSplit){
@@ -127,6 +140,7 @@ function createCard(cardData, genreTags, titleTags) {
 			commonGenresArr.push(temp);
 		}
 	}
+	//generate list of user genres common with search info
 	commonGenres = ' ';
 	for (i in commonGenresArr) {
 		if(i == 0){
@@ -136,6 +150,8 @@ function createCard(cardData, genreTags, titleTags) {
 			commonGenres += ', ' + commonGenresArr[i];
 		}
 	}
+	//generate list of user's titles
+	titles = cardData.titles;
 	titleSplit = titles.split(",");
 	commonTitlesArr = [];
 	for (title in titleSplit){
@@ -144,6 +160,7 @@ function createCard(cardData, genreTags, titleTags) {
 			commonTitlesArr.push(temp);
 		}
 	}
+	//generate list of titles common with search info
 	commonTitles = ' ';
 	for (i in commonTitlesArr) {
 		if(i == 0){
@@ -153,53 +170,48 @@ function createCard(cardData, genreTags, titleTags) {
 			commonTitles += ', ' + commonTitlesArr[i];
 		}
 	}
-	if(document.getElementById('useremail').value == cardData.email){
-		var cardTemplate = [];
-	}
-	else{
-		var cardTemplate = [
-			'<article class="card search-card">',
-			'<div class="search-img activator" style="background-image:url(\'',
-			cardData.picture,
-			'\')">',
-			'<i class="activator material-icons search-card-opt">more_vert</i>',
-			'</div>',
-			'<span class="card-title search-card-name activator grey-text text-darken-4">',
-			cardData.first + " ",
-			cardData.last,
-			'</span>',
-			'<main class="card__description">',
-			cardData.genres,
-			'<br>',
-			cardData.titles,
-			'</main>',
-			'<div class="card-reveal">',
-			'<span class="card-title grey-text text-darken-4 search-card-name">',
-			cardData.first + " ",
-			cardData.last,
-			'<i class="material-icons right">close</i></span>',
-			'<h6 class="search-card-description">',
-			cardData.description,
-			'</h6>',
-			'<h6 class="bold">',
-			'Genres in common:',
-			'</h6>',
-			'<h6>',
-			commonGenres,
-			'</h6>',
-			'<h6 class="bold">',
-			'Books in common:',
-			'</h6>',
-			'<h6>',
-			commonTitles,
-			'</h6>',
-			'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
-			'</div>',
-			'</article>'
-		  ];
-	  }
-	  // a jQuery node
-	  return $(cardTemplate.join(''));
+	//create card as jQuery node
+	var userCard = [
+		'<article class="card search-card">',
+		'<div class="search-img activator" style="background-image:url(\'',
+		cardData.picture,
+		'\')">',
+		'<i class="activator material-icons search-card-opt">more_vert</i>',
+		'</div>',
+		'<span class="card-title search-card-name activator grey-text text-darken-4">',
+		cardData.first + " ",
+		cardData.last,
+		'</span>',
+		'<main class="card__description">',
+		cardData.genres,
+		'<br>',
+		cardData.titles,
+		'</main>',
+		'<div class="card-reveal">',
+		'<span class="card-title grey-text text-darken-4 search-card-name">',
+		cardData.first + " ",
+		cardData.last,
+		'<i class="material-icons right">close</i></span>',
+		'<h6 class="search-card-description">',
+		cardData.description,
+		'</h6>',
+		'<h6 class="bold">',
+		'Genres in common:',
+		'</h6>',
+		'<h6>',
+		commonGenres,
+		'</h6>',
+		'<h6 class="bold">',
+		'Books in common:',
+		'</h6>',
+		'<h6>',
+		commonTitles,
+		'</h6>',
+		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
+		'</div>',
+		'</article>'
+	  ];
+	  return $(userCard.join(''));
 }
 function edit_bio(){
 	window.location.href='/main/create_bio';
@@ -207,6 +219,7 @@ function edit_bio(){
 </script>
 <script>
 $(document).ready(function(){
+	//everything breaks if I remove this...
 	var slider = document.getElementById('slider');
 	  noUiSlider.create(slider, {
 	   start: [0, 100],
@@ -217,6 +230,8 @@ $(document).ready(function(){
 		 'max': 100
 	   },
 	});
+	//sorry everyone but that code is stuck there forever
+	//autocomplete data for genre search info
 	$('.chips-autocomplete-genre').chips({
 		secondaryPlaceholder: '+genre',
 		placeholder: 'Search by genre',
@@ -231,7 +246,7 @@ $(document).ready(function(){
 			minLength: 1
 		}
 	});
-	
+	//autocomplete data for title search info
 	$('.chips-autocomplete-book').chips({
 		secondaryPlaceholder: '+title',
 		placeholder: 'Search by book',

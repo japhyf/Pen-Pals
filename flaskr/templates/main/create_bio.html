@@ -116,15 +116,19 @@ function submit_descr()
 {
 	pic = document.getElementById('pic');
 	header = document.getElementById('pic-header');
-	$("#cont-home").animate({right: '+=500px'},450);
 	if(pic.value === ""){
+		//leave "Add profile picture" text as is
 	}
 	else{
+		//if picture already exists, change text to "Update profile picture"
 		header.innerHTML = "Update profile picture";
 	}
+	//animate slide animation
+	$("#cont-home").animate({right: '+=500px'},450);
 }
 function submit_create_bio()
 {
+	//load genres entered by user
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
 	genreString = ' ';
 	for (x in genreTags.chipsData) {
@@ -135,6 +139,7 @@ function submit_create_bio()
 			genreString = genreTags.chipsData[x].tag;
 		}
 	}
+	//load titles entered by user
 	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
 	titleString = ' ';
 	for (x in titleTags.chipsData) {
@@ -147,6 +152,7 @@ function submit_create_bio()
 	}
 	desc = document.getElementById('the-textarea').value;
 	pic_url = document.getElementById('pic').value;
+	//send all user info to python to database
 	$.ajax({
 		url: '/main/create_bio',
 		data: {
@@ -170,21 +176,23 @@ function submit_create_bio()
 $(document).ready(function(){
 	genres = document.getElementById('usergenres');
 	genresStr = genres.value;
-	if(genresStr == " "){
+	//if the user has no genres listed generate field empty
+	if(genresStr == " " || genresStr == ""){
 		$('.chips-autocomplete-genre-create').chips({
-		secondaryPlaceholder: '+genre',
-		placeholder: 'Add your favroite genres',
-		autocompleteOptions: {
-			data: {
-				'Mystery': null,
-				'Horror': null,
-				'Adventure': null
-			},
-			limit: Infinity,
-			minLength: 1
-		}
+			secondaryPlaceholder: '+genre',
+			placeholder: 'Add your favroite genres',
+			autocompleteOptions: {
+				data: {
+					'Mystery': null,
+					'Horror': null,
+					'Adventure': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
 		});
 	}
+	//if the user has favorite genres stored load them in
 	else{
 		genresArr = genresStr.split(',');
 		var genreTags = [];
@@ -209,7 +217,8 @@ $(document).ready(function(){
 	}
 	titles = document.getElementById('usertitles');
 	titlesStr = titles.value;
-	if(titlesStr == " "){
+	//if the user has no titles listed generate field empty
+	if(titlesStr == " " || titlesStr == ""){
 		$('.chips-autocomplete-title-create').chips({
 			secondaryPlaceholder: '+title',
 			placeholder: 'Add your favorite book titles',
@@ -224,6 +233,7 @@ $(document).ready(function(){
 			}
 		});
 	}
+	//if the user has favorite titles stored load them in
 	else{
 		titlesArr = titlesStr.split(',');
 		var titleTags = [];
@@ -244,8 +254,9 @@ $(document).ready(function(){
 				limit: Infinity,
 				minLength: 1
 			}
-	  });
+		});
 	}
+	//animate slide
 	$("#close-home").click(function(){
         $("#cont-home").animate({right: '-=500px'},450);
 		$("#reg_error").css("display", "none");
@@ -261,16 +272,15 @@ $(document).ready(function(){
 		$("#reg_error").css("display", "none");
 		$("#reg-header").css("display", "block");
     });
+	//init character counter for description field
 	$('textarea#descr-field').characterCounter();
 	$('textarea').keyup(function() {
-    
-  var characterCount = $(this).val().length,
-      current = $('#current'),
-      maximum = $('#maximum'),
-      theCount = $('#the-count');
-    
-  current.text(characterCount);
-});
+		var characterCount = $(this).val().length, 
+			current = $('#current'),
+			maximum = $('#maximum'),
+			theCount = $('#the-count');
+		current.text(characterCount);
+	});
 });
 </script>
   </body>
