@@ -1,5 +1,5 @@
 import functools
-
+import sys
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, json, jsonify
 )
@@ -26,6 +26,164 @@ def home():
             'email': user['email'],
         }
         return render_template('main/search.html', user=user_details)
+
+@bp.route('/chathome')
+def chat():
+    return render_template('main/chathome.html')
+    #make sure user is logged in
+
+@bp.route('/chathome', methods=('GET', 'POST'))
+def chat_post():
+    if request.method == 'POST':
+        user_id = session.get('user_id')
+        db = get_db()
+        if user_id is None:
+            return redirect(url_for('auth.start_page'))
+        else:
+
+#            db.execute(
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES (, 1)',
+#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+#            )
+#            db.commit()
+
+#            db.execute(
+#                'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES ("new", "test", "today")'
+#            )
+#            db.commit()
+
+
+            user = db.execute('SELECT * FROM user WHERE id = ?', (user_id,)).fetchone()
+            user2 = db.execute('SELECT * FROM user WHERE email = ?', ('three@3.com',)).fetchone()
+
+
+            user_details = {
+                'email': user['email'],
+                'last': user['last'],
+                'first': user['first'],
+                'email2': user2['email'],
+                'last2': user2['last'],
+                'first2': user2['first'],
+            }
+
+            concat_users = user_details['email'] + ":" + user_details['email2']
+
+            db.execute(
+                'INSERT OR IGNORE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, 0,)
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES ("fuck", 3) ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;', hack['total_messages'] +1
+            )
+            db.commit()
+
+            hack = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_users,)).fetchone()
+
+            db.execute(
+                'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, hack['total_messages'] +1,)
+#                'INSERT INTO total_msg (identifier, total_messages) VALUES ("fuck", 3) ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;',
+#                'ON DUPLICATE KEY UPDATE total_messages = total_messages + 1;', hack['total_messages'] +1
+            )
+            db.commit()
+
+            hack2 = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_users,)).fetchone()
+            y = concat_users + str(hack['total_messages'])
+            z = "lick2"
+            f = user_details['email']
+
+            db.execute(
+                'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)', (y, z, f,)
+            )
+            db.commit()
+
+            y = json.dumps(user_details)
+            return jsonify(y)
+
+@bp.route('/chatdb')
+def db():
+    user_id = session.get('user_id')
+    db = get_db()
+    if user_id is None:
+        return redirect(url_for('auth.start_page'))
+    db = get_db()
+    tbl1 = db.execute(
+        'SELECT * FROM total_msg'
+    ).fetchall()
+    tbl2 = db.execute(
+        'SELECT * FROM messages'
+    ).fetchall()
+    return render_template('main/chatdb.html', tbl1=tbl1, tbl2=tbl2)
+
+@bp.route('/livechat')
+def livechat():
+    return render_template('main/livechat.html')
+
+@bp.route('/livechat', methods=('GET', 'POST'))
+def livechat_post():
+    if request.method == 'POST':
+        user_id = session.get('user_id')
+        db = get_db()
+        if user_id is None:
+            return redirect(url_for('auth.start_page'))
+        else:
+            user = db.execute(
+                'SELECT * FROM user WHERE id = ?', (user_id,)
+            ).fetchone()
+            if user is None:
+                return redirect(url_for('auth.start_page'))
+            user_details = {
+                'email': user['email'],
+            }
+            print (request.form['flag'], file=sys.stderr)
+            print ('flag 0', file=sys.stderr)
+
+            #the first ajax call for creating the conversation
+            otherEmail = request.form['otherEmail']
+            reversed = True
+            concat_users = user_details['email'] + ":" + otherEmail
+            concat_reverse = otherEmail + ":" + user_details['email']
+
+            #check to see who started the conversation
+            check_dup  = db.execute(
+                'SELECT * FROM total_msg WHERE identifier = ?', (concat_reverse,)
+            ).fetchone()
+
+            if check_dup is None:
+                reversed = False
+                db.execute(
+                    'INSERT OR IGNORE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, 0,)
+                )
+                db.commit()
+            # the second ajax call for entering a message into the database
+            if request.form['flag'] == '1':
+                #adds 1 to the conversation message count and enters the message
+                print ('flag 1', file=sys.stderr)
+                if not reversed:
+                    hack = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_users,)).fetchone()
+
+                    db.execute(
+                        'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, hack['total_messages'] +1,)
+                    )
+                    db.commit()
+
+                    concat_users_msgnumber = concat_users + ":" + str(hack['total_messages'])
+                    db.execute(
+                        'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)', (concat_users_msgnumber, request.form['the_message'], user_details['email'],)
+                    )
+                    db.commit()
+                else:
+                    hack2 = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_reverse,)).fetchone()
+
+                    db.execute(
+                        'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_reverse, hack2['total_messages'] +1,)
+                    )
+                    db.commit()
+
+                    concat_reverse_msgnumber = concat_reverse + ":" + str(hack2['total_messages'])
+                    db.execute(
+                        'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)', (concat_reverse_msgnumber, request.form['the_message'], user_details['email'],)
+                    )
+                    db.commit()
+
+            return render_template('main/livechat.html', user=user_details)
 
 
 @bp.route('/create_bio')
@@ -90,7 +248,7 @@ def create_bio():
         'picture'     : picture
     }
     return render_template('main/create_bio.html', user=user_details)
-    
+
 @bp.route('/create_bio', methods=('GET', 'POST'))
 def create_bio_submit():
     user_id = session.get('user_id')
@@ -115,7 +273,7 @@ def create_bio_submit():
         val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)
         db.commit()
-                
+
     return render_template('main/db.html')
 
 @bp.route('/search')
@@ -160,7 +318,7 @@ def search():
         'username': username
     }
     return render_template('main/search.html', user=user_details)
-    
+
 @bp.route('/search', methods=('GET', 'POST'))
 def search_results():
     db = get_db()

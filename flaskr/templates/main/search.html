@@ -8,7 +8,7 @@
 
 
   <!-- Compiled and minified CSS -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
@@ -18,7 +18,7 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdn.rawgit.com/Dogfalo/materialize/v1-dev/extras/noUiSlider/nouislider.min.js"></script>
-  
+
 
 </head>
 <body>
@@ -46,10 +46,10 @@
 		<div class="row">
 			<h6 id="search-number">Showing 0 search results</h6>
 			<section class="search-card-container" id="search-container">
-				
+
 			</section>
 		</div>
-		
+
 	</div>
 </div>
 
@@ -60,7 +60,7 @@
     <a href="{{url_for('main.home')}}">Home</a>
 </div>
 <!-- Footer Section -->
-	<footer class="page-footer white">	
+	<footer class="page-footer white">
 		<div class="footer-copyright">
 			<p id="copyright">copyrighted mother effers</p>
 		</div>
@@ -87,7 +87,7 @@ function search(){
 		titles[x] = titleTags.chipsData[x].tag;
 		searchTitles.push(titleTags.chipsData[x].tag);
 	}
-	
+
 	$.ajax({
 		url: '/main/search',
 		data: {
@@ -97,7 +97,7 @@ function search(){
 		type: 'POST',
 		success: function(response) {
 			$("#search-container").html("");
-			var obj = JSON.parse(response);				
+			var obj = JSON.parse(response);
 			counter = 0;
 			for (userIndex in obj) {
 				user = obj[userIndex]
@@ -117,6 +117,7 @@ function search(){
 function createCard(cardData, genreTags, titleTags) {
 	genres = cardData.genres;
 	titles = cardData.titles;
+  email = cardData.email;
 	genreSplit = genres.split(",");
 	commonGenresArr = [];
 	for (genre in genreSplit){
@@ -187,13 +188,18 @@ function createCard(cardData, genreTags, titleTags) {
 		'<h6>',
 		commonTitles,
 		'</h6>',
-		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
+		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message(email);">Message</button>',
 		'</div>',
 		'</article>'
 	  ];
 	  // a jQuery node
 	  return $(cardTemplate.join(''));
 }
+function message(x){
+   localStorage.setItem("storedEmail",x);
+	 window.location.href='/main/livechat';
+	}
+
 function edit_bio(){
 	window.location.href='/main/create_bio';
 }
@@ -224,7 +230,7 @@ $(document).ready(function(){
 			minLength: 1
 		}
 	});
-	
+
 	$('.chips-autocomplete-book').chips({
 		secondaryPlaceholder: '+title',
 		placeholder: 'Search by book',
