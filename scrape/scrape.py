@@ -174,8 +174,32 @@ def start_scraping():
     pickle.dump(book_list_layered, open('layered_list.pickle', 'wb'))
 
 
-if __name__ == '__main__':
-
+def layered_to_csv():
     list = pickle.load(open('layered_list.pickle', 'rb'))
     fin_list = [l[i] for l in list for i in range(0,len(l))]
     to_csv(fin_list, 'books.csv', ['title', 'author', 'ISBN', 'language', 'pages', 'cover_pic', 'genres'])
+
+
+if __name__ == '__main__':
+
+
+    list = pickle.load(open('layered_list.pickle', 'rb'))
+    fin_list = [l[i] for l in list for i in range(0,len(l))]
+
+    genres = []
+    titles = []
+    for thing in fin_list:
+        titles.append(thing['title'])
+        for genre in thing['genres']:
+            genres.append(genre)
+
+    genre_set = set(genres)
+    title_set = set(titles)
+    for tit in title_set:
+        #clean titles "" -> ''
+        tit = tit.replace('"',"'")
+
+
+    with open('titles.txt','w') as f:
+        for tit in title_set:
+            f.write('"' + tit + '"' + '\t:\tnull,\n')
