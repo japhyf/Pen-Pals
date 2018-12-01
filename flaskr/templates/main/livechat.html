@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="referrer" content="no-referrer"/>
   <title>Pen Pals</title>
-
-
   <!-- Compiled and minified CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
@@ -18,26 +16,47 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdn.rawgit.com/Dogfalo/materialize/v1-dev/extras/noUiSlider/nouislider.min.js"></script>
-
-  <script type="text/javascript">
-function noenter() {
-  return !(window.event && window.event.keyCode == 13); }
-</script>
 </head>
+<body>
+<div class="row neutral-color">
+    <div class="col s2" id="search-window">
+		<form id="search_form" method="post">
+			<span class="flow-text"><i class="small material-icons" id="search-icon">search</i>Search</span>
+			<br>
+			<h3 class="flow-text" id="search-text">By favorite book genres:</h3>
+			<div class="chips-autocomplete-genre text-darken-2"></div>
+			<h3 class="flow-text" id="search-text">By favorite book titles:</h3>
+			<div class="chips-autocomplete-book text-darken-2" name="title"></div>
+
+			<div id="slider"></div>
+
+			<button id="search-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="search();">Search</button>
+			<br>
+			<button id="search-edit-button" class="btn waves-effect waves-light" type="button" name="button" onclick="edit_bio();">Edit Bio</button>
 
 
+		</form>
+	</div>
+    <div class="col s10 neutral-color" >
+		<div id="bubble-container"> 
 
-<button id="send-button" class="btn waves-effect waves-light secondary-color" name="button" onclick="submit();">bang</button>
+		</div>
+		<button id="send-button" class="btn waves-effect waves-light secondary-color" name="button" onclick="submit();">Send</button>
 
 <form id="message_form" method="post">
 <div class="input-field col m12">
   <input id="message"  name="mesg" onkeypress="return noenter()">
   <label for="message"> </label>
 </div>
-</form>
+	</div>
+</div>
 
+
+</form>
+</body>
 <script>
 console.log("im being called");
+var messages = $();
 $.ajax({
        url: '/main/livechat',
        data:  {
@@ -46,18 +65,16 @@ $.ajax({
    		},
        type: 'POST',
        success: function(response) {
-//         console.log(response);
-//         console.log("no err");
-//         var obj = JSON.parse(response);
-//         emailself = obj[Object.keys(obj)[0]];
-//         name1self = obj[Object.keys(obj)[2]];
-//         name2self = obj[Object.keys(obj)[4]];
-//         emailreciver = obj[Object.keys(obj)[1]];
-//         namereciver = obj[Object.keys(obj)[3]];
-//         name2reciver = obj[Object.keys(obj)[5]];
-         console.log("no err");
-       },
-       error: function(error) {
+			var obj = JSON.parse(response);	
+			i = 0;
+			for (messageIndex in obj) {
+				row = obj[messageIndex];
+				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
+			}
+			$('#bubble-container').append(messages);
+			console.log("no err two");
+		},
+		error: function(error) {
            console.log("err");
        }
    });
@@ -66,50 +83,80 @@ console.log("im being called part 2");
 
 
 <script type="text/javascript">
-
 function submit(){
+	var messages = $();
+	$("#bubble-container").html("");
+	form = document.forms['message_form'];
+	msg = form.elements['mesg'].value;
+	console.log(msg);
+	console.log("im being called pt 3");
+	$.ajax({
+		url: '/main/livechat',
+		data:  {
+			'the_message' : msg,
+			'otherEmail' : localStorage.getItem("storedEmail"),
+			'flag' : 1
+		},
+		type: 'POST',
+		success: function(response) {
+			var obj = JSON.parse(response);	
+			i = 0;
+			for (messageIndex in obj) {
+				row = obj[messageIndex];
+				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
+			}
+			$('#bubble-container').append(messages);
+			console.log("no err two");
+		},
+		error: function(error) {
+			console.log("err two");
+		}
+	});
+	console.log("im being called part 4");
+	document.getElementById('message').value = '';
+}
 
-  form = document.forms['message_form'];
-  msg = form.elements['mesg'].value;
-  console.log(msg);
-  console.log("im being called pt 3");
-  $.ajax({
-         url: '/main/livechat',
-         data:  {
-          'the_message' : msg,
-          'otherEmail' : localStorage.getItem("storedEmail"),
-          'flag' : 1
-     		},
-         type: 'POST',
-         success: function(response) {
-  //         console.log(response);
-  //         console.log("no err");
-  //         var obj = JSON.parse(response);
-  //         emailself = obj[Object.keys(obj)[0]];
-  //         name1self = obj[Object.keys(obj)[2]];
-  //         name2self = obj[Object.keys(obj)[4]];
-  //         emailreciver = obj[Object.keys(obj)[1]];
-  //         namereciver = obj[Object.keys(obj)[3]];
-  //         name2reciver = obj[Object.keys(obj)[5]];
-           console.log("no err two");
-         },
-         error: function(error) {
-             console.log("err two");
-         }
-     });
-  console.log("im being called part 4");
-
+function createMessage(messageData, to) {
+	if(messageData.sender == to){
+		var bubble = [
+		'<div class="row bubble-margin">',
+		'<div class="speech-bubble-left">',
+		'<h1 class="bubble-text">',
+		messageData.message,
+		'</h1>',
+		'</div>',
+		'</div>'
+		];
+	}
+	else{
+		var bubble = [
+			'<div class="row bubble-margin">',
+			'<div class="speech-bubble-right">',
+			'<h1 class="bubble-text">',
+			messageData.message,
+			'</h1>',
+			'</div>',
+			'</div>'
+		];
+	}
+	return $(bubble.join(''));
 }
 </script>
 
 <script>
 $(document).ready(function(){
-  $('#message_form').keypress(function(e){
-      if(e.keyCode==13)
-      $('#send-button').click();
-    });
-  }
+	$('#message_form').keypress(function(e){
+		if(e.keyCode==13){
+			$('#send-button').click();
+		}
+	});
+});
 
+</script>
+<script type="text/javascript">
+function noenter() {
+	return !(window.event && window.event.keyCode == 13); 
+}
 </script>
 
 <div class="row">

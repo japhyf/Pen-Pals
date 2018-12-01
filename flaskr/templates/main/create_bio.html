@@ -48,9 +48,6 @@
 														<span id="current">0</span>
 														<span id="maximum">/ 300</span>
 													  </div>
-
-												
-
 											</div>
 												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
 											</div>
@@ -119,16 +116,19 @@ function submit_descr()
 {
 	pic = document.getElementById('pic');
 	header = document.getElementById('pic-header');
-	$("#cont-home").animate({right: '+=500px'},450);
 	if(pic.value === ""){
+		//leave "Add profile picture" text as is
 	}
 	else{
+		//if picture already exists, change text to "Update profile picture"
 		header.innerHTML = "Update profile picture";
 	}
+	//animate slide animation
+	$("#cont-home").animate({right: '+=500px'},450);
 }
-
 function submit_create_bio()
 {
+	//load genres entered by user
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
 	genreString = ' ';
 	for (x in genreTags.chipsData) {
@@ -139,6 +139,7 @@ function submit_create_bio()
 			genreString = genreTags.chipsData[x].tag;
 		}
 	}
+	//load titles entered by user
 	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
 	titleString = ' ';
 	for (x in titleTags.chipsData) {
@@ -151,6 +152,7 @@ function submit_create_bio()
 	}
 	desc = document.getElementById('the-textarea').value;
 	pic_url = document.getElementById('pic').value;
+	//send all user info to python to database
 	$.ajax({
 		url: '/main/create_bio',
 		data: {
@@ -174,49 +176,87 @@ function submit_create_bio()
 $(document).ready(function(){
 	genres = document.getElementById('usergenres');
 	genresStr = genres.value;
-	genresArr = genresStr.split(',');
-	var genreTags = [];
-	for(genre in genresArr){
-		obj = {tag : genresArr[genre].trim(),};
-		genreTags.push(obj);
+	//if the user has no genres listed generate field empty
+	if(genresStr == " " || genresStr == ""){
+		$('.chips-autocomplete-genre-create').chips({
+			secondaryPlaceholder: '+genre',
+			placeholder: 'Add your favroite genres',
+			autocompleteOptions: {
+				data: {
+					'Mystery': null,
+					'Horror': null,
+					'Adventure': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
+		});
 	}
-	$('.chips-autocomplete-genre-create').chips({
-		data: genreTags,
-		secondaryPlaceholder: '+genre',
-		placeholder: 'Add your favroite genres',
-		autocompleteOptions: {
-			data: {
-				'Mystery': null,
-				'Horror': null,
-				'Adventure': null
-			},
-			limit: Infinity,
-			minLength: 1
+	//if the user has favorite genres stored load them in
+	else{
+		genresArr = genresStr.split(',');
+		var genreTags = [];
+		for(genre in genresArr){
+			obj = {tag : genresArr[genre].trim(),};
+			genreTags.push(obj);
 		}
-	});
+		$('.chips-autocomplete-genre-create').chips({
+			data: genreTags,
+			secondaryPlaceholder: '+genre',
+			placeholder: 'Add your favroite genres',
+			autocompleteOptions: {
+				data: {
+					'Mystery': null,
+					'Horror': null,
+					'Adventure': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
+		});
+	}
 	titles = document.getElementById('usertitles');
 	titlesStr = titles.value;
-	titlesArr = titlesStr.split(',');
-	var titleTags = [];
-	for(title in titlesArr){
-		obj = {tag : titlesArr[title].trim(),};
-		titleTags.push(obj);
+	//if the user has no titles listed generate field empty
+	if(titlesStr == " " || titlesStr == ""){
+		$('.chips-autocomplete-title-create').chips({
+			secondaryPlaceholder: '+title',
+			placeholder: 'Add your favorite book titles',
+			autocompleteOptions: {
+				data: {
+					'Catcher in the rye': null,
+					'50 Shades of Nut': null,
+					'The Hangover Part 2': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
+		});
 	}
-  	$('.chips-autocomplete-title-create').chips({
-		data: titleTags,
-		secondaryPlaceholder: '+title',
-		placeholder: 'Add your favorite book titles',
-		autocompleteOptions: {
-			data: {
-				'Catcher in the rye': null,
-				'50 Shades of Nut': null,
-				'The Hangover Part 2': null
-			},
-			limit: Infinity,
-			minLength: 1
+	//if the user has favorite titles stored load them in
+	else{
+		titlesArr = titlesStr.split(',');
+		var titleTags = [];
+		for(title in titlesArr){
+			obj = {tag : titlesArr[title].trim(),};
+			titleTags.push(obj);
 		}
-  });
-
+		$('.chips-autocomplete-title-create').chips({
+			data: titleTags,
+			secondaryPlaceholder: '+title',
+			placeholder: 'Add your favorite book titles',
+			autocompleteOptions: {
+				data: {
+					'Catcher in the rye': null,
+					'50 Shades of Nut': null,
+					'The Hangover Part 2': null
+				},
+				limit: Infinity,
+				minLength: 1
+			}
+		});
+	}
+	//animate slide
 	$("#close-home").click(function(){
         $("#cont-home").animate({right: '-=500px'},450);
 		$("#reg_error").css("display", "none");
@@ -232,25 +272,16 @@ $(document).ready(function(){
 		$("#reg_error").css("display", "none");
 		$("#reg-header").css("display", "block");
     });
+	//init character counter for description field
 	$('textarea#descr-field').characterCounter();
 	$('textarea').keyup(function() {
-    
-  var characterCount = $(this).val().length,
-      current = $('#current'),
-      maximum = $('#maximum'),
-      theCount = $('#the-count');
-    
-  current.text(characterCount);
- 
-  
-  /*This isn't entirely necessary, just playin around*/
-
-
-  
-      
+		var characterCount = $(this).val().length, 
+			current = $('#current'),
+			maximum = $('#maximum'),
+			theCount = $('#the-count');
+		current.text(characterCount);
+	});
 });
-});
-
 </script>
   </body>
 </html>

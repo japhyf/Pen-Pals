@@ -103,7 +103,6 @@ def chatdb():
     db = get_db()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
-    db = get_db()
     tbl1 = db.execute(
         'SELECT * FROM total_msg'
     ).fetchall()
@@ -114,7 +113,12 @@ def chatdb():
 
 @bp.route('/livechat')
 def livechat():
-    return render_template('main/livechat.html')
+    user_id = session.get('user_id')
+    db = get_db()
+    if user_id is None:
+        return redirect(url_for('auth.start_page'))
+    else:
+        return render_template('main/livechat.html')
 
 @bp.route('/livechat', methods=('GET', 'POST'))
 def livechat_post():
@@ -158,12 +162,10 @@ def livechat_post():
                 print ('flag 1', file=sys.stderr)
                 if not reversed:
                     hack = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_users,)).fetchone()
-
                     db.execute(
                         'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, hack['total_messages'] +1,)
                     )
                     db.commit()
-
 #                    concat_users_msgnumber = concat_users + ":" + str(hack['total_messages'])
                     db.execute(
                         'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack['total_messages'], concat_users, request.form['the_message'], user_details['email'],)
@@ -171,12 +173,10 @@ def livechat_post():
                     db.commit()
                 else:
                     hack2 = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_reverse,)).fetchone()
-
                     db.execute(
                         'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_reverse, hack2['total_messages'] +1,)
                     )
                     db.commit()
-
 #                    concat_reverse_msgnumber = concat_reverse + ":" + str(hack2['total_messages'])
                     db.execute(
                         'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack2['total_messages'], concat_reverse, request.form['the_message'], user_details['email'],)
@@ -188,23 +188,34 @@ def livechat_post():
                 chat_history = db.execute(
                     'SELECT * FROM messages WHERE identifier_msg_nmbr = ?', (concat_users,)
                 ).fetchall()
-#                print (chat_history, file=sys.stderr)
+        #                print (chat_history, file=sys.stderr)
             else:
                 print ('else', file=sys.stderr)
                 chat_history = db.execute(
                     'SELECT * FROM messages WHERE identifier_msg_nmbr = ?', (concat_reverse,)
                 ).fetchall()
             print (chat_history, file=sys.stderr)
+            cursor = db.execute('select * from messages')
+            header = [x[0] for x in cursor.description]
+            chat_obj = {}
+            for row in chat_history:
+                chat_obj[row["id"]] = dict(zip(header,row))
+                print (chat_obj[row["id"]], file=sys.stderr)
+            y = json.dumps(chat_obj)
+            #return full list of users to template
+            return jsonify(y)
 
     return render_template('main/livechat.html', user=user_details, chat_history=chat_history)
 
 
 @bp.route('/create_bio')
 def create_bio():
+    #check that user is logged in
     user_id = session.get('user_id')
     db = get_db()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
+    #send all user data to template
     user = db.execute(
         'SELECT * FROM user WHERE id = ?', (user_id,)
     ).fetchone()
@@ -260,6 +271,7 @@ def create_bio():
         'titles'      : titles,
         'picture'     : picture
     }
+    #send all user data to template
     return render_template('main/create_bio.html', user=user_details)
 
 @bp.route('/create_bio', methods=('GET', 'POST'))
@@ -267,34 +279,26 @@ def create_bio_submit():
     user_id = session.get('user_id')
     db = get_db()
     error = None
+    #insert all info entered on create_bio page into database
     if request.method == 'POST':
-        #jsonGenres = json.loads(request.form['genres'])
-        #jsonTitles = json.loads(request.form['titles'])
         genreString = request.form['genres']
         titleString = request.form['titles']
         desc = request.form['desc']
         pic_url = request.form['pic']
-        #genreString = ' '
-        #for x in jsonGenres:
-        #    genreString += ' '
-        #    genreString += jsonGenres[x]
-        #titleString = ' '
-        #for x in jsonTitles:
-        #    titleString += ' '
-        #    titleString += jsonTitles[x]
         sql = 'UPDATE user SET genres = ?, titles = ?, picture = ?, description = ? WHERE id = ?'
         val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)
-        db.commit()
-
+        db.commit()       
     return render_template('main/db.html')
 
 @bp.route('/search')
 def search():
+    #check that user is logged in
     user_id = session.get('user_id')
     db = get_db()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
+    #send all user data to template
     user = db.execute(
         'SELECT * FROM user WHERE id = ?', (user_id,)
     ).fetchone()
@@ -330,6 +334,7 @@ def search():
         'address2': address_line2,
         'username': username
     }
+    #send all user data to template
     return render_template('main/search.html', user=user_details)
 
 @bp.route('/search', methods=('GET', 'POST'))
@@ -337,6 +342,7 @@ def search_results():
     db = get_db()
     error = None
     if request.method == 'POST':
+        #find all users with favorite genres matching search genres
         jsonGenres = json.loads(request.form['genres'])
         genres = []
         for x in jsonGenres:
@@ -353,6 +359,7 @@ def search_results():
             for user in users:
                 users_obj[user["id"]] = dict(zip(header,user))
             full_users.update(users_obj)
+        #find all users with favorite titles matching search titles
         jsonTitles = json.loads(request.form['titles'])
         titles = []
         for x in jsonTitles:
@@ -369,6 +376,7 @@ def search_results():
                 users_obj[user["id"]] = dict(zip(header,user))
             full_users.update(users_obj)
         y = json.dumps(full_users)
+        #return full list of users to template
         return jsonify(y)
     return render_template('main/search.html')
 

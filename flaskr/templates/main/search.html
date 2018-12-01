@@ -53,6 +53,8 @@
 	</div>
 </div>
 
+<textarea id="useremail" class="hidden">{{user.email}}</textarea>
+
 <div class="row">
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('main.bio') }}">View Bio</a>
@@ -73,6 +75,7 @@
 <script type="text/javascript">
 function search(){
 	var cards = $();
+	//assign genre tags entered in search to object genres
 	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre'));
 	genres = {};
 	searchGenres = [];
@@ -80,6 +83,7 @@ function search(){
 		genres[x] = genreTags.chipsData[x].tag;
 		searchGenres.push(genreTags.chipsData[x].tag);
 	}
+	//assign title tags entered in search to object titles
 	searchTitles = [];
 	titleTags = M.Chips.getInstance($('.chips-autocomplete-book'));
 	titles = {};
@@ -87,27 +91,38 @@ function search(){
 		titles[x] = titleTags.chipsData[x].tag;
 		searchTitles.push(titleTags.chipsData[x].tag);
 	}
-
+	//send search criteria to python to check the database
 	$.ajax({
 		url: '/main/search',
+		//sending search info
 		data: {
 			'genres' : JSON.stringify(genres),
 			'titles' : JSON.stringify(titles)
 		},
 		type: 'POST',
 		success: function(response) {
+			//reset search window
 			$("#search-container").html("");
-			var obj = JSON.parse(response);
+			var obj = JSON.parse(response);				
+			//counter to count number of search results
 			counter = 0;
 			for (userIndex in obj) {
 				user = obj[userIndex]
-				cards = cards.add(createCard(user, searchGenres, searchTitles));
-				counter++;
+				if(user.email == document.getElementById('useremail').value){
+					//don't display self in search
+				}
+				else {
+					//call createCard to generate the user card
+					cards = cards.add(createCard(user, searchGenres, searchTitles));
+					counter++;
+				}
 			}
+			//display number of search results
 			searchStr = "Showing " + counter + " search results.";
-			$('#search-container').append(cards);
 			$('#search-number').css("display", "block");
 			$('#search-number').html(searchStr);
+			//append generated cards to the DOM
+			$('#search-container').append(cards);
 		},
 		error: function(error) {
 			console.log(error);
@@ -115,9 +130,10 @@ function search(){
     });
 }
 function createCard(cardData, genreTags, titleTags) {
+	//generate list of user's genres
 	genres = cardData.genres;
 	titles = cardData.titles;
-  email = cardData.email;
+	email = cardData.email;
 	genreSplit = genres.split(",");
 	commonGenresArr = [];
 	for (genre in genreSplit){
@@ -126,6 +142,7 @@ function createCard(cardData, genreTags, titleTags) {
 			commonGenresArr.push(temp);
 		}
 	}
+	//generate list of user genres common with search info
 	commonGenres = ' ';
 	for (i in commonGenresArr) {
 		if(i == 0){
@@ -135,6 +152,8 @@ function createCard(cardData, genreTags, titleTags) {
 			commonGenres += ', ' + commonGenresArr[i];
 		}
 	}
+	//generate list of user's titles
+	titles = cardData.titles;
 	titleSplit = titles.split(",");
 	commonTitlesArr = [];
 	for (title in titleSplit){
@@ -143,6 +162,7 @@ function createCard(cardData, genreTags, titleTags) {
 			commonTitlesArr.push(temp);
 		}
 	}
+	//generate list of titles common with search info
 	commonTitles = ' ';
 	for (i in commonTitlesArr) {
 		if(i == 0){
@@ -152,7 +172,8 @@ function createCard(cardData, genreTags, titleTags) {
 			commonTitles += ', ' + commonTitlesArr[i];
 		}
 	}
-	var cardTemplate = [
+	//create card as jQuery node
+	var userCard = [
 		'<article class="card search-card">',
 		'<div class="search-img activator" style="background-image:url(\'',
 		cardData.picture,
@@ -192,8 +213,7 @@ function createCard(cardData, genreTags, titleTags) {
 		'</div>',
 		'</article>'
 	  ];
-	  // a jQuery node
-	  return $(cardTemplate.join(''));
+	  return $(userCard.join(''));
 }
 function message(x){
    localStorage.setItem("storedEmail",x);
@@ -206,6 +226,7 @@ function edit_bio(){
 </script>
 <script>
 $(document).ready(function(){
+	//everything breaks if I remove this...
 	var slider = document.getElementById('slider');
 	  noUiSlider.create(slider, {
 	   start: [0, 100],
@@ -216,6 +237,8 @@ $(document).ready(function(){
 		 'max': 100
 	   },
 	});
+	//sorry everyone but that code is stuck there forever
+	//autocomplete data for genre search info
 	$('.chips-autocomplete-genre').chips({
 		secondaryPlaceholder: '+genre',
 		placeholder: 'Search by genre',
@@ -230,7 +253,7 @@ $(document).ready(function(){
 			minLength: 1
 		}
 	});
-
+	//autocomplete data for title search info
 	$('.chips-autocomplete-book').chips({
 		secondaryPlaceholder: '+title',
 		placeholder: 'Search by book',
