@@ -98,7 +98,7 @@ def chat_post():
             return jsonify(y)
 
 @bp.route('/chatdb')
-def db():
+def chatdb():
     user_id = session.get('user_id')
     db = get_db()
     if user_id is None:
@@ -164,9 +164,9 @@ def livechat_post():
                     )
                     db.commit()
 
-                    concat_users_msgnumber = concat_users + ":" + str(hack['total_messages'])
+#                    concat_users_msgnumber = concat_users + ":" + str(hack['total_messages'])
                     db.execute(
-                        'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)', (concat_users_msgnumber, request.form['the_message'], user_details['email'],)
+                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack['total_messages'], concat_users, request.form['the_message'], user_details['email'],)
                     )
                     db.commit()
                 else:
@@ -177,13 +177,26 @@ def livechat_post():
                     )
                     db.commit()
 
-                    concat_reverse_msgnumber = concat_reverse + ":" + str(hack2['total_messages'])
+#                    concat_reverse_msgnumber = concat_reverse + ":" + str(hack2['total_messages'])
                     db.execute(
-                        'INSERT INTO messages (identifier_msg_nmbr, message, sender) VALUES (?, ?, ?)', (concat_reverse_msgnumber, request.form['the_message'], user_details['email'],)
+                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack2['total_messages'], concat_reverse, request.form['the_message'], user_details['email'],)
                     )
                     db.commit()
 
-            return render_template('main/livechat.html', user=user_details)
+            if not reversed:
+                print ('if', file=sys.stderr)
+                chat_history = db.execute(
+                    'SELECT * FROM messages WHERE identifier_msg_nmbr = ?', (concat_users,)
+                ).fetchall()
+#                print (chat_history, file=sys.stderr)
+            else:
+                print ('else', file=sys.stderr)
+                chat_history = db.execute(
+                    'SELECT * FROM messages WHERE identifier_msg_nmbr = ?', (concat_reverse,)
+                ).fetchall()
+            print (chat_history, file=sys.stderr)
+
+    return render_template('main/livechat.html', user=user_details, chat_history=chat_history)
 
 
 @bp.route('/create_bio')

@@ -25,7 +25,8 @@ CREATE TABLE total_msg (
 );
 
 CREATE TABLE messages (
-  identifier_msg_nmbr VARCHAR(120) PRIMARY KEY,
+  id INT,
+  identifier_msg_nmbr VARCHAR(120),
   message TEXT,
   sender VARCHAR(50)
 );
