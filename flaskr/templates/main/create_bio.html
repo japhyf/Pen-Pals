@@ -112,6 +112,12 @@
 
 
 <script type="text/javascript">
+$('textarea#descr-field').characterCounter();
+	var characterCount = $('textarea').val().length, 
+		current = $('#current'),
+		maximum = $('#maximum'),
+		theCount = $('#the-count');
+	current.text(characterCount);
 function submit_descr()
 {
 	pic = document.getElementById('pic');

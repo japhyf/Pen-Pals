@@ -44,19 +44,35 @@
 		<div id="bubble-container"> 
 			
 		</div>
-		<button id="send-button" class="btn waves-effect waves-light secondary-color" name="button" onclick="submit();">Send</button>
-		<form id="message_form" method="post">
-			<div class="input-field col m12">
-				<input id="message"  name="mesg" onkeypress="return noenter()">
-				<label for="message"> </label>
-			</div>
-		</form>
+		
+		
 	</div>
+	<div id="message-field-container" class="fixed">
+			<div class="row">
+				<form id="message_form" method="post">
+					<div class="input-field col m12">
+						<textarea id="message" class="materialize-textarea" name="mesg" onkeypress="return noenter()"></textarea>
+						<label for="message"> </label>
+					</div>
+				</form>
+				<button id="send-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit();"><i class="material-icons send-icon">send</i></button>
+			</div>
+		</div>
 </div>
 </body>
-<script>
-
-</script>
+<div class="row temp-nav">
+	<a href="{{ url_for('auth.logout') }}">log out</a>
+    <a href="{{ url_for('main.bio') }}">View Bio</a>
+    <a href="{{ url_for('main.create_bio') }}">Create Bio</a>
+    <a href="{{url_for('main.home')}}">Home</a>
+    <a href="{{ url_for('main.chatdb') }}">Chat database</a>
+</div>
+<!-- Footer Section -->
+	<footer class="page-footer white">
+		<div class="footer-copyright">
+			<p id="copyright">copyrighted mother effers</p>
+		</div>
+	</footer>
 
 
 <script type="text/javascript">
@@ -168,19 +184,6 @@ function noenter() {
 }
 </script>
 
-<div class="row">
-	<a href="{{ url_for('auth.logout') }}">log out</a>
-    <a href="{{ url_for('main.bio') }}">View Bio</a>
-    <a href="{{ url_for('main.create_bio') }}">Create Bio</a>
-    <a href="{{url_for('main.home')}}">Home</a>
-    <a href="{{ url_for('main.chatdb') }}">Chat database</a>
-</div>
-<!-- Footer Section -->
-	<footer class="page-footer white">
-		<div class="footer-copyright">
-			<p id="copyright">copyrighted mother effers</p>
-		</div>
-	</footer>
 
 
 
