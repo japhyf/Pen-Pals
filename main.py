@@ -5,6 +5,8 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from flaskr import init_db; init_db()
+
 from flaskr.db import get_db
 
 bp = Blueprint('main', __name__, url_prefix='/main')
@@ -90,7 +92,7 @@ def create_bio():
         'picture'     : picture
     }
     return render_template('main/create_bio.html', user=user_details)
-    
+
 @bp.route('/create_bio', methods=('GET', 'POST'))
 def create_bio_submit():
     user_id = session.get('user_id')
@@ -115,7 +117,7 @@ def create_bio_submit():
         val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)
         db.commit()
-                
+
     return render_template('main/db.html')
 
 @bp.route('/search')
@@ -160,7 +162,7 @@ def search():
         'username': username
     }
     return render_template('main/search.html', user=user_details)
-    
+
 @bp.route('/search', methods=('GET', 'POST'))
 def search_results():
     db = get_db()
