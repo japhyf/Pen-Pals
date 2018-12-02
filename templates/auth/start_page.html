@@ -1,0 +1,407 @@
+
+<!--{% block content %}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html>
+<head>
+
+  <!-- Compiled and minified CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+  <script type="text/javascript" src= "{{ url_for('static',filename='js/wow.min.js') }}"></script>
+  
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Pen Pals</title>
+</head>
+<body>
+    <div id="start-container">
+		<div class="section no-pad-bot">
+            <div class="row">
+                <h1 id="title" class="header center white-text accent-2">Pen Pals</h1>
+                <div class="row center">	
+                    <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span></h1>                  
+				</div>
+                <div class="row">
+					<div id="main-card" class="card large over hoverable horiz-center">
+						<div class="card-tabs">
+							<ul class="tabs tabs-fixed-width secondary-color">
+								<li id="login-tab" class="active tab"><a class="white-text" href="#login">Login</a></li>
+                                <li id="register-tab" class="tab"><a class="white-text" href="#register">Register</a></li>	
+							</ul>
+						</div>
+						<div id="cont" class="card-content">
+							<div id="register">
+								<div class="row">
+									<div class="login-container">
+										<form id="register_form" method="post">
+											<div id="reg1" class="col">
+												<div id="regp1">
+													<span id="reg-header" class="card-title black-text">Register</span>
+													<span id="reg_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
+													<div class="input-field col m12">
+														<input id="regEmail" type="email" name="regEmail" class="login-text">
+														<label for="regEmail">Email</label>
+													</div>
+													<div class="input-field col m12">
+														<input id="regPassword" type="password" name="regPassword" class="validate login-text">
+														<label for="regPassword">Password</label>
+													</div>
+													<div class="input-field col m12">
+														<input id="regPassword2" type="password" name="regPassword2" class="validate login-text">
+														<label for="regPassword2">Repeat Password</label>
+													</div>
+												</div>
+												<input id="butt" type="password" name="button" value="continue" style="display: none;">
+												<button id="cont_button" class="btn waves-effect waves-light continue secondary-color" type="button" name="button" onclick="reg_continue();">Continue</button>
+											</div>
+											<div id="reg2" class="col s1">
+												<div id="regp2">
+													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2" class="material-icons secondary-item-color">arrow_back</i></span>
+													<div class="row login-row">
+														<div class="input-field col">
+															<input id="first_name" type="text" name="first" class="validate">
+															<label for="first_name">First Name</label>
+														</div>
+														<div class="input-field col">
+															<input id="last_name" type="text" name="last" class="validate">
+															<label for="last_name">Last Name</label>
+														</div>
+													</div>
+													<div class="row login-row">
+														<div class="input-field col m12">
+															<input id="username" type="text" name="username" class="login-text">
+															<label for="username">Display Name</label>
+														</div>
+													</div>
+													<div class="row login-row">
+														<div class="input-field col s12">
+															<input id="address1" type="text" name="address1">
+															<label for="address1">Address line 1 (Street address, P.O. box, company name)</label>
+														</div>
+													</div>
+													<div class="row login-row">
+														<div class="input-field col s12">
+															<input id="address2" type="text" name="address2">
+															<label for="address2">Address line 2 (Apartment, suite , unit, building, floor, etc.)</label>
+														</div>
+													</div>
+													<div class="input-field col m12">
+														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_register_form();" value="Register">Register</button>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div id="login">
+								<div class="row">
+									<div class="login-container">
+										<form id="login_form" method="post">
+											<div class = "col">
+												<span id="login-header" class="card-title black-text">Login</span>
+												<span id="login_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
+												<div class="input-field col m12">
+													<input id="loginUsername" type="email" name="loginEmail" class="login-text">
+													<label for="loginUsername">Email</label>
+												</div>
+												<div class="input-field col m12">
+													<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">                                   
+													<label for="loginPassword">Password</label>
+												</div>
+                                                <input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
+												<div class="input-field col m12">
+                                                    <button id="login_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="Login">Login</button>
+												</div>
+											</div>
+										</form>  
+									</div>
+								</div>
+							</div>
+						</div> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Icon Section -->
+	<div id="icon-container">
+        <div class="container">
+            <div class="row">
+                <div class="col s3">
+                    <div class="icon-block wow fadeInUp">
+                        <h2 class="center context-icons"><i class="material-icons secondary-item-color">face</i></h2>
+                        <h5 class="center icon-header">Create a profile</h5>
+                        <p class="context light icon-text">Fill your profile with your favorite books, authors and genres. Choose up to 10 books you want to share.</p>
+                    </div>
+                </div>
+                <div class="col s3">
+                    <div class="icon-block wow fadeInUp">
+                        <h2 class="center context-icons"><i class="material-icons secondary-item-color">contact_mail</i></h2>
+                        <h5 class="center icon-header">Get matched</h5>
+                        <p class="context light icon-text">We will match you with another book lover who shares your interests.</p>
+                    </div>
+                </div>
+                <div class="col s3">
+                    <div class="icon-block wow fadeInUp">
+                    <h2 class="center context-icons"><i class="material-icons secondary-item-color">chat</i></h2>
+                    <h5 class="center icon-header">Get to know your match</h5>
+                    <p class="context light icon-text">Start talking to your new match through our built-in chat system.</p>
+                </div>
+                </div>
+                <div class="col s3">
+                    <div class="icon-block wow fadeInUp">
+                        <h2 class="center context-icons"><i class="material-icons secondary-item-color">autorenew</i></h2>
+                        <h5 class="center icon-header">Exchange books</h5>
+                        <p class="context light icon-text">Both you and your match will choose from your lists of sharable books and send eachother the book of your choosing.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+</html>
+
+<script type="text/javascript">
+function submit_login_form()
+{
+	card = document.getElementById("main-card");
+	form = document.forms['login_form'];
+	var reg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+	email = form.elements['loginEmail'].value;
+	password = form.elements['loginPassword'].value;
+	//check if email is valid
+	if (!reg.test(email)) {
+		//if email isn't valid display error and shake the card
+		$("#login-header").css("display", "none");
+		$("#login_error").get(0).lastChild.nodeValue = (" Invalid email address");
+		$("#login_error").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$("#main-card").removeClass('animated shake faster');
+			});
+	}
+	//if email is valid, check if an account exists with specified email
+	else {
+		$.ajax({
+            url: '/auth/start_page',
+            data: $('#login_form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                //if the response isn't one of these two errors, it is the rendering of the home page
+				if (response === "Email address is not in our system" || response === "Incorrect password") {
+					$("#login_error").get(0).lastChild.nodeValue = " " + response;
+					$("#login-header").css("display", "none");
+					$("#login_error").css("display", "block");
+					$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+					function() {
+						$("#main-card").removeClass('animated shake faster');
+					});
+				}
+				//here we just send the approved login to get sent to the home page
+				else {
+					$("#login_form").submit();
+				}
+			},
+            error: function(error) {
+                console.log(error);
+            }
+        });
+	}
+}
+</script>
+<script type="text/javascript">
+function reg_continue()
+{
+	card = document.getElementById("main-card");
+	form = document.forms['register_form'];
+	email = form.elements['regEmail'].value;
+	password = form.elements['regPassword'].value;
+	password2 = form.elements['regPassword2'].value;
+	var reg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+	//check if email is valid
+	if (!reg.test(email)) {
+		//if email isn't valid display error and shake the card
+		$("#reg-header").css("display", "none");
+		$("#reg_error").get(0).lastChild.nodeValue = (" Invalid email address");
+		$("#reg_error").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$("#main-card").removeClass('animated shake faster');
+			});
+	}
+	//check if passwords are identical
+	else if (password != password2) {
+		$("#reg-header").css("display", "none");
+		$("#reg_error").get(0).lastChild.nodeValue = (" Passwords don't match");
+		$("#reg_error").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+		function() {
+			$("#main-card").removeClass('animated shake faster');
+		});
+	}
+	//check if password fields are empty
+	else if (password === "") {
+		$("#reg-header").css("display", "none");
+		$("#reg_error").get(0).lastChild.nodeValue = (" Password fields empty");
+		$("#reg_error").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+		function() {
+			$("#main-card").removeClass('animated shake faster');
+		});
+	}
+	else {
+		$.ajax({
+            url: '/auth/start_page',
+            data: $('#register_form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                //if the response isn't one of these two errors, it is the rendering of the home page
+				if (response === "Email address already exists in our system") {
+					$("#reg_error").get(0).lastChild.nodeValue = " Email address exists in our system";
+					$("#reg-header").css("display", "none");
+					$("#reg_error").css("display", "block");
+					$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+					function() {
+						$("#main-card").removeClass('animated shake faster');
+					});
+				}
+				//here we just send the approved login to get sent to the home page
+				else {
+					$("#reg_error2").css("display", "none");
+					$("#reg-header2").css("display", "block");
+					$("#cont").animate({right: '+=500px'},450);
+				}
+			},
+            error: function(error) {
+                console.log(error);
+            }
+        });
+
+	}
+}
+</script>
+<script type="text/javascript">
+function submit_register_form()
+{
+	card = document.getElementById("main-card");
+	form = document.forms['register_form'];
+	email = form.elements['regEmail'].value;
+	password = form.elements['regPassword'].value;
+	password2 = form.elements['regPassword2'].value;
+	first = form.elements['first'].value;
+	last = form.elements['last'].value;
+	username = form.elements['last'].value;
+	address1 = form.elements['address1'].value;
+	address2 = form.elements['address2'].value;
+	//check if email is valid
+	if (first === "" || last === "" || username === "" || address1 === "" || address2 === "") {
+		//if email isn't valid display error and shake the card
+		$("#reg-header2").css("display", "none");
+		$("#reg_error2").get(0).lastChild.nodeValue = (" empty field(s)");
+		$("#reg_error2").css("display", "block");
+		$("#main-card").addClass('animated shake faster').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
+			function() {
+				$("#main-card").removeClass('animated shake faster');
+			});
+	}
+	else {
+		document.getElementById("butt").value = 'Register';
+		$("#register_form").submit();
+	}
+}
+</script>
+<script> 
+$(document).ready(function(){
+    $('ul.tabs').tabs();
+    $('ul.tabs').tabs('select_tab', 'tab_id');
+    $("#close").click(function(){
+        $("#cont").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#close2").click(function(){
+        $("#cont").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#login-tab").click(function(){
+        $("#register").attr('style', 'display: none');
+		$("#cont").animate({right: '0px'},1);
+		$("#login-header").css("display", "block");
+		$("#login_error").css("display", "none");
+    });
+	//pressing return key with username/password field selected
+	$('#loginPassword').keypress(function(e){
+      if(e.keyCode==13)
+      $('#login_button').click();
+    });
+	$('#loginUsername').keypress(function(e){
+      if(e.keyCode==13)
+      $('#login_button').click();
+    });
+	//pressing return key with register email or password1/2 field selected
+	$('#regEmail').keypress(function(e){
+      if(e.keyCode==13)
+      $('#cont_button').click();
+    });
+	$('#regPassword').keypress(function(e){
+      if(e.keyCode==13)
+      $('#cont_button').click();
+    });
+	$('#regPassword2').keypress(function(e){
+      if(e.keyCode==13)
+      $('#cont_button').click();
+    });
+	//pressing return key with register first, last, username, address1 or address2 field selected
+	$('#first_name').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#last_name').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#username').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#address1').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+	$('#address2').keypress(function(e){
+      if(e.keyCode==13)
+      $('#reg_button').click();
+    });
+});
+
+</script>
+<script>
+    new WOW().init();
+</script>
+   <script type="text/javascript">
+	var typed = new Typed(".typed", {
+		strings: ["^250 discuss books", "^250 share your favorites", "^250 meet someone new", "^250 be encouraged to read"],
+		typeSpeed: 40,
+		backSpeed: 20,
+		backDelay: 500,
+		loop: true,
+		fadeOut: true
+	});
+
+  </script>
+
+<!--{% endblock %}-->

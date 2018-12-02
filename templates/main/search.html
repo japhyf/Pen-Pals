@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="referrer" content="no-referrer"/>
+  <title>Pen Pals</title>
+
+
+  <!-- Compiled and minified CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.rawgit.com/Dogfalo/materialize/v1-dev/extras/noUiSlider/nouislider.min.js"></script>
+  
+
+</head>
+<body>
+
+<div class="row neutral-color">
+    <div class="col s2" id="search-window">
+		<form id="search_form" method="post">
+			<span class="flow-text"><i class="small material-icons" id="search-icon">search</i>Search</span>
+			<br>
+			<h3 class="flow-text" id="search-text">By favorite book genres:</h3>
+			<div class="chips-autocomplete-genre text-darken-2"></div>
+			<h3 class="flow-text" id="search-text">By favorite book titles:</h3>
+			<div class="chips-autocomplete-book text-darken-2" name="title"></div>
+
+			<div id="slider"></div>
+
+			<button id="search-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="search();">Search</button>
+			<br>
+			<button id="search-edit-button" class="btn waves-effect waves-light" type="button" name="button" onclick="edit_bio();">Edit Bio</button>
+
+
+		</form>
+	</div>
+    <div class="col s10 neutral-color" >
+		<div class="row">
+			<h6 id="search-number">Showing 0 search results</h6>
+			<section class="search-card-container" id="search-container">
+				
+			</section>
+		</div>
+		
+	</div>
+</div>
+
+<div class="row">
+	<a href="{{ url_for('auth.logout') }}">log out</a>
+    <a href="{{ url_for('main.bio') }}">View Bio</a>
+    <a href="{{ url_for('main.create_bio') }}">Create Bio</a>
+    <a href="{{url_for('main.home')}}">Home</a>
+</div>
+<!-- Footer Section -->
+	<footer class="page-footer white">	
+		<div class="footer-copyright">
+			<p id="copyright">copyrighted mother effers</p>
+		</div>
+	</footer>
+
+
+  <!--Scripts-->
+
+  </body>
+<script type="text/javascript">
+function search(){
+	var cards = $();
+	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre'));
+	genres = {};
+	searchGenres = [];
+	for (x in genreTags.chipsData) {
+		genres[x] = genreTags.chipsData[x].tag;
+		searchGenres.push(genreTags.chipsData[x].tag);
+	}
+	searchTitles = [];
+	titleTags = M.Chips.getInstance($('.chips-autocomplete-book'));
+	titles = {};
+	for (x in titleTags.chipsData) {
+		titles[x] = titleTags.chipsData[x].tag;
+		searchTitles.push(titleTags.chipsData[x].tag);
+	}
+	
+	$.ajax({
+		url: '/main/search',
+		data: {
+			'genres' : JSON.stringify(genres),
+			'titles' : JSON.stringify(titles)
+		},
+		type: 'POST',
+		success: function(response) {
+			$("#search-container").html("");
+			var obj = JSON.parse(response);				
+			counter = 0;
+			for (userIndex in obj) {
+				user = obj[userIndex]
+				cards = cards.add(createCard(user, searchGenres, searchTitles));
+				counter++;
+			}
+			searchStr = "Showing " + counter + " search results.";
+			$('#search-container').append(cards);
+			$('#search-number').css("display", "block");
+			$('#search-number').html(searchStr);
+		},
+		error: function(error) {
+			console.log(error);
+        }
+    });
+}
+function createCard(cardData, genreTags, titleTags) {
+	genres = cardData.genres;
+	titles = cardData.titles;
+	genreSplit = genres.split(",");
+	commonGenresArr = [];
+	for (genre in genreSplit){
+		temp = genreSplit[genre].trim();
+		if (genreTags.includes(temp)) {
+			commonGenresArr.push(temp);
+		}
+	}
+	commonGenres = ' ';
+	for (i in commonGenresArr) {
+		if(i == 0){
+			commonGenres = commonGenresArr[i];
+		}
+		else{
+			commonGenres += ', ' + commonGenresArr[i];
+		}
+	}
+	titleSplit = titles.split(",");
+	commonTitlesArr = [];
+	for (title in titleSplit){
+		temp = titleSplit[title].trim();
+		if (titleTags.includes(temp)) {
+			commonTitlesArr.push(temp);
+		}
+	}
+	commonTitles = ' ';
+	for (i in commonTitlesArr) {
+		if(i == 0){
+			commonTitles = commonTitlesArr[i];
+		}
+		else{
+			commonTitles += ', ' + commonTitlesArr[i];
+		}
+	}
+	var cardTemplate = [
+		'<article class="card search-card">',
+		'<div class="search-img activator" style="background-image:url(\'',
+		cardData.picture,
+		'\')">',
+		'<i class="activator material-icons search-card-opt">more_vert</i>',
+		'</div>',
+		'<span class="card-title search-card-name activator grey-text text-darken-4">',
+		cardData.first + " ",
+		cardData.last,
+		'</span>',
+		'<main class="card__description">',
+		cardData.genres,
+		'<br>',
+		cardData.titles,
+		'</main>',
+		'<div class="card-reveal">',
+		'<span class="card-title grey-text text-darken-4 search-card-name">',
+		cardData.first + " ",
+		cardData.last,
+		'<i class="material-icons right">close</i></span>',
+		'<h6 class="search-card-description">',
+		cardData.description,
+		'</h6>',
+		'<h6 class="bold">',
+		'Genres in common:',
+		'</h6>',
+		'<h6>',
+		commonGenres,
+		'</h6>',
+		'<h6 class="bold">',
+		'Books in common:',
+		'</h6>',
+		'<h6>',
+		commonTitles,
+		'</h6>',
+		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message();">Message</button>',
+		'</div>',
+		'</article>'
+	  ];
+	  // a jQuery node
+	  return $(cardTemplate.join(''));
+}
+function edit_bio(){
+	window.location.href='/main/create_bio';
+}
+</script>
+<script>
+$(document).ready(function(){
+	var slider = document.getElementById('slider');
+	  noUiSlider.create(slider, {
+	   start: [0, 100],
+	   connect: true,
+	   step: 101,
+	   range: {
+		 'min': 0,
+		 'max': 100
+	   },
+	});
+	$('.chips-autocomplete-genre').chips({
+		secondaryPlaceholder: '+genre',
+		placeholder: 'Search by genre',
+		autocompleteOptions: {
+			data: {
+				'Mystery': null,
+				'Horror': null,
+				'Adventure': null,
+				'a@gmail.com' : null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+	});
+	
+	$('.chips-autocomplete-book').chips({
+		secondaryPlaceholder: '+title',
+		placeholder: 'Search by book',
+		autocompleteOptions: {
+			data: {
+			'Catcher in the rye': null,
+			'50 Shades of Nut': null,
+			'The Hangover Part 2': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+	});
+});
+</script>
+
+
+
+
+
+
+</html>

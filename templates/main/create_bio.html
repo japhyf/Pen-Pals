@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="referrer" content="no-referrer"/>
+  <title>Pen Pals</title>
+
+
+    <!-- Compiled and minified CSS -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	<link rel="stylesheet" href="https://cdn.rawgit.com/AlexVentura/4d0c725c34941fa42361350dcb43731f/raw/e7eba7b9603237a8e4623f305abc46e60908d146/sponsor.matchxperience.css">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
+
+  <!-- Compiled and minified JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+</head>
+<body>
+	<div id="start-container">
+		<div class="section no-pad-bot">
+			<div class="row">
+                <h1 id="title" class="header center white-text accent-2">Pen Pals</h1>
+                <div class="row center">	
+                    <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span></h1>                  
+				</div>
+                <div class="row">
+				
+				<div id="create-card" class="card large over hoverable horiz-center">
+						<div id="cont-home" class="card-content">
+							<div id="register">
+								<div class="row">
+								
+										<form id="register_form" method="post">
+											
+											<div id="reg1" class="col">
+												<div id="regp1">
+													<span id="desc-header" class="card-title black-text">Add description</span>
+											<div class="input-field col s12">
+												<textarea id="the-textarea" maxlength="300" name="desc" placeholder="I love books...">{{user.description}}</textarea>
+													  
+													  <div id="the-count">
+														<span id="current">0</span>
+														<span id="maximum">/ 300</span>
+													  </div>
+
+												
+
+											</div>
+												<button id="descr_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();">Next</button>
+											</div>
+											</div>
+											<div id="reg2" class="col">
+												<div id="regp2">
+													<span id="pic-header" class="card-title grey-text text-darken-4">Choose profile picture<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
+
+														<div class="dropzone">
+															<div class="image-info"></div>
+														</div>
+														<div class="img"></div>
+													<div class="input-field col m12">
+														<button id="pic_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_descr();" value="Register">Next</button>
+													</div>
+												</div>
+											</div>
+											<div id="reg3" class="col">
+												<div id="regp3">
+													<span id="desc-header" class="card-title grey-text text-darken-4">Add books to your profile<i id="close-home2" class="material-icons secondary-item-color">arrow_back</i></span>
+													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
+													<div class="chips-autocomplete-genre-create"></div>
+													<div class="chips-autocomplete-title-create"></div>
+													<button id="create-bio-submit-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_create_bio();">Submit</button>
+												</div>
+											</div>
+
+										</form>
+									
+								</div>
+							</div>
+							
+						</div> 
+					</div>
+	
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<a href="{{ url_for('auth.logout') }}">log out</a>
+    <a href="{{ url_for('auth.db') }}">database</a>
+	<textarea id="pic" class="hidden test">{{user.picture}}</textarea>
+	<textarea id="usergenres" class="hidden">{{user.genres}}</textarea>
+	<textarea id="usertitles" class="hidden">{{user.titles}}</textarea>
+        
+<!-- Footer Section -->
+	<footer class="page-footer white">	
+		<div class="footer-copyright">
+			<p class="copyright" id="copyright">copyrighted mother effers</p>
+		</div>
+	</footer>
+
+
+  <!--  Scripts-->
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/init.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/imgur.js') }}"></script>
+	<script type="text/javascript" src= "{{ url_for('static',filename='js/upload.js') }}"></script>
+
+
+<script type="text/javascript">
+function submit_descr()
+{
+	pic = document.getElementById('pic');
+	header = document.getElementById('pic-header');
+	$("#cont-home").animate({right: '+=500px'},450);
+	if(pic.value === ""){
+	}
+	else{
+		header.innerHTML = "Update profile picture";
+	}
+}
+
+function submit_create_bio()
+{
+	genreTags = M.Chips.getInstance($('.chips-autocomplete-genre-create'));
+	genreString = ' ';
+	for (x in genreTags.chipsData) {
+		if(x > 0) {
+			genreString = genreString + ', ' + genreTags.chipsData[x].tag;
+		}
+		else {
+			genreString = genreTags.chipsData[x].tag;
+		}
+	}
+	titleTags = M.Chips.getInstance($('.chips-autocomplete-title-create'));
+	titleString = ' ';
+	for (x in titleTags.chipsData) {
+		if(x > 0) {
+			titleString = titleString + ', ' + titleTags.chipsData[x].tag;
+		}
+		else{
+			titleString = titleTags.chipsData[x].tag;
+		}
+	}
+	desc = document.getElementById('the-textarea').value;
+	pic_url = document.getElementById('pic').value;
+	$.ajax({
+		url: '/main/create_bio',
+		data: {
+			'genres' : genreString,
+			'titles' : titleString,
+			'desc'   : desc,
+			'pic'    : pic_url
+		},
+		type: 'POST',
+		success: function(response) {
+			window.location.href='/main/search';
+		},
+		error: function(error) {
+			console.log(error);
+        }
+    });
+}
+</script>  
+
+<script> 
+$(document).ready(function(){
+	genres = document.getElementById('usergenres');
+	genresStr = genres.value;
+	genresArr = genresStr.split(',');
+	var genreTags = [];
+	for(genre in genresArr){
+		obj = {tag : genresArr[genre].trim(),};
+		genreTags.push(obj);
+	}
+	$('.chips-autocomplete-genre-create').chips({
+		data: genreTags,
+		secondaryPlaceholder: '+genre',
+		placeholder: 'Add your favroite genres',
+		autocompleteOptions: {
+			data: {
+				'Mystery': null,
+				'Horror': null,
+				'Adventure': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+	});
+	titles = document.getElementById('usertitles');
+	titlesStr = titles.value;
+	titlesArr = titlesStr.split(',');
+	var titleTags = [];
+	for(title in titlesArr){
+		obj = {tag : titlesArr[title].trim(),};
+		titleTags.push(obj);
+	}
+  	$('.chips-autocomplete-title-create').chips({
+		data: titleTags,
+		secondaryPlaceholder: '+title',
+		placeholder: 'Add your favorite book titles',
+		autocompleteOptions: {
+			data: {
+				'Catcher in the rye': null,
+				'50 Shades of Nut': null,
+				'The Hangover Part 2': null
+			},
+			limit: Infinity,
+			minLength: 1
+		}
+  });
+
+	$("#close-home").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#close-home2").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#description-tab").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$('textarea#descr-field').characterCounter();
+	$('textarea').keyup(function() {
+    
+  var characterCount = $(this).val().length,
+      current = $('#current'),
+      maximum = $('#maximum'),
+      theCount = $('#the-count');
+    
+  current.text(characterCount);
+ 
+  
+  /*This isn't entirely necessary, just playin around*/
+
+
+  
+      
+});
+});
+
+</script>
+  </body>
+</html>
