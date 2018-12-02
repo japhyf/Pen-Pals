@@ -5,8 +5,6 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flaskr import init_db; init_db()
-
 from flaskr.db import get_db
 
 bp = Blueprint('main', __name__, url_prefix='/main')
