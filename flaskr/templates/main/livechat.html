@@ -19,35 +19,19 @@
 </head>
 <body>
 <div class="row neutral-color">
-    <div class="col s2 fixed" id="conversation-window">
-		<form id="search_form" method="post">
-			<span class="flow-text"><i class="small material-icons" id="search-icon">search</i>Search</span>
-			<br>
-			<h3 class="flow-text" id="search-text">By favorite book genres:</h3>
-			<div class="chips-autocomplete-genre text-darken-2"></div>
-			<h3 class="flow-text" id="search-text">By favorite book titles:</h3>
-			<div class="chips-autocomplete-book text-darken-2" name="title"></div>
+  <div class="col s3 fixed" id="convo-container">
 
-			<div id="slider"></div>
+  </div>
+	   <div class="col s3" id="conversation-holder">
+	   </div>
+    <div class="col s8 neutral-color" >
+		    <h1 id="recipient"></h1>
+		    <div id="bubble-container">
+		    </div>
+    </div>
 
-			<button id="search-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="search();">Search</button>
-			<br>
-			<button id="search-edit-button" class="btn waves-effect waves-light" type="button" name="button" onclick="edit_bio();">Edit Bio</button>
-
-
-		</form>
-	</div>
-	<div class="col s2" id="conversation-holder">
-	</div>
-    <div class="col s10 neutral-color" >
-		<h1 id="recipient">George</h1>
-		<div id="bubble-container"> 
-			
-		</div>
-		
-		
-	</div>
 	<div id="message-field-container" class="fixed">
+    <h1 id="recipient"></h1>
 			<div class="row">
 				<form id="message_form" method="post">
 					<div class="input-field col m12">
@@ -60,6 +44,7 @@
 		</div>
 </div>
 </body>
+<textarea id="useremail" class="hidden">{{user.email}}</textarea>
 <div class="row temp-nav">
 	<a href="{{ url_for('auth.logout') }}">log out</a>
     <a href="{{ url_for('main.bio') }}">View Bio</a>
@@ -96,10 +81,13 @@ function submit(){
 		},
 		type: 'POST',
 		success: function(response) {
-			var obj = JSON.parse(response);
+      var splitter = response.split("\n");
+      var obj1 = JSON.parse(splitter[0]);
+      var obj2 = JSON.parse(splitter[1]);
 			row = {};
-			for (messageIndex in obj) {
-				row = obj[messageIndex];
+			for (messageIndex in obj2) {
+        row = obj2[messageIndex];
+//        messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
 			}
 			messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
 			$('#bubble-container').append(messages);
@@ -115,6 +103,7 @@ function submit(){
 
 function refreshChat(){
 	var messages = $();
+  var conversations = $();
 	$("#bubble-container").html("");
 	$('#recipient').css("display", "block");
 	$('#recipient').html(localStorage.getItem("storedEmail"));
@@ -126,12 +115,21 @@ function refreshChat(){
 			},
 		   type: 'POST',
 		   success: function(response) {
-				var obj = JSON.parse(response);	
-				for (messageIndex in obj) {
-					row = obj[messageIndex];
-					messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
-				}
+        console.log(response);
+        var splitter = response.split("\n");
+        var obj1 = JSON.parse(splitter[0]);
+  			var obj2 = JSON.parse(splitter[1]);
+  			for (messageIndex in obj2) {
+  				row = obj2[messageIndex];
+  				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
+  			}
+        for (convoIndex in obj1) {
+  				row2 = obj1[convoIndex];
+  				conversations = conversations.add(createConvo(row2, localStorage.getItem("storedEmail")));
+  			}
+
 				$('#bubble-container').append(messages);
+        $('#convo-container').append(conversations);
 				console.log("no err two");
 			},
 			error: function(error) {
@@ -166,6 +164,38 @@ function createMessage(messageData, to) {
 	}
 	return $(bubble.join(''));
 }
+
+function createConvo(convoData, to) {
+    recipient = convoData.identifier;
+    recipientArr = [];
+    recipientArr = recipient.split(":");
+    you = document.getElementById('useremail').value;
+    if(recipientArr[0] == you){
+      recipient = recipientArr[1];
+    }
+    else{
+      recipient = recipientArr[0];
+    }
+    var slate = [
+//		'<div class="row bubble-margin">',
+//		'<div class="speech-bubble-left">',
+//		'<h1 class="bubble-text">',
+//		recipient,
+//		'</h1>',
+//		'</div>',
+//		'</div>'
+
+'<div class="row">',
+'<h5>',
+recipient,
+'</h5>',
+'</div>',
+'<hr>'
+		];
+	return $(slate.join(''));
+}
+
+
 </script>
 
 <script>
@@ -180,7 +210,7 @@ $(document).ready(function(){
 </script>
 <script type="text/javascript">
 function noenter() {
-	return !(window.event && window.event.keyCode == 13); 
+	return !(window.event && window.event.keyCode == 13);
 }
 </script>
 

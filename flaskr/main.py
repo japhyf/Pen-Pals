@@ -118,7 +118,42 @@ def livechat():
     if user_id is None:
         return redirect(url_for('auth.start_page'))
     else:
-        return render_template('main/livechat.html')
+        user = db.execute(
+            'SELECT * FROM user WHERE id = ?', (user_id,)
+        ).fetchone()
+        if user['first'] is None:
+            first = ""
+        else:
+            first = user['first']
+        if user['email'] is None:
+            email = ""
+        else:
+            email = user['email']
+        if user['last'] is None:
+            last = ""
+        else:
+            last = user['last']
+        if user['address_line1'] is None:
+            address_line1 = ""
+        else:
+            address_line1 = user['address_line1']
+        if user['address_line2'] is None:
+            address_line2 = ""
+        else:
+            address_line2 = user['address_line2']
+        if user['username'] is None:
+            username = ""
+        else:
+            username = user['username']
+        user_details = {
+            'first': first,
+            'last': last,
+            'email': email,
+            'address1': address_line1,
+            'address2': address_line2,
+            'username': username
+        }
+        return render_template('main/livechat.html', user=user_details)
 
 @bp.route('/livechat', methods=('GET', 'POST'))
 def livechat_post():
@@ -191,16 +226,63 @@ def livechat_post():
                 chat_history = db.execute(
                     'SELECT * FROM messages WHERE identifier_msg_nmbr = ?', (concat_reverse,)
                 ).fetchall()
-            print (chat_history, file=sys.stderr)
+
+            search_code_email = '%' + user['email'] + '%'
+            convos = db.execute(
+                'SELECT * FROM total_msg WHERE identifier LIKE ?', (search_code_email,)
+            ).fetchall()
+
+            print (convos, file=sys.stderr)
+            print ("cock", file=sys.stderr)
+
+            #zips and jsons users
             cursor = db.execute('select * from messages')
             header = [x[0] for x in cursor.description]
             chat_obj = {}
             for row in chat_history:
                 chat_obj[row["id"]] = dict(zip(header,row))
-                print (chat_obj[row["id"]], file=sys.stderr)
-            y = json.dumps(chat_obj)
-            #return full list of users to template
-            return jsonify(y)
+            json_chat = json.dumps(chat_obj)
+
+            #zips and jsons conversations
+            cursor2 = db.execute('select * from total_msg')
+            header2 = [x[0] for x in cursor2.description]
+            convos_obj = {}
+            other_users = {}
+            user_data = {}
+            count = 0;
+            count2 = 0;
+            for row in convos:
+                other_users[count] = {row["identifier"].replace(user['email'], '').replace(':', '')}
+                print (other_users[count], file=sys.stderr)
+                print ('butt', file=sys.stderr)
+                count += 1
+                convos_obj[row["identifier"]] = dict(zip(header2 ,row))
+            json_convos = json.dumps(convos_obj)
+
+
+            for users in other_users:
+                user_data[count2] = db.execute(
+                    'SELECT * FROM user WHERE email = ?', (str(other_users[count2]),)
+                ).fetchall()
+                print (user_data[count2], file=sys.stderr)
+                print ('butt2', file=sys.stderr)
+                count2 += 1
+
+            #zips and jsons user
+            # cursor3 = db.execute('select * from user')
+            # header3 = [x[0] for x in cursor3.description]
+            # user_obj = {}
+            # for row in self:
+            #     user_obj[row["id"]] = dict(zip(header3 ,row))
+            # json_user = json.dumps(user_obj)
+
+            json_concat = json_convos + '\n' + json_chat # + '\n' + json_user
+            # a = json.dumps(c convos_obj)
+            # b = jsonify(a)
+            c = jsonify(json_concat)
+            # print (a, file=sys.stderr)
+            print (json_convos, file=sys.stderr)
+            return c
 
     return render_template('main/livechat.html', chat_history=chat_history)
 
@@ -285,7 +367,7 @@ def create_bio_submit():
         sql = 'UPDATE user SET genres = ?, titles = ?, picture = ?, description = ? WHERE id = ?'
         val = (genreString, titleString, pic_url, desc, user_id)
         db.execute(sql, val)
-        db.commit()       
+        db.commit()
     return render_template('main/db.html')
 
 @bp.route('/search')
