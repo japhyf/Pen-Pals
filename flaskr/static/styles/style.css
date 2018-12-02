@@ -125,6 +125,11 @@ p {
 .bubble-text{
 	color: white;
 	font-size: 2vw;
+	margin: 0;
+}
+
+.bubble-margin{
+	margin-top: 10px;
 }
 
 .speech-bubble-left {
@@ -133,10 +138,10 @@ p {
 	background: #acacac;
 	border-radius: 2em;
 	word-wrap: break-word;
-	padding-bottom: 20px;
 	padding-top: 10px;
-	padding-right: 50px;
-	padding-left: 50px;
+	padding-bottom: 10px;
+	padding-right: 25px;
+	padding-left: 25px;
 	float: left;
 }
 
@@ -152,11 +157,7 @@ p {
 	border-left: 0;
 	border-bottom: 0;
 	margin-top: -19px;
-	margin-left: -38px;
-}
-
-.bubble-margin{
-	margin-top: 10px;
+	margin-left: -17px;
 }
 
 .speech-bubble-right {
@@ -165,10 +166,10 @@ p {
 	background: #0076FF;
 	border-radius: 2em;
 	word-wrap: break-word;
-	padding-bottom: 20px;
 	padding-top: 10px;
-	padding-right: 50px;
-	padding-left: 50px;
+	padding-bottom: 10px;
+	padding-right: 25px;
+	padding-left: 25px;
 	float: right;
 	margin-right: 35px;
 }
@@ -185,7 +186,7 @@ p {
 	border-right: 0;
 	border-bottom: 0;
 	margin-top: -19px;
-	margin-right: -38px;
+	margin-right: -17px;
 }
 
 
@@ -267,9 +268,26 @@ p {
 	min-width: 200px;
 }
 
+#conversation-window{
+
+}
+
+#conversation-holder{
+	min-height: 750px;
+}
+
 #search-number{
 	text-align: center;
 	display: none;
+}
+
+#recipient{
+	text-align: center;
+
+}
+
+#bubble-container{
+	
 }
 
 .search-card-name{

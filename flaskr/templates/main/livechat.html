@@ -19,7 +19,7 @@
 </head>
 <body>
 <div class="row neutral-color">
-    <div class="col s2" id="search-window">
+    <div class="col s2 fixed" id="conversation-window">
 		<form id="search_form" method="post">
 			<span class="flow-text"><i class="small material-icons" id="search-icon">search</i>Search</span>
 			<br>
@@ -37,57 +37,38 @@
 
 		</form>
 	</div>
+	<div class="col s2" id="conversation-holder">
+	</div>
     <div class="col s10 neutral-color" >
+		<h1 id="recipient">George</h1>
 		<div id="bubble-container"> 
-
+			
 		</div>
 		<button id="send-button" class="btn waves-effect waves-light secondary-color" name="button" onclick="submit();">Send</button>
-
-<form id="message_form" method="post">
-<div class="input-field col m12">
-  <input id="message"  name="mesg" onkeypress="return noenter()">
-  <label for="message"> </label>
-</div>
+		<form id="message_form" method="post">
+			<div class="input-field col m12">
+				<input id="message"  name="mesg" onkeypress="return noenter()">
+				<label for="message"> </label>
+			</div>
+		</form>
 	</div>
 </div>
-
-
-</form>
 </body>
 <script>
-console.log("im being called");
-var messages = $();
-$.ajax({
-       url: '/main/livechat',
-       data:  {
-   			'otherEmail' : localStorage.getItem("storedEmail"),
-        'flag' : 0
-   		},
-       type: 'POST',
-       success: function(response) {
-			var obj = JSON.parse(response);	
-			i = 0;
-			for (messageIndex in obj) {
-				row = obj[messageIndex];
-				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
-			}
-			$('#bubble-container').append(messages);
-			console.log("no err two");
-		},
-		error: function(error) {
-           console.log("err");
-       }
-   });
-console.log("im being called part 2");
+
 </script>
 
 
 <script type="text/javascript">
+console.log("im being called");
+refreshChat();
 function submit(){
 	var messages = $();
-	$("#bubble-container").html("");
 	form = document.forms['message_form'];
 	msg = form.elements['mesg'].value;
+	if (msg.trim() === ""){
+		return;
+	}
 	console.log(msg);
 	console.log("im being called pt 3");
 	$.ajax({
@@ -99,12 +80,12 @@ function submit(){
 		},
 		type: 'POST',
 		success: function(response) {
-			var obj = JSON.parse(response);	
-			i = 0;
+			var obj = JSON.parse(response);
+			row = {};
 			for (messageIndex in obj) {
 				row = obj[messageIndex];
-				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
 			}
+			messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
 			$('#bubble-container').append(messages);
 			console.log("no err two");
 		},
@@ -114,6 +95,34 @@ function submit(){
 	});
 	console.log("im being called part 4");
 	document.getElementById('message').value = '';
+}
+
+function refreshChat(){
+	var messages = $();
+	$("#bubble-container").html("");
+	$('#recipient').css("display", "block");
+	$('#recipient').html(localStorage.getItem("storedEmail"));
+	$.ajax({
+		   url: '/main/livechat',
+		   data:  {
+				'otherEmail' : localStorage.getItem("storedEmail"),
+				'flag' : 0
+			},
+		   type: 'POST',
+		   success: function(response) {
+				var obj = JSON.parse(response);	
+				for (messageIndex in obj) {
+					row = obj[messageIndex];
+					messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
+				}
+				$('#bubble-container').append(messages);
+				console.log("no err two");
+			},
+			error: function(error) {
+			   console.log("err");
+		   }
+	   });
+	console.log("im being called part 2");
 }
 
 function createMessage(messageData, to) {
@@ -158,19 +167,6 @@ function noenter() {
 	return !(window.event && window.event.keyCode == 13); 
 }
 </script>
-
-<div class="row">
-<div class="col s4">
-<h6 class="bold">messages</h6>
-</div>
-</div>
-{% for item in chat_history %}
-<div class="row">
-<div class="col s4">
-<p>{{item.message}}</p>
-</div>
-</div>
-{% endfor %}
 
 <div class="row">
 	<a href="{{ url_for('auth.logout') }}">log out</a>

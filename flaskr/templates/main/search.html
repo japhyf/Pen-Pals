@@ -24,7 +24,7 @@
 <body>
 
 <div class="row neutral-color">
-    <div class="col s2" id="search-window">
+    <div class="col s2 fixed" id="search-window">
 		<form id="search_form" method="post">
 			<span class="flow-text"><i class="small material-icons" id="search-icon">search</i>Search</span>
 			<br>
@@ -41,6 +41,8 @@
 
 
 		</form>
+	</div>
+	<div class="col s2" id="search-window">
 	</div>
     <div class="col s10 neutral-color" >
 		<div class="row">
@@ -209,20 +211,24 @@ function createCard(cardData, genreTags, titleTags) {
 		'<h6>',
 		commonTitles,
 		'</h6>',
-		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="message(email);">Message</button>',
+		'<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="',
+		email,
+		'">Message</button>',
 		'</div>',
 		'</article>'
 	  ];
 	  return $(userCard.join(''));
 }
-function message(x){
-   localStorage.setItem("storedEmail",x);
-	 window.location.href='/main/livechat';
-	}
 
 function edit_bio(){
 	window.location.href='/main/create_bio';
 }
+
+$(document).on("click","#message-button", function () {
+	var userEmail = $(this).attr('name'); // or var clickedBtnID = this.id
+	localStorage.setItem("storedEmail",userEmail);
+	window.location.href='/main/livechat';
+});
 </script>
 <script>
 $(document).ready(function(){

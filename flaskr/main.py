@@ -133,17 +133,14 @@ def livechat_post():
             ).fetchone()
             if user is None:
                 return redirect(url_for('auth.start_page'))
-            user_details = {
-                'email': user['email'],
-            }
             print (request.form['flag'], file=sys.stderr)
             print ('flag 0', file=sys.stderr)
 
             #the first ajax call for creating the conversation
             otherEmail = request.form['otherEmail']
             reversed = True
-            concat_users = user_details['email'] + ":" + otherEmail
-            concat_reverse = otherEmail + ":" + user_details['email']
+            concat_users = user['email'] + ":" + otherEmail
+            concat_reverse = otherEmail + ":" + user['email']
 
             #check to see who started the conversation
             check_dup  = db.execute(
@@ -168,7 +165,7 @@ def livechat_post():
                     db.commit()
 #                    concat_users_msgnumber = concat_users + ":" + str(hack['total_messages'])
                     db.execute(
-                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack['total_messages'], concat_users, request.form['the_message'], user_details['email'],)
+                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack['total_messages'], concat_users, request.form['the_message'], user['email'],)
                     )
                     db.commit()
                 else:
@@ -179,7 +176,7 @@ def livechat_post():
                     db.commit()
 #                    concat_reverse_msgnumber = concat_reverse + ":" + str(hack2['total_messages'])
                     db.execute(
-                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack2['total_messages'], concat_reverse, request.form['the_message'], user_details['email'],)
+                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack2['total_messages'], concat_reverse, request.form['the_message'], user['email'],)
                     )
                     db.commit()
 
@@ -205,7 +202,7 @@ def livechat_post():
             #return full list of users to template
             return jsonify(y)
 
-    return render_template('main/livechat.html', user=user_details, chat_history=chat_history)
+    return render_template('main/livechat.html', chat_history=chat_history)
 
 
 @bp.route('/create_bio')
