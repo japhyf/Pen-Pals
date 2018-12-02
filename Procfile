@@ -1,2 +1,2 @@
-web: python flaskr/main.py
+web: flask db upgrade; gunicorn app:flaskr
 
