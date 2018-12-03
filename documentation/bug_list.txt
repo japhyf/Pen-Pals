@@ -9,3 +9,8 @@ Pen-Pals Known Bug List
 	4) When user is uploading a profile picture, it might get distorted on the screen. 
 	
 	5) When scraping data, book titles may contain quotations that the cleaning scripts to not pickup.
+	
+	6)Back button dissapears on update profile picture
+	
+	7)Search and submit buttonws are broken by autofill
+
