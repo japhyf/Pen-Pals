@@ -1,8 +1,0 @@
-﻿Installation guide Pen Pals
-
-
-* Installation of the Flask Libraries which can be found at 
-http://flask.pocoo.org/docs/1.0/
-* Clone the Pen Pals github at https://github.com/abteen/Pen-Pals
-* Run a virtual environment to run the project on. You can get the venv from the flask site and initialize it with the command . venv/bin/activate
-* Assure that all dependencies in the requirements.txt file in the pen pals master branch are satisfied.
