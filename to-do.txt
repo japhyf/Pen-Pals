@@ -5,3 +5,17 @@ Make sure Spring Plans, Sprint Reports, Release Plan are all in parallel -- Abte
 Final Class presentation -- Abteen
 Bug List (in detail)
 System Unit testing (user story scenarios)
+
+
+
+System:
+
+-Get rid of address field
+-Set all underlines to black
+-Create navigation bar
+-Create character counter for messaging
+-Add features for profile picture
+-Start page dialogue boxes update
+-Add arrows leading to dialogue boxes
+
+
