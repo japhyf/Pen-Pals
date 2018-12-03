@@ -1,4 +1,0 @@
-bug list
-
-1. when registering and email exists, redirects to start page, same with login
-2. 
