@@ -1,0 +1,9 @@
+Pen-Pals Known Bug List
+
+	1) Sometimes if a user is logged in, they can by caut in an infite redirect when going back.
+
+	2) When a user updates their profile, and they press the back button, their profile picture may dissapear. 
+
+	3) If the user autofills too many tags, the submit button and search button get pushed off of the page. 
+
+	4) When user is uploading a profile picture, it might get distorted on the screen. 
