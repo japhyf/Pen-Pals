@@ -579,7 +579,7 @@ textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:foc
 }
 
 footer.page-footer {
-	margin-top: 95vh;
+	margin-top: 100vh;
 	position: fixed;
 }
 

@@ -235,7 +235,7 @@ def livechat_post():
             print (convos, file=sys.stderr)
             print ("cock", file=sys.stderr)
 
-            #zips and jsons users
+            #zips and jsons messages
             cursor = db.execute('select * from messages')
             header = [x[0] for x in cursor.description]
             chat_obj = {}
@@ -246,39 +246,37 @@ def livechat_post():
             #zips and jsons conversations
             cursor2 = db.execute('select * from total_msg')
             header2 = [x[0] for x in cursor2.description]
+            convo_recipients = {}
             convos_obj = {}
-            other_users = {}
-            user_data = {}
             count = 0;
-            count2 = 0;
             for row in convos:
-                other_users[count] = {row["identifier"].replace(user['email'], '').replace(':', '')}
-                print (other_users[count], file=sys.stderr)
-                print ('butt', file=sys.stderr)
+                convo_recipients[count] = row["identifier"].replace(user['email'], '').replace(':', '')
+                # print (convo_recipients[count], file=sys.stderr)
+                # print ('butt', file=sys.stderr)
                 count += 1
                 convos_obj[row["identifier"]] = dict(zip(header2 ,row))
             json_convos = json.dumps(convos_obj)
 
 
-            for users in other_users:
-                user_data[count2] = db.execute(
-                    'SELECT * FROM user WHERE email = ?', (str(other_users[count2]),)
+            gremlin = {}
+            count2 = 0;
+            for users in convo_recipients:
+                user_data = {}
+                user_data = db.execute(
+                    'SELECT * FROM user WHERE email = ?', (str(convo_recipients[count2]),)
                 ).fetchall()
-                print (user_data[count2], file=sys.stderr)
-                print ('butt2', file=sys.stderr)
+#                print (user_data[count2], file=sys.stderr)
+#                print ('butt2', file=sys.stderr)
                 count2 += 1
+                cursor3 = db.execute('select * from user')
+                header3 = [x[0] for x in cursor3.description]
+                user_obj = {}
+                for row in user_data:
+                    user_obj[row["email"]] = dict(zip(header3 ,row))
+                gremlin.update(user_obj)
+            json_user = json.dumps(gremlin)
 
-            #zips and jsons user
-            # cursor3 = db.execute('select * from user')
-            # header3 = [x[0] for x in cursor3.description]
-            # user_obj = {}
-            # for row in self:
-            #     user_obj[row["id"]] = dict(zip(header3 ,row))
-            # json_user = json.dumps(user_obj)
-
-            json_concat = json_convos + '\n' + json_chat # + '\n' + json_user
-            # a = json.dumps(c convos_obj)
-            # b = jsonify(a)
+            json_concat = json_convos + '\n' + json_chat  + '\n' + json_user
             c = jsonify(json_concat)
             # print (a, file=sys.stderr)
             print (json_convos, file=sys.stderr)

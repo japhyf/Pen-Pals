@@ -105,6 +105,7 @@ function refreshChat(){
 	var messages = $();
   var conversations = $();
 	$("#bubble-container").html("");
+  $("#convo-container").html("");
 	$('#recipient').css("display", "block");
 	$('#recipient').html(localStorage.getItem("storedEmail"));
 	$.ajax({
@@ -119,6 +120,8 @@ function refreshChat(){
         var splitter = response.split("\n");
         var obj1 = JSON.parse(splitter[0]);
   			var obj2 = JSON.parse(splitter[1]);
+        var obj3 = JSON.parse(splitter[2]);
+        console.log(obj3);
   			for (messageIndex in obj2) {
   				row = obj2[messageIndex];
   				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
@@ -152,14 +155,14 @@ function createMessage(messageData, to) {
 		];
 	}
 	else{
-		var bubble = [
-			'<div class="row bubble-margin">',
-			'<div class="speech-bubble-right">',
-			'<h1 class="bubble-text">',
-			messageData.message,
-			'</h1>',
-			'</div>',
-			'</div>'
+	var bubble = [
+		'<div class="row bubble-margin">',
+		'<div class="speech-bubble-right">',
+		'<h1 class="bubble-text">',
+		messageData.message,
+		'</h1>',
+		'</div>',
+		'</div>'
 		];
 	}
 	return $(bubble.join(''));
@@ -177,28 +180,32 @@ function createConvo(convoData, to) {
       recipient = recipientArr[0];
     }
     var slate = [
-//		'<div class="row bubble-margin">',
-//		'<div class="speech-bubble-left">',
-//		'<h1 class="bubble-text">',
-//		recipient,
-//		'</h1>',
-//		'</div>',
-//		'</div>'
-
-'<div class="row">',
-'<h5>',
-recipient,
-'</h5>',
-'</div>',
-'<hr>'
+      // '<a id="slate" href="#"name="',
+      // recipient,
+      // '">',
+      '<div id="slate" class="row" name="',
+      recipient,
+      '">',
+      '<h5>',
+      recipient,
+      '</h5>',
+      '</div>',
+      // '</a>',
+      // '<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="',
+      // recipient,
+      // '">Message</button>',
+      '<hr>'
 		];
 	return $(slate.join(''));
 }
 
+$(document).on("click","#slate", function () {
+	var morphEmail = $(this).attr('name'); // or var clickedBtnID = this.id
+	localStorage.setItem("storedEmail",morphEmail);
+  refreshChat();
+//	window.location.href='/main/livechat';
+});
 
-</script>
-
-<script>
 $(document).ready(function(){
 	$('#message_form').keypress(function(e){
 		if(e.keyCode==13){
@@ -207,20 +214,8 @@ $(document).ready(function(){
 	});
 });
 
-</script>
-<script type="text/javascript">
 function noenter() {
 	return !(window.event && window.event.keyCode == 13);
 }
 </script>
-
-
-
-
-
-
-
-
-
-
 </html>
