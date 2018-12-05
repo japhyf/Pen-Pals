@@ -63,6 +63,7 @@
 <script type="text/javascript">
 console.log("im being called");
 refreshChat();
+refreshConvos();
 function submit(){
 	var messages = $();
 	form = document.forms['message_form'];
@@ -103,9 +104,47 @@ function submit(){
 
 function refreshChat(){
 	var messages = $();
-  var conversations = $();
+	var conversations = $();
 	$("#bubble-container").html("");
-  $("#convo-container").html("");
+	$('#recipient').css("display", "block");
+	$('#recipient').html(localStorage.getItem("storedEmail"));
+	$.ajax({
+		   url: '/main/livechat',
+		   data:  {
+				'otherEmail' : localStorage.getItem("storedEmail"),
+				'flag' : 0
+			},
+		   type: 'POST',
+		   success: function(response) {
+        console.log(response);
+        var splitter = response.split("\n");
+        var obj1 = JSON.parse(splitter[0]);
+  		var obj2 = JSON.parse(splitter[1]);
+        var obj3 = JSON.parse(splitter[2]);
+        console.log(obj3);
+  			for (messageIndex in obj2) {
+  				row = obj2[messageIndex];
+  				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
+  			}
+        for (convoIndex in obj1) {
+  				row2 = obj1[convoIndex];
+  				conversations = conversations.add(createConvo(row2, localStorage.getItem("storedEmail")));
+  			}
+
+				$('#bubble-container').append(messages);
+				console.log("no err two");
+			},
+			error: function(error) {
+			   console.log("err");
+		   }
+	   });
+	console.log("im being called part 2");
+}
+
+function refreshConvos(){
+	var messages = $();
+	var conversations = $();
+	$("#convo-container").html("");
 	$('#recipient').css("display", "block");
 	$('#recipient').html(localStorage.getItem("storedEmail"));
 	$.ajax({
@@ -131,7 +170,6 @@ function refreshChat(){
   				conversations = conversations.add(createConvo(row2, localStorage.getItem("storedEmail")));
   			}
 
-				$('#bubble-container').append(messages);
         $('#convo-container').append(conversations);
 				console.log("no err two");
 			},
@@ -180,9 +218,6 @@ function createConvo(convoData, to) {
       recipient = recipientArr[0];
     }
     var slate = [
-      // '<a id="slate" href="#"name="',
-      // recipient,
-      // '">',
       '<div id="slate" class="row" name="',
       recipient,
       '">',
@@ -190,10 +225,6 @@ function createConvo(convoData, to) {
       recipient,
       '</h5>',
       '</div>',
-      // '</a>',
-      // '<button id="message-button" class="btn waves-effect waves-light secondary-color" type="button" name="',
-      // recipient,
-      // '">Message</button>',
       '<hr>'
 		];
 	return $(slate.join(''));
