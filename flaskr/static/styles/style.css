@@ -326,11 +326,15 @@ p {
 
 #recipient{
 	text-align: center;
+}
 
+.slate{
+	cursor: pointer;
 }
 
 #bubble-container{
 	max-height: 90vh;
+	overflow: auto;
 }
 
 #convo-container{
