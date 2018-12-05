@@ -53,9 +53,6 @@ li a:hover {
     background-color: #10;
 }
 
-.active {
-    background-color: #0076ff;
-}
 
 .nav-selector{
 	background-color: #0076ff;
@@ -129,8 +126,9 @@ body{
 }
 
 #start-container{
-	height: 1000px !important;
+	height: 100vh;
     background-color: var(--primary-color);
+	margin-top: -71px;
 }
 
 #icon-container{
