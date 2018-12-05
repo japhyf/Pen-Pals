@@ -16,31 +16,37 @@
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdn.rawgit.com/Dogfalo/materialize/v1-dev/extras/noUiSlider/nouislider.min.js"></script>
-</head>
+
+  <title>Messages - PenPals</title>
+  
+  	<ul class="nav-bar">
+		<li><a class="black-text"href="livechat">Messages</a></li>
+		<li><a class="black-text active" href="search">Search</a></li>
+		<li><a class="black-text" href="#contact">Contact</a></li>
+		<li><a class="black-text" href="#about">About</a></li>
+	</ul>
+  </head>
 <body>
 <div class="row neutral-color">
-  <div class="col s3 fixed" id="convo-container">
-
-  </div>
+	<div class="col s3 fixed" id="convo-container">
+		<!--convos get appended here-->
+	</div>
 	   <div class="col s3" id="conversation-holder">
+	   <!--convos are fixed to page so this holds their spot-->
 	   </div>
-    <div class="col s8 neutral-color" >
-		    <h3 id="recipient"></h3>
-		    <div id="bubble-container">
-		    </div>
+    <div class="col s9 neutral-color" >
+		<div id="bubble-container">
+		</div>
     </div>
 
 	<div id="message-field-container" class="fixed">
-    <h1 id="recipient"></h1>
-			<div class="row">
-				<form id="message_form" method="post">
-					<div class="input-field col m12">
-						<textarea id="message" class="materialize-textarea" name="mesg" onkeypress="return noenter()"></textarea>
-						<label for="message"> </label>
-					</div>
-				</form>
-				<button id="send-button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit();"><i class="material-icons send-icon">send</i></button>
-			</div>
+			<form id="message_form" method="post">
+				<div class="input-field col m12">
+					<textarea id="message" class="materialize-textarea" name="mesg" onkeypress="return noenter()"></textarea>
+					<label for="message"> </label>
+				</div>
+			</form>
+			<button id="send-button" class="" type="button" name="button" onclick="submit();"><i class="material-icons send-icon">send</i></button>
 		</div>
 </div>
 </body>
@@ -63,7 +69,7 @@
 <script type="text/javascript">
 console.log("im being called");
 refreshChat();
-refreshConvos();
+initConvos();
 function submit(){
 	var messages = $();
 	form = document.forms['message_form'];
@@ -91,6 +97,8 @@ function submit(){
 			}
 			messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
 			$('#bubble-container').append(messages);
+			var elem = document.getElementById('bubble-container');
+			elem.scrollTop = elem.scrollHeight;
 			console.log("no err two");
 		},
 		error: function(error) {
@@ -104,8 +112,6 @@ function submit(){
 function refreshChat(){
 	var messages = $();
 	$("#bubble-container").html("");
-	$('#recipient').css("display", "block");
-	$('#recipient').html(localStorage.getItem("storedEmail"));
 	$.ajax({
 		url: '/main/livechat',
 		data:  {
@@ -114,7 +120,6 @@ function refreshChat(){
 		},
 		type: 'POST',
 		success: function(response) {
-			console.log(response);
 			var splitter = response.split("\n");
 			var obj2 = JSON.parse(splitter[1]);
 			for (messageIndex in obj2) {
@@ -122,6 +127,8 @@ function refreshChat(){
 				messages = messages.add(createMessage(row, localStorage.getItem("storedEmail")));
 			}
 			$('#bubble-container').append(messages);
+			var elem = document.getElementById('bubble-container');
+			elem.scrollTop = elem.scrollHeight;
 		},
 		error: function(error) {
 			console.log("err");
@@ -129,9 +136,8 @@ function refreshChat(){
 	});
 }
 
-function refreshConvos(){
+function initConvos(){
 	var conversations = $();
-	$("#convo-container").html("");
 	$.ajax({
 		url: '/main/livechat',
 		data:  {
@@ -140,22 +146,43 @@ function refreshConvos(){
 		},
 		type: 'POST',
 		success: function(response) {
-			console.log(response);
 			var splitter = response.split("\n");
 			var obj1 = JSON.parse(splitter[0]);
 			var obj3 = JSON.parse(splitter[2]);
 			console.log(obj3);
-			for (convoIndex in obj1) {
-					row2 = obj1[convoIndex];
-					conversations = conversations.add(createConvo(row2, localStorage.getItem("storedEmail")));
+			for (convoIndex in obj3) {
+					row2 = obj3[convoIndex];
+					conversations = conversations.add(createConvo(row2));
 			}
 			$('#convo-container').append(conversations);
+			selectConvo(localStorage.getItem("storedEmail"));
 			console.log("no err two");
 		},
 		error: function(error) {
 			console.log("err");
 		}
 	});
+}
+
+function createConvo(convoData) {
+    var slate = [
+		'<div id="slate" class="convo-slate" name="',
+		convoData.email,
+		'">',
+
+				'<div class="convo-img activator" style="background-image:url(\'',
+				convoData.picture,
+				'\')">',
+				'</div>',
+				'<h5 class="convo-text">',
+					convoData.first,
+					" ",
+					convoData.last,
+				'</h5>',
+
+		'</div>',
+	];
+	return $(slate.join(''));
 }
 
 function createMessage(messageData, to) {
@@ -184,34 +211,17 @@ function createMessage(messageData, to) {
 	return $(bubble.join(''));
 }
 
-function createConvo(convoData, to) {
-    recipient = convoData.identifier;
-    recipientArr = [];
-    recipientArr = recipient.split(":");
-    you = document.getElementById('useremail').value;
-    if(recipientArr[0] == you){
-      recipient = recipientArr[1];
-    }
-    else{
-      recipient = recipientArr[0];
-    }
-    var slate = [
-		'<div id="slate" class="slate row" name="',
-		recipient,
-		'">',
-		'<h5>',
-		recipient,
-		'</h5>',
-		'</div>',
-		'<hr>'
-	];
-	return $(slate.join(''));
+function selectConvo(email){
+	selector = "div[name='" + email + "']";
+	$(".convo-slate").removeClass('selected-convo');
+	$(selector).addClass('selected-convo');
 }
 
 $(document).on("click","#slate", function () {
 	var morphEmail = $(this).attr('name'); // or var clickedBtnID = this.id
-	localStorage.setItem("storedEmail",morphEmail);
-  refreshChat();
+	selectConvo(morphEmail);
+	localStorage.setItem("storedEmail", morphEmail);
+	refreshChat();
 //	window.location.href='/main/livechat';
 });
 

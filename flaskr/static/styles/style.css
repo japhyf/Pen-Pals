@@ -25,6 +25,13 @@ ul {
     background-color: white;
 }
 
+ul.nav-bar{
+	border-radius: 5px;
+    width: 98vw;
+    margin-left: 1vw;
+    margin-top: 1vh;
+}
+
 li {
     float: left;
 }
@@ -47,6 +54,10 @@ p {
 
 #heading{
     height: 75px;
+}
+
+body{
+	background: #efefef;
 }
 
 [type="radio"]:checked+label:after, [type="radio"].with-gap:checked+label:before, [type="radio"].with-gap:checked+label:after {
@@ -116,27 +127,6 @@ p {
 	padding-left: 15px;
 }
 
-#send-button{
-	float: left;
-	margin-top: -63px;
-	margin-left: 71vw;
-	width: 90px;
-	padding-left: 32px;
-}
-
-.send-icon{
-	font-size: 1.8rem !important;
-}
-
-#message-field-container{
-
-}
-
-#message{
-	width: 70vw;
-	float: left;
-}
-
 .bubble-text{
 	color: white;
 	font-size: 2vw;
@@ -158,7 +148,7 @@ p {
 	padding-right: 25px;
 	padding-left: 25px;
 	float: left;
-  margin-left: 20px;
+    margin-left: 2.5vw;
 }
 
 .speech-bubble-left:after {
@@ -229,13 +219,19 @@ p {
     color: var(--carbon) !important;
    }
 /* label underline focus color */
-   .input-field input:focus {
-     border-bottom: 1px solid var(--primary-color) !important;
-   }
+.input-field input:focus {
+    border-bottom: 1px solid black !important;
+	box-shadow: none !important;
+}
 
-    .input-field input:focus+label {
-     color: var(--carbon) !important;
-   }
+.input[type=password]:foicus:not {
+	border-bottom: .1px solid black !important;
+	box-shadow: 0 .1px 0 0 black !important;
+}
+
+.input-field input:focus+label {
+    color: var(--carbon) !important;
+}
 
 .chips-autocomplete-genre-create{
 	width: 380px;
@@ -262,7 +258,6 @@ p {
     padding: 14px 16px;
 }
 
-
 .search-card-container {
     display: grid;
     padding: 1rem;
@@ -277,19 +272,101 @@ p {
 	min-height: 300px;
 }
 
-.convo-card {
-	max-height: 100px;
-  max-width: 200px;
+.convo-slate{
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-flow: row;
+	flex-flow: row;
+	cursor: pointer;
+	align-items: center;
+	flex-shrink: 10;
+     border-radius: 5px; 
+	/* border-style: solid; */
+	/* border-color: black; */
+	/* border-width: .5px; */
+	margin-bottom: 5px;
 }
 
-.convo-card-name{
-	font-size: 17px !important;
-	text-align: justify;
-	font-family: 'Varela Round', sans-serif;
+#conversation-holder{
+	min-height: 90vh;
 }
 
-.convo-card-title{
+#convo-container{
+	max-height: 90vh;
+    padding: 0;
+    margin-left: 1vw;
+	margin-top: 5vh;
+    overflow: hidden;
+    min-height: 91.3vh;
+    border-radius: 5px;
+    background-color: white;
+    padding-top: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
 
+.convo-img{
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-bottom: 5px;
+	margin-left: 10px;
+	margin-right: auto;
+	margin-top: 5px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	order: 1;
+}
+
+.convo-text{
+    flex: 1 1 60%;
+	margin-left: 10px;
+    order: 2;
+	align-self: center;
+}
+
+.selected-convo{
+	background-color: #0076ff !important;
+	color: white;
+}
+
+#message-field-container{
+    margin-top: 88vh;
+	margin-left: 26.6vw;
+	border-width: .5px;
+	border-radius: 5px;
+	width: 72.4vw;
+	background-color: white;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-flow: row;
+	flex-flow: row;
+	height: 8.32vh;
+}
+
+#message{
+	width: 67vw;
+	margin-bottom: 5px;
+	    padding-top: 25px;
+}
+
+#send-button{
+    margin-top: -4px;
+    color: black;
+    padding: 0;
+    border: none;
+    width: 64px;
+    margin-left: -10px;
+    height: 75px;
+	background: none;
+}
+
+.send-icon{
+	font-size: 2.2rem !important;
+    margin-top: 16px;
+    margin-right: -1px;
 }
 
 .search-card-container {
@@ -301,23 +378,30 @@ p {
 	min-height: 550px;
 }
 
-#search-window{
-	min-height: 550px;
-	min-width: 200px;
+#search-window {
+    max-height: 90vh;
+    padding: 0;
+    margin-left: 1vw;
+    margin-top: 1vh;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: white;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 20vw;
+	min-height: 87.3vh;
+	display: fixed;
+}
+
+#search-form{
+	
 }
 
 #conversation-window{
 
 }
 
-#conversation-holder{
-	min-height: 90vh;
-}
-
-#message-field-container{
-	margin-top: 75vh;
-	margin-left: 18vw;
-}
 
 #search-number{
 	text-align: center;
@@ -328,22 +412,42 @@ p {
 	text-align: center;
 }
 
-.slate{
-	cursor: pointer;
-}
-
 #bubble-container{
-	max-height: 90vh;
-	overflow: auto;
+	max-height: 83.5vh;
+	overflow-y: auto;
+	margin-top: 1px;
+	width: 74vw;
 }
 
-#convo-container{
-	max-height: 90vh;
-  border-style: solid;
-  border-bottom: 0px;
-  border-top: 0px;
-  border-left: 0px;
-  border-width: .5px;
+
+.no-margin{
+	margin: 0
+}
+
+
+::-webkit-scrollbar {
+  width: 8px; /* 1px wider than Lion. */
+  /* This is more usable for users trying to click it. */
+  background-color: rgba(0,0,0,0);
+  -webkit-border-radius: 100px;
+}
+/* hover effect for both scrollbar area, and scrollbar 'thumb' */
+
+
+/* The scrollbar 'thumb' ...that marque oval shape in a scrollbar */
+::-webkit-scrollbar-thumb:vertical {
+  /* This is the EXACT color of Mac OS scrollbars. 
+     Yes, I pulled out digital color meter */
+  background: rgba(0,0,0,0.5);
+  -webkit-border-radius: 100px;
+}
+::-webkit-scrollbar-thumb:vertical:active {
+  background: rgba(0,0,0,0.61); /* Some darker color when you click it */
+  -webkit-border-radius: 100px;
+}
+
+.force-overflow {
+    min-height: 450px;
 }
 
 .search-card-name{
@@ -772,8 +876,6 @@ input[type=range] + .thumb.active .value {
 
 @charset "UTF-8";
 
-/* Imgur Upload Style */
-
 body.loading .loading-modal {
     display: block
 }
@@ -874,29 +976,17 @@ body.loading .loading-modal {
   }
 
 .search-img{
-  display: inline-block;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-}
-
-.convo-img{
-  display: inline-block;
-  width: 150px;
-  height: 10px;
-  border-radius: 50%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 5px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+	cursor: pointer;
+	display: inline-block;
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
 }
 
 .image-info {

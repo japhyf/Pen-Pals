@@ -272,7 +272,7 @@ def livechat_post():
                 header3 = [x[0] for x in cursor3.description]
                 user_obj = {}
                 for row in user_data:
-                    user_obj[row["email"]] = dict(zip(header3 ,row))
+                    user_obj[row["id"]] = dict(zip(header3 ,row))
                 gremlin.update(user_obj)
             json_user = json.dumps(gremlin)
 
