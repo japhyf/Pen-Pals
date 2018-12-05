@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head class="blue">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="referrer" content="no-referrer"/>
@@ -18,14 +18,39 @@
   <!-- Compiled and minified JavaScript -->
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+ <!-- Navigation Bar -->
+	<ul class="nav-bar">
 
+			<li>
+				<div class="nav-select">
+					<a class="white-text nav-text"href="livechat">Messages</a>
+				</div>
+			</li>
+			<li>
+				<div class="nav-deselect">
+					<a class="black-text nav-text"href="search">Search</a>
+				</div>
+			</li>
+			<li>
+				<div class="nav-deselect">
+					<a class="black-text nav-text"href="create_bio">Edit Profile</a>
+				</div>
+			</li>
+			<li>
+				<div class="nav-deselect">
+					<a class="black-text nav-text"href="{{ url_for('auth.logout') }}">Logout</a>
+				</div>
+			</li>
+
+		<!-- <div class="nav-selector"> -->
+		<!-- </div> -->
+	</ul>
 
 </head>
 <body>
 	<div id="start-container">
 		<div class="section no-pad-bot">
 			<div class="row">
-                <h1 id="title" class="header center white-text accent-2">Pen Pals</h1>
                 <div class="row center">	
                     <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span></h1>                  
 				</div>
@@ -35,9 +60,7 @@
 						<div id="cont-home" class="card-content">
 							<div id="register">
 								<div class="row">
-								
 										<form id="register_form" method="post">
-											
 											<div id="reg1" class="col">
 												<div id="regp1">
 													<span id="desc-header" class="card-title black-text">Add description</span>

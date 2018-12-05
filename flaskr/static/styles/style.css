@@ -25,11 +25,16 @@ ul {
     background-color: white;
 }
 
+.blue{
+	background-color: blue;
+}
+
 ul.nav-bar{
 	border-radius: 5px;
     width: 98vw;
     margin-left: 1vw;
     margin-top: 1vh;
+	z-index: 1;
 }
 
 li {
@@ -46,6 +51,38 @@ li a {
 
 li a:hover {
     background-color: #10;
+}
+
+.active {
+    background-color: #0076ff;
+}
+
+.nav-selector{
+	background-color: #0076ff;
+	border-radius: 5px;
+	height: 50px;
+	width: 107px;
+	margin-top: 5px;
+	margin-left: 10px;
+	margin-right: 10px;
+	position: fixed;
+	z-index: 2;
+}
+
+.nav-select{
+	background-color: #0076ff;
+	border-radius: 5px;
+	margin: 5px;
+}
+
+.nav-deselect{
+	margin: 5px;
+}
+
+.nav-text{
+	position: relative;
+	z-index: 3;
+	font-size: 16px;
 }
 
 p {
@@ -289,15 +326,16 @@ body{
 
 #conversation-holder{
 	min-height: 90vh;
+	background-color: transparent;
 }
 
 #convo-container{
 	max-height: 90vh;
+	min-height: 89.9vh;
     padding: 0;
     margin-left: 1vw;
-	margin-top: 5vh;
+	margin-top: 6.4vh;
     overflow: hidden;
-    min-height: 91.3vh;
     border-radius: 5px;
     background-color: white;
     padding-top: 10px;

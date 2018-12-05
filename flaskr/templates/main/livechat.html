@@ -19,11 +19,32 @@
 
   <title>Messages - PenPals</title>
   
-  	<ul class="nav-bar">
-		<li><a class="black-text"href="livechat">Messages</a></li>
-		<li><a class="black-text active" href="search">Search</a></li>
-		<li><a class="black-text" href="#contact">Contact</a></li>
-		<li><a class="black-text" href="#about">About</a></li>
+ <!-- Navigation Bar -->
+	<ul class="nav-bar">
+
+			<li>
+				<div class="nav-select">
+					<a class="white-text nav-text"href="livechat">Messages</a>
+				</div>
+			</li>
+			<li>
+				<div class="nav-deselect">
+					<a class="black-text nav-text"href="search">Search</a>
+				</div>
+			</li>
+			<li>
+				<div class="nav-deselect">
+					<a class="black-text nav-text"href="create_bio">Edit Profile</a>
+				</div>
+			</li>
+			<li>
+				<div class="nav-deselect">
+					<a class="black-text nav-text"href="{{ url_for('auth.logout') }}">Logout</a>
+				</div>
+			</li>
+
+		<!-- <div class="nav-selector"> -->
+		<!-- </div> -->
 	</ul>
   </head>
 <body>
