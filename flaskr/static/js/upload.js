@@ -3,9 +3,12 @@ var feedback = function(res) {
         var get_link = res.data.link.replace(/^http:\/\//i, 'https://');
         document.querySelector('.status').classList.add('bg-success');
         document.querySelector('.img').innerHTML =
-            '<img src="' + get_link + '" height="250px" width="250px"/>';
+			'<div class="uploaded-img" style="background-image:url(\''
+			+ get_link +
+			'\')"></div><h2 class="looks-great animated rubberBand">Looks great!</h2>';
 		document.querySelector('.test').innerHTML = get_link;
 		document.querySelector('.dropzone').classList.add('hidden');
+		document.getElementById('pic_button').classList.add('post-upload-button');
     }
 };
 

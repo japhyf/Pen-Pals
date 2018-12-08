@@ -79,12 +79,6 @@
 														</div>
 													</div>
 													<div class="row login-row">
-														<div class="input-field col m12">
-															<input id="username" type="text" name="username" class="login-text">
-															<label for="username">Display Name</label>
-														</div>
-													</div>
-													<div class="row login-row">
 														<div class="input-field col s12">
 															<input id="address1" type="text" name="address1">
 															<label for="address1">Address line 1 (Street address, P.O. box, company name)</label>
@@ -308,7 +302,7 @@ function submit_register_form()
 	address1 = form.elements['address1'].value;
 	address2 = form.elements['address2'].value;
 	//check if email is valid
-	if (first === "" || last === "" || username === "" || address1 === "" || address2 === "") {
+	if (first === "" || last === "" || username === "" || address1 === "") {
 		//if email isn't valid display error and shake the card
 		$("#reg-header2").css("display", "none");
 		$("#reg_error2").get(0).lastChild.nodeValue = (" empty field(s)");

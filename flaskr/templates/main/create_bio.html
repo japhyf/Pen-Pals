@@ -48,7 +48,7 @@
 
 </head>
 <body>
-	<div id="start-container">
+	<div id="create-start-container">
 		<div class="section no-pad-bot">
 			<div class="row">
                 <div class="row center">	
@@ -194,6 +194,32 @@ function submit_create_bio()
 
 <script> 
 $(document).ready(function(){
+	//animate slide
+	$("#close-home").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#close-home2").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	$("#description-tab").click(function(){
+        $("#cont-home").animate({right: '-=500px'},450);
+		$("#reg_error").css("display", "none");
+		$("#reg-header").css("display", "block");
+    });
+	//init character counter for description field
+	$('textarea#descr-field').characterCounter();
+	$('textarea').keyup(function() {
+		var characterCount = $(this).val().length, 
+			current = $('#current'),
+			maximum = $('#maximum'),
+			theCount = $('#the-count');
+		current.text(characterCount);
+	});
+	
 	genres = document.getElementById('usergenres');
 	genresStr = genres.value;
 	//if the user has no genres listed generate field empty
@@ -39616,31 +39642,7 @@ $(document).ready(function(){
 			}
 		});
 	}
-	//animate slide
-	$("#close-home").click(function(){
-        $("#cont-home").animate({right: '-=500px'},450);
-		$("#reg_error").css("display", "none");
-		$("#reg-header").css("display", "block");
-    });
-	$("#close-home2").click(function(){
-        $("#cont-home").animate({right: '-=500px'},450);
-		$("#reg_error").css("display", "none");
-		$("#reg-header").css("display", "block");
-    });
-	$("#description-tab").click(function(){
-        $("#cont-home").animate({right: '-=500px'},450);
-		$("#reg_error").css("display", "none");
-		$("#reg-header").css("display", "block");
-    });
-	//init character counter for description field
-	$('textarea#descr-field').characterCounter();
-	$('textarea').keyup(function() {
-		var characterCount = $(this).val().length, 
-			current = $('#current'),
-			maximum = $('#maximum'),
-			theCount = $('#the-count');
-		current.text(characterCount);
-	});
+
 });
 </script>
   </body>

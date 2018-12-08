@@ -125,10 +125,39 @@ body{
 	background-color: #f44336;
 }
 
-#start-container{
+#create-start-container{
 	height: 100vh;
     background-color: var(--primary-color);
 	margin-top: -71px;
+}
+
+#start-container{
+	height: 100vh;
+    background-color: var(--primary-color);
+}
+
+#reg_button{
+
+}
+
+.uploaded-img{
+	display: inline-block;
+	width: 200px;
+	height: 200px;
+	border-radius: 50%;
+    margin-left: 111px;
+    margin-top: 29px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+}
+
+.looks-great{
+	margin-left: 71px;
+}
+
+.post-upload-button{
+	margin-top: -10px !important;
 }
 
 #icon-container{
@@ -697,7 +726,7 @@ textarea.materialize-textarea.invalid, textarea.materialize-textarea.invalid:foc
  }
 
  #pic_button{
-	margin-top: 75px;
+	margin-top: 30px;
 	margin-left: 290px;
  }
 
@@ -995,7 +1024,7 @@ body.loading .loading-modal {
 }
 
 .img {
-    width: 50%;
+
 }
 
 #the-textarea{
