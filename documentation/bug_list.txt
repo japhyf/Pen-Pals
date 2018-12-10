@@ -10,11 +10,19 @@ Pen-Pals Known Bug List
 	
 	5) When scraping data, book titles may contain quotations that the cleaning scripts to not pickup.
 	
-	6)Back button dissapears on update profile picture
+	6) Back button dissapears on update profile picture
 	
-	7)Search and submit buttonws are broken by autofill
+	7) Search and submit buttonws are broken by autofill
 	
-	8)Refactor scraper update code to run faster, currently extremely slow as it does not implement dictionary lookup
+	8) Refactor scraper update code to run faster, currently extremely slow as it does not implement dictionary lookup
+	
+	9) Sometimes ghost conversations are created with yourself, they will not display in any chat windows
+	
+	10) If a user has an email that is a substring of another users email (I.E bojack@gmail.com jack@gmail.com) conversations between 	      those users wil not display
+	
+	11) Resizing the window leads to objects moving around unexpectedly
+	
+	12) users will show up in a genre search if their genre contains a substring of the tag searched for
 	
 	
 
