@@ -126,7 +126,7 @@ body{
 }
 
 #create-start-container{
-	height: 100vh;
+	height: 1000px;
     background-color: var(--primary-color);
 	margin-top: -71px;
 }
@@ -189,74 +189,6 @@ body{
 	margin-top: 40px;
 	width: 90px;
 	padding-left: 15px;
-}
-
-.bubble-text{
-	color: white;
-	font-size: 2vw;
-	margin: 0;
-}
-
-.bubble-margin{
-	margin-top: 10px;
-}
-
-.speech-bubble-left {
-	max-width: 1000px;
-	position: relative;
-	background: #acacac;
-	border-radius: 2em;
-	word-wrap: break-word;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-right: 25px;
-	padding-left: 25px;
-	float: left;
-    margin-left: 2.5vw;
-}
-
-.speech-bubble-left:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	top: 50%;
-	width: 0;
-	height: 0;
-	border: 38px solid transparent;
-	border-right-color: #acacac;
-	border-left: 0;
-	border-bottom: 0;
-	margin-top: -19px;
-	margin-left: -17px;
-}
-
-.speech-bubble-right {
-	max-width: 1000px;
-	position: relative;
-	background: #0076FF;
-	border-radius: 2em;
-	word-wrap: break-word;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-right: 25px;
-	padding-left: 25px;
-	float: right;
-	margin-right: 35px;
-}
-
-.speech-bubble-right:after {
-	content: '';
-	position: absolute;
-	right: 0;
-	top: 50%;
-	width: 0;
-	height: 0;
-	border: 38px solid transparent;
-	border-left-color: #0076FF;
-	border-right: 0;
-	border-bottom: 0;
-	margin-top: -19px;
-	margin-right: -17px;
 }
 
 #search-edit-button{
@@ -362,7 +294,7 @@ body{
     padding: 0;
     margin-left: 1vw;
 	margin-top: 6.4vh;
-    overflow: hidden;
+    overflow-y: auto;
     border-radius: 5px;
     background-color: white;
     padding-top: 10px;
@@ -414,7 +346,7 @@ body{
 #message{
 	width: 67vw;
 	margin-bottom: 5px;
-	    padding-top: 25px;
+	padding-top: 25px;
 }
 
 #send-button{
@@ -426,6 +358,156 @@ body{
     margin-left: -10px;
     height: 75px;
 	background: none;
+}
+
+#bubble-container{
+	max-height: 83.5vh;
+	overflow-y: auto;
+	margin-top: 1px;
+	width: 74vw;
+}
+
+.bubble-text{
+	color: white;
+	font-size: 2vw;
+	margin: 0;
+}
+
+.bubble-margin{
+	margin-top: 10px;
+}
+
+.speech-bubble-left {
+	max-width: 1000px;
+	position: relative;
+	background: #acacac;
+	border-radius: 2em;
+	word-wrap: break-word;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 25px;
+	padding-left: 25px;
+	float: left;
+    margin-left: 2.5vw;
+}
+
+.speech-bubble-left:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 38px solid transparent;
+	border-right-color: #acacac;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -19px;
+	margin-left: -17px;
+}
+
+.speech-bubble-right {
+	max-width: 1000px;
+	position: relative;
+	background: #0076FF;
+	border-radius: 2em;
+	word-wrap: break-word;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 25px;
+	padding-left: 25px;
+	float: right;
+	margin-right: 35px;
+}
+
+.speech-bubble-right:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 38px solid transparent;
+	border-left-color: #0076FF;
+	border-right: 0;
+	border-bottom: 0;
+	margin-top: -19px;
+	margin-right: -17px;
+}
+
+@media screen and (max-height: 600px) {
+	#message-field-container {
+		margin-top: 84vh;
+		margin-left: 26.6vw;
+		border-width: .5px;
+		border-radius: 5px;
+		width: 72.4vw;
+		background-color: white;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-flex-flow: row;
+		flex-flow: row;
+		height: 11.32vh;
+	}
+	#bubble-container{
+		max-height: 75.5vh;
+		overflow-y: auto;
+		margin-top: 1px;
+		width: 74vw;
+	}
+	
+	#message{
+		width: 67vw;
+		margin-bottom: 5px;
+		padding-top: 0px;
+	}
+	
+	#convo-container{
+		max-height: 85.9vh;
+		min-height: 85.9vh;
+		padding: 0;
+		margin-left: 1vw;
+		margin-top: 9.4vh;
+		border-radius: 5px;
+		background-color: white;
+		padding-top: 10px;
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+	
+	.speech-bubble-left {
+		max-width: 68vw;
+		position: relative;
+		background: #acacac;
+		border-radius: 2em;
+		word-wrap: break-word;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-right: 25px;
+		padding-left: 25px;
+		float: left;
+		margin-left: 2.5vw;
+	}
+	
+	.speech-bubble-right {
+		max-width: 68vw;
+		position: relative;
+		background: #0076FF;
+		border-radius: 2em;
+		word-wrap: break-word;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-right: 25px;
+		padding-left: 25px;
+		float: right;
+		margin-right: 35px;
+	}
+
+}
+
+
+.no-scroll {
+    overflow-y:hidden;
 }
 
 .send-icon{
@@ -475,13 +557,6 @@ body{
 
 #recipient{
 	text-align: center;
-}
-
-#bubble-container{
-	max-height: 83.5vh;
-	overflow-y: auto;
-	margin-top: 1px;
-	width: 74vw;
 }
 
 
