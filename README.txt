@@ -4,7 +4,7 @@
 * Installation of the Flask Libraries which can be found at 
             http://flask.pocoo.org/docs/1.0/
 * Clone the Pen Pals github at https://github.com/abteen/Pen-Pals using:
-            git clone 
+            git clone git@github.com:abteen/Pen-Pals.git
 * Create and run a Python virtuan environment for this project:
           - Make sure the correct version of Python (3.6) is installed in your computer. 
           - Run : python3 -m venv 
