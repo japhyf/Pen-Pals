@@ -11,8 +11,9 @@
           - Activate the virtual environment by running   :     source venv/bin/activate
           - Install correct dependencies using pip and provided requirements.txt, found in the root directly of the master branch
           - Initialize the flask server, and start it by running:
-                  -
-                  -
-                  -
+                  - export FLASK_ENV = development
+                  - export FLASK_APP = flaskr
+                  - init-db
+                  - flask run
           - Navigate to the required server at the address provided by the flask console
           
