@@ -13,4 +13,8 @@ Pen-Pals Known Bug List
 	6)Back button dissapears on update profile picture
 	
 	7)Search and submit buttonws are broken by autofill
+	
+	8)Refactor scraper update code to run faster, currently extremely slow as it does not implement dictionary lookup
+	
+	
 
