@@ -1,0 +1,28 @@
+Pen-Pals Known Bug List
+
+	1) Sometimes if a user is logged in, they can by caut in an infite redirect when going back.
+
+	2) When a user updates their profile, and they press the back button, their profile picture may dissapear. 
+
+	3) If the user autofills too many tags, the submit button and search button get pushed off of the page. 
+
+	4) When user is uploading a profile picture, it might get distorted on the screen. 
+	
+	5) When scraping data, book titles may contain quotations that the cleaning scripts to not pickup.
+	
+	6) Back button dissapears on update profile picture
+	
+	7) Search and submit buttonws are broken by autofill
+	
+	8) Refactor scraper update code to run faster, currently extremely slow as it does not implement dictionary lookup
+	
+	9) Sometimes ghost conversations are created with yourself, they will not display in any chat windows
+	
+	10) If a user has an email that is a substring of another users email (I.E bojack@gmail.com jack@gmail.com) conversations between 	      those users wil not display
+	
+	11) Resizing the window leads to objects moving around unexpectedly
+	
+	12) Users will show up in a genre search if their genre contains a substring of the tag searched for
+	
+	
+
