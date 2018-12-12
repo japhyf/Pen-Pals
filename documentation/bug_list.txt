@@ -24,5 +24,11 @@ Pen-Pals Known Bug List
 	
 	12) Users will show up in a genre search if their genre contains a substring of the tag searched for
 	
+	13) On original website startup, site does not redirect to correct start page
+	
+	14) Message field blocks off more than two lines
+	
+	
+	
 	
 
