@@ -28,6 +28,8 @@ Pen-Pals Known Bug List
 	
 	14) Message field blocks off more than two lines
 	
+	15) Chips break when book/genre goes over character limit
+		- must set max text length 
 	
 	
 	
