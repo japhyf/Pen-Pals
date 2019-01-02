@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask_mail import Mail, Message
 
 
@@ -42,6 +42,10 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
+        
+    @app.route('/')
+    def start():
+        return redirect(url_for('auth.start_page'))
 
     @app.route('/porn')
     def send():
@@ -69,6 +73,7 @@ def create_app(test_config=None):
 
     from . import main
     app.register_blueprint(main.bp)
+
 
 
 
