@@ -1,1 +1,1 @@
-web: gunicorn flaskr:app
+web: gunicorn penpals.py:app
