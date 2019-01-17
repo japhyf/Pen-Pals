@@ -1,1 +1,1 @@
-web: flask db upgrade; flask translate compile; gunicorn penpals:app
+web: gunicorn penpals:app
