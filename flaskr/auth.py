@@ -32,8 +32,6 @@ def register():
             regPassword = request.form['regPassword']
             first = request.form['first']
             last = request.form['last']
-            address1 = request.form['address1']
-            address2 = request.form['address2']
             if not regEmail:
                 return redirect(url_for('auth.noRegUser'))
             elif not regPassword:
@@ -44,8 +42,8 @@ def register():
                 error = 'User {} is already registered.'.format(regEmail)
             if error is None:
                 db.execute(
-                    'INSERT INTO user (email, password, first, last, address_line1, address_line2) VALUES (?, ?, ?, ?, ?, ?)',
-                    (regEmail, generate_password_hash(regPassword), first, last, address1, address2)
+                    'INSERT INTO user (email, password, first, last) VALUES (?, ?, ?, ?)',
+                    (regEmail, generate_password_hash(regPassword), first, last)
                 )
                 db.commit()
                 user = db.execute(
