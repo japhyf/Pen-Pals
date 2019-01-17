@@ -504,6 +504,22 @@ body{
 	}
 
 }
+#mobile{
+	display: none;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+@media screen and (max-width: 600px) {
+	#main-card{
+		display: none;
+	}
+	#heading{
+		display: none;
+	}
+	#mobile{
+		display: block;
+	}	
+}
 
 
 .no-scroll {
