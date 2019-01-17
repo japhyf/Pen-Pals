@@ -1,1 +1,1 @@
-web: gunicorn penpals.py:app
+web: gunicorn penpals:app
