@@ -110,6 +110,15 @@ body{
 	font-size: 1.4em;
 }
 
+#down-arrow-left{
+	margin-top: -305px;
+    margin-left: 80px;
+}
+#down-arrow-right {
+    margin-top: -330px;
+    margin-left: 888px;
+}
+
 #title{
 	font-family: "Amatic SC";
 	font-weight: bold;
@@ -161,7 +170,7 @@ body{
 }
 
 #icon-container{
-	height: 700px !important;
+	height: 487px !important;
     background-color: var(--primary-color);
 }
 
