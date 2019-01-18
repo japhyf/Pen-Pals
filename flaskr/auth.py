@@ -12,12 +12,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/start_page')
 def start_page():
-    user_id = session.get('user_id')
-    db = get_db()
-    if user_id is not None:
-        return redirect(url_for('main.home'))
-    else:
-        return render_template('auth/start_page.html')
+    return render_template('auth/start_page.html')
   
 
 #handles register and login on the start page
