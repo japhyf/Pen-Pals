@@ -29,10 +29,10 @@ def home():
         }
         return render_template('main/search.html', user=user_details)
 
-@bp.route('/chathome')
-def chat():
-    return render_template('main/chathome.html')
-    #make sure user is logged in
+# @bp.route('/chathome')
+# def chat():
+#     return render_template('main/chathome.html')
+#     #make sure user is logged in
 
 @bp.route('/chathome', methods=('GET', 'POST'))
 def chat_post():
@@ -120,36 +120,38 @@ def chatdb():
 def livechat():
     user_id = session.get('user_id')
     db = get_db()
+    curr = db.cursor()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
     else:
-        user = db.execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
-        if user['first'] is None:
+        curr.execute(
+            'SELECT * FROM "user" WHERE id = (%s);', (user_id,)
+        )
+        user = curr.fetchone()
+        if user[3] is None:
             first = ""
         else:
-            first = user['first']
-        if user['email'] is None:
+            first = user[3]
+        if user[1] is None:
             email = ""
         else:
-            email = user['email']
-        if user['last'] is None:
+            email = user[1]
+        if user[4] is None:
             last = ""
         else:
-            last = user['last']
-        if user['address_line1'] is None:
+            last = user[4]
+        if user[5] is None:
             address_line1 = ""
         else:
-            address_line1 = user['address_line1']
-        if user['address_line2'] is None:
+            address_line1 = user[5]
+        if user[6] is None:
             address_line2 = ""
         else:
-            address_line2 = user['address_line2']
-        if user['username'] is None:
+            address_line2 = user[6]
+        if user[7] is None:
             username = ""
         else:
-            username = user['username']
+            username = user[7]
         user_details = {
             'first': first,
             'last': last,
@@ -165,12 +167,14 @@ def livechat_post():
     if request.method == 'POST':
         user_id = session.get('user_id')
         db = get_db()
+        curr = db.cursor()
         if user_id is None:
             return redirect(url_for('auth.start_page'))
         else:
-            user = db.execute(
-                'SELECT * FROM user WHERE id = ?', (user_id,)
-            ).fetchone()
+            curr.execute(
+                'SELECT * FROM "user" WHERE id = (%s)', (user_id,)
+            )
+            user = curr.fetchone()
             if user is None:
                 return redirect(url_for('auth.start_page'))
             print (request.form['flag'], file=sys.stderr)
@@ -179,105 +183,116 @@ def livechat_post():
             #the first ajax call for creating the conversation
             otherEmail = request.form['otherEmail']
             reversed = True
-            concat_users = user['email'] + ":" + otherEmail
-            concat_reverse = otherEmail + ":" + user['email']
+            concat_users = user[1] + ":" + otherEmail
+            concat_reverse = otherEmail + ":" + user[1]
 
             #check to see who started the conversation
-            check_dup  = db.execute(
-                'SELECT * FROM total_msg WHERE identifier = ?', (concat_reverse,)
-            ).fetchone()
+            curr.execute(
+                'SELECT * FROM total_msg WHERE identifier = (%s);', (concat_reverse,)
+            )
 
-            if check_dup is None:
+            if curr.statusmessage == "SELECT 0":
                 reversed = False
-                db.execute(
-                    'INSERT OR IGNORE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, 0,)
+                curr.execute(
+                    # 'INSERT OR IGNORE INTO total_msg (identifier, total_messages) VALUES (%s, %s);', (concat_users, 0,)
+                    'INSERT INTO total_msg (identifier, total_messages) VALUES (%s, %s) ON CONFLICT DO NOTHING;', (concat_users, 0,)
                 )
                 db.commit()
+            else:
+                check_dup = curr.fetchall()
             # the second ajax call for entering a message into the database
             if request.form['flag'] == '1':
                 #adds 1 to the conversation message count and enters the message
                 print ('flag 1', file=sys.stderr)
                 if not reversed:
-                    hack = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_users,)).fetchone()
-                    db.execute(
-                        'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_users, hack['total_messages'] +1,)
+                    curr.execute('SELECT * FROM total_msg WHERE identifier = (%s);', (concat_users,))
+                    hack = curr.fetchone()
+                    curr.execute(
+                        'INSERT INTO total_msg (identifier, total_messages) VALUES (%s, %s) ON CONFLICT (identifier) DO UPDATE SET identifier = (%s), total_messages = (%s);', (concat_users, hack[1] +1,concat_users, hack[1] +1,)
                     )
                     db.commit()
 #                    concat_users_msgnumber = concat_users + ":" + str(hack['total_messages'])
-                    db.execute(
-                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack['total_messages'], concat_users, request.form['the_message'], user['email'],)
+                    curr.execute(
+                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (%s, %s, %s, %s);', (hack[1], concat_users, request.form['the_message'], user[1],)
                     )
                     db.commit()
                 else:
-                    hack2 = db.execute('SELECT * FROM total_msg WHERE identifier = ?', (concat_reverse,)).fetchone()
-                    db.execute(
-                        'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (?, ?)', (concat_reverse, hack2['total_messages'] +1,)
+                    curr.execute('SELECT * FROM total_msg WHERE identifier = (%s);', (concat_reverse,))
+                    hack2 = curr.fetchone()
+                    curr.execute(
+                        # 'INSERT OR REPLACE INTO total_msg (identifier, total_messages) VALUES (%s, %s);', (concat_reverse, hack2['total_messages'] +1,)
+                        'INSERT INTO total_msg (identifier, total_messages) VALUES (%s, %s) ON CONFLICT (identifier) DO UPDATE SET identifier = (%s), total_messages = (%s);', (concat_reverse, hack2[1] +1,concat_reverse, hack2[1] +1,)
                     )
                     db.commit()
 #                    concat_reverse_msgnumber = concat_reverse + ":" + str(hack2['total_messages'])
-                    db.execute(
-                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (?, ?, ?, ?)', (hack2['total_messages'], concat_reverse, request.form['the_message'], user['email'],)
+                    curr.execute(
+                        'INSERT INTO messages (id, identifier_msg_nmbr, message, sender) VALUES (%s, %s, %s, %s);', (hack2[1], concat_reverse, request.form['the_message'], user[1],)
                     )
                     db.commit()
 
             if not reversed:
                 print ('if', file=sys.stderr)
-                chat_history = db.execute(
-                    'SELECT * FROM messages WHERE identifier_msg_nmbr = ?', (concat_users,)
-                ).fetchall()
+                curr.execute(
+                    'SELECT * FROM messages WHERE identifier_msg_nmbr = (%s);', (concat_users,)
+                )
+                chat_history = curr.fetchall()
         #                print (chat_history, file=sys.stderr)
             else:
                 print ('else', file=sys.stderr)
-                chat_history = db.execute(
-                    'SELECT * FROM messages WHERE identifier_msg_nmbr = ?', (concat_reverse,)
-                ).fetchall()
+                curr.execute(
+                    'SELECT * FROM messages WHERE identifier_msg_nmbr = (%s);', (concat_reverse,)
+                )
+                chat_history = curr.fetchall()
 
-            search_code_email = '%' + user['email'] + '%'
-            convos = db.execute(
-                'SELECT * FROM total_msg WHERE identifier LIKE ?', (search_code_email,)
-            ).fetchall()
+            search_code_email = '%' + user[1] + '%'
+            curr.execute(
+                'SELECT * FROM total_msg WHERE identifier LIKE (%s);', (search_code_email,)
+            )
+            convos = curr.fetchall()
 
             print (convos, file=sys.stderr)
-            print ("cock", file=sys.stderr)
 
             #zips and jsons messages
-            cursor = db.execute('select * from messages')
-            header = [x[0] for x in cursor.description]
+            curr.execute('select * from messages;')
+            header = [x[0] for x in curr.description]
+            if curr.statusmessage == "SELECT 0":
+                cursor = curr.fetchall()
             chat_obj = {}
             for row in chat_history:
-                chat_obj[row["id"]] = dict(zip(header,row))
+                chat_obj[row[0]] = dict(zip(header,row))
             json_chat = json.dumps(chat_obj)
 
             #zips and jsons conversations
-            cursor2 = db.execute('select * from total_msg')
-            header2 = [x[0] for x in cursor2.description]
+            cursor2 = curr.execute('select * from total_msg;')
+            header2 = [x[0] for x in curr.description]
             convo_recipients = {}
             convos_obj = {}
-            count = 0;
+            count = 0
             for row in convos:
-                convo_recipients[count] = row["identifier"].replace(user['email'], '').replace(':', '')
+                convo_recipients[count] = row[0].replace(user[1], '').replace(':', '')
                 # print (convo_recipients[count], file=sys.stderr)
                 # print ('butt', file=sys.stderr)
                 count += 1
-                convos_obj[row["identifier"]] = dict(zip(header2 ,row))
+                convos_obj[row[0]] = dict(zip(header2 ,row))
             json_convos = json.dumps(convos_obj)
 
 
             gremlin = {}
-            count2 = 0;
+            count2 = 0
             for users in convo_recipients:
                 user_data = {}
-                user_data = db.execute(
-                    'SELECT * FROM user WHERE email = ?', (str(convo_recipients[count2]),)
-                ).fetchall()
+                curr.execute(
+                    'SELECT * FROM "user" WHERE email = (%s);', (str(convo_recipients[count2]),)
+                )
+                user_data = curr.fetchall()
 #                print (user_data[count2], file=sys.stderr)
 #                print ('butt2', file=sys.stderr)
                 count2 += 1
-                cursor3 = db.execute('select * from user')
-                header3 = [x[0] for x in cursor3.description]
+                curr.execute('select * from "user";')
+                header3 = [x[0] for x in curr.description]
                 user_obj = {}
                 for row in user_data:
-                    user_obj[row["id"]] = dict(zip(header3 ,row))
+                    user_obj[row[0]] = dict(zip(header3 ,row))
                 gremlin.update(user_obj)
             json_user = json.dumps(gremlin)
 
