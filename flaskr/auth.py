@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from flaskr.db import get_db
+from flaskr.db import get_db, get_db_conn
 from flask_mail import Mail, Message
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -19,6 +19,7 @@ def start_page():
 @bp.route('/start_page', methods=('GET', 'POST'))
 def register():
     db = get_db()
+    curr = db.cursor()
     error = None
     if request.method == 'POST':
         #if the register button is clicked load the register inputs
@@ -31,30 +32,35 @@ def register():
                 return redirect(url_for('auth.noRegUser'))
             elif not regPassword:
                 return redirect(url_for('auth.noRegPass'))
-            elif db.execute(
-                'SELECT id FROM user WHERE email = ?', (regEmail,)
-            ).fetchone() is not None:
+            curr.execute(
+                'SELECT * FROM "user" WHERE email = (%s);', (regEmail,)
+            )
+            if curr.statusmessage != "SELECT 0":
                 error = 'User {} is already registered.'.format(regEmail)
             if error is None:
-                db.execute(
-                    'INSERT INTO user (email, password, first, last) VALUES (?, ?, ?, ?)',
+                db.cursor().execute(
+                    'INSERT INTO "user" (email, password, first, last) VALUES (%s, %s, %s, %s);',
                     (regEmail, generate_password_hash(regPassword), first, last)
                 )
+                # db.commit()
                 db.commit()
-                user = db.execute(
-                    'SELECT * FROM user WHERE email = ?', (regEmail,)
-                ).fetchone()
+                curr.execute(
+                    'SELECT id FROM "user" WHERE email = (%s);', (regEmail,)
+                )
+                user_id = curr.fetchone()[0]
+                print(user_id)
                 session.clear()
-                session['user_id'] = user['id']
+                session['user_id'] = user_id
                 return redirect(url_for('main.create_bio'))
             flash(error)
         #else if the login button is clicked load the login inputs
         elif request.form["button"]=="Login":
             loginEmail = request.form['loginEmail']
             loginPassword = request.form['loginPassword']
-            user = db.execute(
-                'SELECT * FROM user WHERE email = ?', (loginEmail,)
-            ).fetchone()
+            curr.execute(
+                'SELECT * FROM "user" WHERE email = (%s);', (loginEmail,)
+            )
+            user = curr.fetchone()
             #if the input email doesnt exist in our db
             if user is None:
                 error = 'Incorrect email.'
@@ -62,22 +68,22 @@ def register():
                 return "Email address is not in our system"
             
             #if the email exists but the password is wrong
-            elif not check_password_hash(user['password'], loginPassword):
+            elif not check_password_hash(user[2], loginPassword):
                 error = 'Incorrect password.'
                 return "Incorrect password"
             #if there is no error
             if error is None:
                 session.clear()
-                session['user_id'] = user['id']
+                session['user_id'] = user[0]
                 return redirect(url_for('main.home'))
 
             flash(error)
         #this is to check if email exists on continue button press
         elif request.form["button"]=="continue":
             email = request.form['regEmail']
-            user = db.execute(
-                'SELECT * FROM user WHERE email = ?', (email,)
-            ).fetchone()
+            user = db.cursor().execute(
+                'SELECT * FROM "user" WHERE email = (%s)', (email,)
+            )
             #if the input email doesnt exist in our db
             if user is None:
                 return "good"
@@ -85,20 +91,6 @@ def register():
                 error = 'Incorrect password.'
                 return "Email address already exists in our system"
             flash(error)
-
-    #elif request.method == 'GET':
-    #    email = request.args.get('email', '')
-    #    password = request.args.get('password', '')
-    #    user = db.execute(
-    #        'SELECT * FROM user WHERE email = ?', (email,)
-    #    ).fetchone()
-    #
-    #    if user is None:
-    #        return "user doesn't exist"
-    #    elif not check_password_hash(user['password'], password):
-    #        return "password is incorrect"
-    #    else:
-    #        return "login correct"
         
     return render_template('auth/start_page.html')
     
@@ -108,9 +100,11 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        curr = get_db().cursor()
+        curr.execute(
+            'SELECT * FROM "user" WHERE id = (%s);', (user_id,)
+        )
+        g.user = curr.fetchone()
 
 @bp.route('/logout')
 def logout():

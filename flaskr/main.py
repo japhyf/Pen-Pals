@@ -14,16 +14,18 @@ bp = Blueprint('main', __name__, url_prefix='/main')
 def home():
     user_id = session.get('user_id')
     db = get_db()
+    curr = db.cursor()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
     else:
-        user = db.execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        curr.execute(
+            'SELECT * FROM "user" WHERE id = (%s);', (user_id,)
+        )
+        user = curr.fetchone()
         if user is None:
             return redirect(url_for('auth.start_page'))
         user_details = {
-            'email': user['email'],
+            'email': user[1],
         }
         return render_template('main/search.html', user=user_details)
 
@@ -101,14 +103,17 @@ def chat_post():
 def chatdb():
     user_id = session.get('user_id')
     db = get_db()
+    curr = db.curosr()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
-    tbl1 = db.execute(
+    curr.execute(
         'SELECT * FROM total_msg'
-    ).fetchall()
-    tbl2 = db.execute(
+    )
+    tbl1 = curr.fetchall()
+    curr.execute(
         'SELECT * FROM messages'
-    ).fetchall()
+    )
+    tbl2 = curr.fetchall()
     return render_template('main/chatdb.html', tbl1=tbl1, tbl2=tbl2)
 
 @bp.route('/livechat')
@@ -290,56 +295,58 @@ def create_bio():
     #check that user is logged in
     user_id = session.get('user_id')
     db = get_db()
+    curr = db.cursor()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
     #send all user data to template
-    user = db.execute(
-        'SELECT * FROM user WHERE id = ?', (user_id,)
-    ).fetchone()
-    if user['first'] is None:
+    curr.execute(
+        'SELECT * FROM "user" WHERE id = (%s);', (user_id,)
+    )
+    user = curr.fetchone()
+    if user[3] is None:
         first = ""
     else:
-        first = user['first']
-    if user['email'] is None:
+        first = user[3]
+    if user[1] is None:
         email = ""
     else:
-        email = user['email']
-    if user['last'] is None:
+        email = user[1]
+    if user[4] is None:
         last = ""
     else:
-        last = user['last']
-    if user['address_line1'] is None:
+        last = user[4]
+    if user[5] is None:
         address_line1 = ""
     else:
-        address_line1 = user['address_line1']
-    if user['address_line2'] is None:
+        address_line1 = user[5]
+    if user[6] is None:
         address_line2 = ""
     else:
-        address_line2 = user['address_line2']
-    if user['username'] is None:
+        address_line2 = user[6]
+    if user[7] is None:
         username = ""
     else:
-        username = user['username']
-    if user['description'] is None:
+        username = user[7]
+    if user[8] is None:
         description = ""
     else:
-        description = user['description']
-    if user['genres'] is None:
+        description = user[8]
+    if user[9] is None:
         genres = ""
     else:
-        genres = user['genres']
-    if user['titles'] is None:
+        genres = user[9]
+    if user[10] is None:
         titles = ""
     else:
-        titles = user['titles']
-    if user['picture'] is None:
+        titles = user[10]
+    if user[13] is None:
         picture = ""
     else:
-        picture = user['picture']
+        picture = user[13]
     user_details = {
+        'email'       : email,
         'first'       : first,
         'last'        : last,
-        'email'       : email,
         'address1'    : address_line1,
         'address2'    : address_line2,
         'username'    : username,
@@ -355,6 +362,7 @@ def create_bio():
 def create_bio_submit():
     user_id = session.get('user_id')
     db = get_db()
+    curr = db.cursor()
     error = None
     #insert all info entered on create_bio page into database
     if request.method == 'POST':
@@ -362,9 +370,9 @@ def create_bio_submit():
         titleString = request.form['titles']
         desc = request.form['desc']
         pic_url = request.form['pic']
-        sql = 'UPDATE user SET genres = ?, titles = ?, picture = ?, description = ? WHERE id = ?'
+        sql = 'UPDATE "user" SET genres = (%s), titles = (%s), picture = (%s), description = (%s) WHERE id = (%s);'
         val = (genreString, titleString, pic_url, desc, user_id)
-        db.execute(sql, val)
+        curr.execute(sql, val)
         db.commit()
     return render_template('main/db.html')
 
@@ -373,36 +381,38 @@ def search():
     #check that user is logged in
     user_id = session.get('user_id')
     db = get_db()
+    curr = db.cursor()
     if user_id is None:
         return redirect(url_for('auth.start_page'))
     #send all user data to template
-    user = db.execute(
-        'SELECT * FROM user WHERE id = ?', (user_id,)
-    ).fetchone()
-    if user['first'] is None:
-        first = ""
-    else:
-        first = user['first']
-    if user['email'] is None:
+    curr.execute(
+        'SELECT * FROM "user" WHERE id = (%s);', (user_id,)
+    )
+    user = curr.fetchone()
+    if user[1] is None:
         email = ""
     else:
-        email = user['email']
-    if user['last'] is None:
+        email = user[1]
+    if user[3] is None:
+        first = ""
+    else:
+        first = user[3]
+    if user[4] is None:
         last = ""
     else:
-        last = user['last']
-    if user['address_line1'] is None:
+        last = user[4]
+    if user[5] is None:
         address_line1 = ""
     else:
-        address_line1 = user['address_line1']
-    if user['address_line2'] is None:
+        address_line1 = user[5]
+    if user[6] is None:
         address_line2 = ""
     else:
-        address_line2 = user['address_line2']
-    if user['username'] is None:
+        address_line2 = user[6]
+    if user[7] is None:
         username = ""
     else:
-        username = user['username']
+        username = user[7]
     user_details = {
         'first': first,
         'last': last,
@@ -417,6 +427,7 @@ def search():
 @bp.route('/search', methods=('GET', 'POST'))
 def search_results():
     db = get_db()
+    curr = db.cursor()
     error = None
     if request.method == 'POST':
         #find all users with favorite genres matching search genres
@@ -427,15 +438,17 @@ def search_results():
         full_users = {}
         for i in genres:
             str = '%' + i + '%'
-            users = db.execute(
-                'SELECT * FROM user WHERE genres LIKE ?', (str,)
-            ).fetchall()
-            cursor = db.execute('select * from user')
-            header = [x[0] for x in cursor.description]
+            curr.execute(
+                'SELECT * FROM "user" WHERE genres LIKE (%s);', (str,)
+            )
+            users = curr.fetchall()
+            curr.execute('select * from "user";')
             users_obj = {}
-            for user in users:
-                users_obj[user["id"]] = dict(zip(header,user))
-            full_users.update(users_obj)
+            if curr.statusmessage != "SELECT 0":
+                header = [x[0] for x in curr.description]
+                for user in users:
+                    users_obj[user[0]] = dict(zip(header,user))
+                full_users.update(users_obj)
         #find all users with favorite titles matching search titles
         jsonTitles = json.loads(request.form['titles'])
         titles = []
@@ -443,15 +456,17 @@ def search_results():
             titles.append(jsonTitles[x])
         for i in titles:
             str = '%' + i + '%'
-            users = db.execute(
-                'SELECT * FROM user WHERE titles LIKE ?', (str,)
-            ).fetchall()
-            cursor = db.execute('select * from user')
-            header = [x[0] for x in cursor.description]
-            users_obj = {}
-            for user in users:
-                users_obj[user["id"]] = dict(zip(header,user))
-            full_users.update(users_obj)
+            curr.execute(
+                'SELECT * FROM "user" WHERE titles LIKE (%s);', (str,)
+            )
+            users = curr.fetchall()
+            curr.execute('select * from "user";')
+            if curr.statusmessage != "SELECT 0":
+                header = [x[0] for x in curr.description]
+                users_obj = {}
+                for user in users:
+                    users_obj[user[0]] = dict(zip(header,user))
+                full_users.update(users_obj)
         y = json.dumps(full_users)
         #return full list of users to template
         return jsonify(y)
