@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
-  <title>Pen Pals</title>
-  <!-- Compiled and minified CSS -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/animate.css') }}">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style.css') }}">
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/typed.js') }}"></script>
-  <script type="text/javascript" src= "{{ url_for('static',filename='js/wow.min.js') }}"></script>
-  
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
- 
- <!-- Navigation Bar --
+	<title>Pen Pals</title>
+	<!-- Compiled and minified CSS -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/animate.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+	<!-- Compiled and minified JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/typed.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/wow.min.js') }}"></script>
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- Navigation Bar --
 	<ul>
 		<li><a class="active" href="index.html">Home</a></li>
 		<li><a href="#login">Login</a></li>
@@ -26,167 +27,183 @@
 		<li><a href="#about">About</a></li>
 	</ul>
  ------->
-<!-- Page introduction box -->
-	<div id="home-back" >
+	<!-- Page introduction box -->
+	<div id="home-back">
 		<div class="section no-pad-bot">
 			<h1 id="title" class="header center white-text">Home</h1>
-            <div class="row center">	
-                <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span><span class="Typewriter__cursor">|</span></h1>                  
+			<div class="row center">
+				<h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span><span
+						class="Typewriter__cursor">|</span></h1>
 			</div>
 			<div class="container">
 				<br><br>
-				<h2 class="home-text" id="type">No matches yet... you should recieve an email to</h2> 
-                <h2 class="secondary-item-color" >{{user.email}}</h2>
-                <h2 class="home-text" id="type"> when you get your first match, stay tuned!</h2>
+				<h2 class="home-text" id="type">No matches yet... you should recieve an email to</h2>
+				<h2 class="secondary-item-color">{{user.email}}</h2>
+				<h2 class="home-text" id="type"> when you get your first match, stay tuned!</h2>
 			</div>
 		</div>
 	</div>
 	<div id="start-container">
 		<div class="section no-pad-bot">
-            <div class="row">
-                <h1 id="title" class="header center white-text accent-2">Pen Pals</h1>
-                <div class="row center">	
-                    <h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span></h1>                  
+			<div class="row">
+				<h1 id="title" class="header center white-text accent-2">Pen Pals</h1>
+				<div class="row center">
+					<h1 id="heading"><span id="type" class="typed Typewriter__wrapper"></span></h1>
 				</div>
-                <div class="row">
+				<div class="row">
 					<div id="main-card" class="card larger over hoverable horiz-center">
 						<div class="card-tabs">
 							<ul class="tabs tabs-fixed-width secondary-color">
 								<li id="login-tab" class="active tab"><a class="white-text" href="#login">Login</a></li>
-                                <li id="register-tab" class="tab"><a class="white-text" href="#register">Register</a></li>	
+								<li id="register-tab" class="tab"><a class="white-text" href="#register">Register</a></li>
 							</ul>
 						</div>
 						<div id="cont-home" class="card-content">
 							<div id="register">
 								<div class="row">
-								
-										<form id="register_form" method="post">
-											
-											<div id="reg1" class="col">
-												<div id="regp1">
-													<span id="reg-header" class="card-title black-text">Register</span>
-													<span id="reg_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
-													<div class="input-field col m12">
-														<input id="regEmail" type="email" name="regEmail" class="login-text">
-														<label for="regEmail">Email</label>
-													</div>
-													<div class="input-field col m12">
-														<input id="regPassword" type="password" name="regPassword" class="validate login-text">
-														<label for="regPassword">Password</label>
-													</div>
-													<div class="input-field col m12">
-														<input id="regPassword2" type="password" name="regPassword2" class="validate login-text">
-														<label for="regPassword2">Repeat Password</label>
-													</div>
-												</div>
-												<input id="butt" type="password" name="button" value="continue" style="display: none;">
-												<button id="cont_button" class="btn waves-effect waves-light continue secondary-color" type="button" name="button" onclick="reg_continue();">Continue</button>
-											</div>
-											<div id="reg2" class="col">
-												<div id="regp2">
-													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<h2 class="home-text" id="type">No matches yet... you should recieve an email to</h2> 
-														<h2 class="secondary-item-color" >{{user.email}}</h2>
-														<h2 class="home-text" id="type"> when you get your first match, stay tuned!</h2>
-													</div>
-													<div class="input-field col m12">
-														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="reg_continue();" value="Register">Register</button>
-													</div>
-												</div>
-											</div>
-											<div id="reg3" class="col">
-												<div id="regp3">
-													<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close3-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<span id="reg_error2" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
-													<div class="row login-row">
-														<div class="input-field col">
-															<input id="first_name" type="text" name="first" class="validate">
-															<label for="first_name">First Name</label>
-														</div>
-														<div class="input-field col">
-															<input id="last_name" type="text" name="last" class="validate">
-															<label for="last_name">Last Name</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col m12">
-															<input id="username" type="text" name="username" class="login-text">
-															<label for="username">Display Name</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col s12">
-															<input id="address1" type="text" name="address1">
-															<label for="address1">Address line 1 (Street address, P.O. box, company name)</label>
-														</div>
-													</div>
-													<div class="row login-row">
-														<div class="input-field col s12">
-															<input id="address2" type="text" name="address2">
-															<label for="address2">Address line 2 (Apartment, suite , unit, building, floor, etc.)</label>
-														</div>
-													</div>
-													<div class="input-field col m12">
-														<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_register_form();" value="Register">Register</button>
-													</div>
-												</div>
-											</div>
 
-										</form>
-									
+									<form id="register_form" method="post">
+
+										<div id="reg1" class="col">
+											<div id="regp1">
+												<span id="reg-header" class="card-title black-text">Register</span>
+												<span id="reg_error" class="card-title red-text"><i id="error"
+														class="error material-icons secondary-item-color">error_outline</i> Invalid email
+													address</span>
+												<div class="input-field col m12">
+													<input id="regEmail" type="email" name="regEmail" class="login-text">
+													<label for="regEmail">Email</label>
+												</div>
+												<div class="input-field col m12">
+													<input id="regPassword" type="password" name="regPassword" class="validate login-text">
+													<label for="regPassword">Password</label>
+												</div>
+												<div class="input-field col m12">
+													<input id="regPassword2" type="password" name="regPassword2" class="validate login-text">
+													<label for="regPassword2">Repeat Password</label>
+												</div>
+											</div>
+											<input id="butt" type="password" name="button" value="continue" style="display: none;">
+											<button id="cont_button" class="btn waves-effect waves-light continue secondary-color"
+												type="button" name="button" onclick="reg_continue();">Continue</button>
+										</div>
+										<div id="reg2" class="col">
+											<div id="regp2">
+												<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close-home"
+														class="material-icons secondary-item-color">arrow_back</i></span>
+												<span id="reg_error2" class="card-title red-text"><i id="error"
+														class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i
+														id="close2-home" class="material-icons secondary-item-color">arrow_back</i></span>
+												<div class="row login-row">
+													<h2 class="home-text" id="type">No matches yet... you should recieve an email to</h2>
+													<h2 class="secondary-item-color">{{user.email}}</h2>
+													<h2 class="home-text" id="type"> when you get your first match, stay tuned!</h2>
+												</div>
+												<div class="input-field col m12">
+													<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button"
+														name="button" onclick="reg_continue();" value="Register">Register</button>
+												</div>
+											</div>
+										</div>
+										<div id="reg3" class="col">
+											<div id="regp3">
+												<span id="reg-header2" class="card-title grey-text text-darken-4">Register<i id="close3-home"
+														class="material-icons secondary-item-color">arrow_back</i></span>
+												<span id="reg_error2" class="card-title red-text"><i id="error"
+														class="error material-icons secondary-item-color">error_outline</i> Empty field(s)<i
+														id="close-home" class="material-icons secondary-item-color">arrow_back</i></span>
+												<div class="row login-row">
+													<div class="input-field col">
+														<input id="first_name" type="text" name="first" class="validate">
+														<label for="first_name">First Name</label>
+													</div>
+													<div class="input-field col">
+														<input id="last_name" type="text" name="last" class="validate">
+														<label for="last_name">Last Name</label>
+													</div>
+												</div>
+												<div class="row login-row">
+													<div class="input-field col m12">
+														<input id="username" type="text" name="username" class="login-text">
+														<label for="username">Display Name</label>
+													</div>
+												</div>
+												<div class="row login-row">
+													<div class="input-field col s12">
+														<input id="address1" type="text" name="address1">
+														<label for="address1">Address line 1 (Street address, P.O. box, company name)</label>
+													</div>
+												</div>
+												<div class="row login-row">
+													<div class="input-field col s12">
+														<input id="address2" type="text" name="address2">
+														<label for="address2">Address line 2 (Apartment, suite , unit, building, floor,
+															etc.)</label>
+													</div>
+												</div>
+												<div class="input-field col m12">
+													<button id="reg_button" class="btn waves-effect waves-light secondary-color" type="button"
+														name="button" onclick="submit_register_form();" value="Register">Register</button>
+												</div>
+											</div>
+										</div>
+
+									</form>
+
 								</div>
 							</div>
 							<div id="login">
 								<div class="row">
 									<div class="login-container">
 										<form id="login_form" method="post">
-											<div class = "col">
+											<div class="col">
 												<span id="login-header" class="card-title black-text">Login</span>
-												<span id="login_error" class="card-title red-text"><i id="error" class="error material-icons secondary-item-color">error_outline</i> Invalid email address</span>
+												<span id="login_error" class="card-title red-text"><i id="error"
+														class="error material-icons secondary-item-color">error_outline</i> Invalid email
+													address</span>
 												<div class="input-field col m12">
 													<input id="loginUsername" type="email" name="loginEmail" class="login-text">
 													<label for="loginUsername">Email</label>
 												</div>
 												<div class="input-field col m12">
-													<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">                                   
+													<input id="loginPassword" type="password" name="loginPassword" class="validate login-text">
 													<label for="loginPassword">Password</label>
 												</div>
-                                                <input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
+												<input id="dog" type="password" name="button" value="Login" style="visibility: hidden;">
 												<div class="input-field col m12">
-                                                    <button id="login_button" class="btn waves-effect waves-light secondary-color" type="button" name="button" onclick="submit_login_form();" value="Login">Login</button>
+													<button id="login_button" class="btn waves-effect waves-light secondary-color" type="button"
+														name="button" onclick="submit_login_form();" value="Login">Login</button>
 												</div>
 											</div>
-										</form>  
+										</form>
 									</div>
 								</div>
 							</div>
-						</div> 
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<a href="{{ url_for('auth.logout') }}">log out</a>
-    <a href="{{ url_for('auth.db') }}">database</a>
-    <a href="{{ url_for('main.bio') }}">view bio</a>
+	<a href="{{ url_for('auth.db') }}">database</a>
+	<a href="{{ url_for('main.bio') }}">view bio</a>
 	<a href="{{ url_for('main.create_bio') }}">create bio</a>
 	<a href="{{ url_for('main.search') }}">search</a>
 
 
- {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+	{% with messages = get_flashed_messages(with_categories=true) %}
+	{% if messages %}
+	<ul class=flashes>
+		{% for category, message in messages %}
+		<li class="{{ category }}">{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
 
-<!-- Footer Section -->
-	<footer class="page-footer white">	
+	<!-- Footer Section -->
+	<footer class="page-footer white">
 		<div class="footer-copyright">
 			<p id="copyright">copyrighted mother effers</p>
 		</div>
@@ -194,56 +211,54 @@
 
 
 
-  <!--  Scripts-->
-  <script type="text/javascript">
-	var typed = new Typed(".typed", {
-		strings: ["^250 discuss books", "^250 share your favorites", "^250 meet someone new", "^250 be encouraged to read"],
-		typeSpeed: 40,
-		backSpeed: 20,
-		backDelay: 500,
-		loop: true,
-		fadeOut: true
-	});
-    
-</script>
+	<!--  Scripts-->
+	<script type="text/javascript">
+		var typed = new Typed(".typed", {
+			strings: ["^250 discuss books", "^250 share your favorites", "^250 meet someone new", "^250 be encouraged to read"],
+			typeSpeed: 40,
+			backSpeed: 20,
+			backDelay: 500,
+			loop: true,
+			fadeOut: true
+		});
 
-<script type="text/javascript">
-function reg_continue()
-{
+	</script>
 
-					$("#reg_error2").css("display", "none");
-					$("#reg-header2").css("display", "block");
-					$("#cont-home").animate({right: '+=500px'},450);
+	<script type="text/javascript">
+		function reg_continue() {
+			$("#reg_error2").css("display", "none");
+			$("#reg-header2").css("display", "block");
+			$("#cont-home").animate({ right: '+=500px' }, 450);
+		}
+	</script>
+	<script>
+		$(document).ready(function () {
+			$('ul.tabs').tabs();
+			$('ul.tabs').tabs('select_tab', 'tab_id');
+			$("#close-home").click(function () {
+				$("#cont-home").animate({ right: '-=500px' }, 450);
+				$("#reg_error").css("display", "none");
+				$("#reg-header").css("display", "block");
+			});
+			$("#close2-home").click(function () {
+				$("#cont-home").animate({ right: '-=500px' }, 450);
+				$("#reg_error").css("display", "none");
+				$("#reg-header").css("display", "block");
+			});
+			$("#close3-home").click(function () {
+				$("#cont-home").animate({ right: '-=500px' }, 450);
+				$("#reg_error").css("display", "none");
+				$("#reg-header").css("display", "block");
+			});
+			$("#login-tab").click(function () {
+				$("#register").attr('style', 'display: none');
+				$("#cont-home").animate({ right: '0px' }, 1);
+				$("#login-header").css("display", "block");
+				$("#login_error").css("display", "none");
+			});
+		});
 
-}
-</script>
-<script> 
-$(document).ready(function(){
-    $('ul.tabs').tabs();
-    $('ul.tabs').tabs('select_tab', 'tab_id');
-    $("#close-home").click(function(){
-        $("#cont-home").animate({right: '-=500px'},450);
-		$("#reg_error").css("display", "none");
-		$("#reg-header").css("display", "block");
-    });
-	$("#close2-home").click(function(){
-        $("#cont-home").animate({right: '-=500px'},450);
-		$("#reg_error").css("display", "none");
-		$("#reg-header").css("display", "block");
-    });
-		$("#close3-home").click(function(){
-        $("#cont-home").animate({right: '-=500px'},450);
-		$("#reg_error").css("display", "none");
-		$("#reg-header").css("display", "block");
-    });
-	$("#login-tab").click(function(){
-        $("#register").attr('style', 'display: none');
-		$("#cont-home").animate({right: '0px'},1);
-		$("#login-header").css("display", "block");
-		$("#login_error").css("display", "none");
-    });
-});
+	</script>
+	</body>
 
-</script>
-  </body>
 </html>

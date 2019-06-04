@@ -38,7 +38,7 @@ def register():
             if curr.statusmessage != "SELECT 0":
                 error = 'User {} is already registered.'.format(regEmail)
             if error is None:
-                db.cursor().execute(
+                curr.execute(
                     'INSERT INTO "user" (email, password, first, last) VALUES (%s, %s, %s, %s);',
                     (regEmail, generate_password_hash(regPassword), first, last)
                 )
@@ -81,11 +81,11 @@ def register():
         #this is to check if email exists on continue button press
         elif request.form["button"]=="continue":
             email = request.form['regEmail']
-            user = db.cursor().execute(
+            user = curr.execute(
                 'SELECT * FROM "user" WHERE email = (%s)', (email,)
             )
             #if the input email doesnt exist in our db
-            if user is None:
+            if curr.statusmessage == "SELECT 0":
                 return "good"
             else:
                 error = 'Incorrect password.'

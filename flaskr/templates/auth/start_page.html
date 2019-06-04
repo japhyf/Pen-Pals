@@ -249,6 +249,7 @@ function reg_continue()
             type: 'POST',
             success: function(response) {
                 //if the response isn't one of these two errors, it is the rendering of the home page
+				console.log(response);
 				if (response === "Email address already exists in our system") {
 					$("#reg_error").get(0).lastChild.nodeValue = " Email address exists in our system";
 					$("#reg-header").css("display", "none");
@@ -303,7 +304,7 @@ function submit_register_form()
 </script>
 <script> 
 $(document).ready(function(){
-    $('ul.tabs').tabs();
+	$('ul.tabs').tabs();
     $('ul.tabs').tabs('select_tab', 'tab_id');
     $("#close").click(function(){
         $("#cont").animate({right: '-=500px'},450);
