@@ -25,8 +25,8 @@ ul {
     background-color: white;
 }
 
-.blue{
-	background-color: blue;
+.primary-blue{
+	background-color: var(--primary-color);
 }
 
 ul.nav-bar{
@@ -137,7 +137,6 @@ body{
 #create-start-container{
 	height: 100vh;
 	background-color: var(--primary-color);
-	padding-top: .1px;
 }
 
 #start-container{

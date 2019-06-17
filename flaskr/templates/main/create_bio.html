@@ -20,37 +20,39 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
 
-</head>
-<body>
-	<div id="create-start-container">
-
+	
 		 <!-- Navigation Bar -->
-	<ul class="nav-bar">
+		 <ul class="nav-bar">
 
-			<li>
-				<div class="nav-deselect">
-					<a class="black-text nav-text"href="livechat">Messages</a>
-				</div>
-			</li>
-			<li>
-				<div class="nav-deselect">
-					<a class="black-text nav-text"href="search">Search</a>
-				</div>
-			</li>
-			<li>
-				<div class="nav-select">
-					<a class="white-text nav-text"href="create_bio">Edit Profile</a>
-				</div>
-			</li>
-			<li>
-				<div class="nav-deselect">
-					<a class="black-text nav-text"href="{{ url_for('auth.logout') }}">Logout</a>
-				</div>
-			</li>
+				<li>
+					<div class="nav-deselect">
+						<a class="black-text nav-text"href="livechat">Messages</a>
+					</div>
+				</li>
+				<li>
+					<div class="nav-deselect">
+						<a class="black-text nav-text"href="search">Search</a>
+					</div>
+				</li>
+				<li>
+					<div class="nav-select">
+						<a class="white-text nav-text"href="create_bio">Edit Profile</a>
+					</div>
+				</li>
+				<li>
+					<div class="nav-deselect">
+						<a class="black-text nav-text"href="{{ url_for('auth.logout') }}">Logout</a>
+					</div>
+				</li>
+	
+			<!-- <div class="nav-selector"> -->
+			<!-- </div> -->
+		</ul>
 
-		<!-- <div class="nav-selector"> -->
-		<!-- </div> -->
-	</ul>
+</head>
+<body class="primary-blue">
+
+
 		<div class="section no-pad-bot">
 			<div class="row">
                 <div class="row center">	
@@ -113,7 +115,7 @@
 			</div>
 			
 		</div>
-	</div>
+
 
 	<textarea id="pic" class="hidden test">{{user.picture}}</textarea>
 	<textarea id="usergenres" class="hidden">{{user.genres}}</textarea>
