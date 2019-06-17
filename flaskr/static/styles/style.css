@@ -135,9 +135,9 @@ body{
 }
 
 #create-start-container{
-	height: 1000px;
-    background-color: var(--primary-color);
-	margin-top: -71px;
+	height: 100vh;
+	background-color: var(--primary-color);
+	padding-top: .1px;
 }
 
 #start-container{
